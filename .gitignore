@@ -56,9 +56,7 @@ vignettes/*.pdf
 !/output/.gitkeep
 
 # Ignore input/rlib folder
-/input/rlib/*
-/output/*.txt
-!/output/.gitkeep
+/input/rlib/*/
 
 # Ignore .idea folder
 /.idea/
