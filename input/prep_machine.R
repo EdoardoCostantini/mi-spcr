@@ -3,17 +3,15 @@
 # Author:    Edoardo Costantini
 # Created:   2022-07-05
 # Modified:  2022-07-05
-# Notes:     Assuming working directory ./code/
 
-# Load init script to list the names of the packages required
-source("init.R")
+# 1. Install all packages you need
 
-# 1. Install all packages you can
-# ...
+    install.packages("MASS")
 
-# 2. Instal MICE development version
-install.packages("./input/mice_3.14.7.9000.tar.gz",
-    repos = NULL,
-    type = "source",
-    lib = "./input/rlib/"
-)
+# 2. Install MICE development version
+
+    install.packages("./input/mice_3.14.7.9000.tar.gz",
+        repos = NULL,
+        type = "source",
+        lib = "./input/rlib/"
+    )
