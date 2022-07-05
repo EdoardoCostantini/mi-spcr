@@ -12,10 +12,6 @@
 # Example code in package build process
 *-Ex.R
 
-# Output files from R CMD build
-*.tar.gz
-!mice.pcr.sim_3.13.9.tar.gz
-
 # produced vignettes
 vignettes/*.html
 vignettes/*.pdf
@@ -50,7 +46,8 @@ vignettes/*.pdf
 /lisa/*
 !/lisa/.gitkeep
 
-# Ignore output/console folder
+# Ignore output
+/output/*.tar.gz
 /output/console
 /output/*.txt
 !/output/.gitkeep

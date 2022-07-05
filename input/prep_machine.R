@@ -12,7 +12,7 @@ source("init.R")
 # ...
 
 # 2. Instal MICE development version
-install.packages("/Users/Work/projects/R-packages/mice",
+install.packages("./input/mice_3.14.7.9000.tar.gz",
     repos = NULL,
     type = "source",
     lib = "./input/rlib/"
