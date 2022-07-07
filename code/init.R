@@ -64,6 +64,23 @@
     mp = (1:parms$J) + parms$J # mar Predictors
   )
 
+  # Missing data patterns
+  mm <- data.frame(
+    X1 = c(0, 1, 0, 0),
+    X2 = c(0, 0, 1, 0),
+    X3 = c(0, 0, 0, 1),
+    X4 = c(1, 1, 1, 1),
+    X5 = c(1, 1, 1, 1),
+    X6 = c(1, 1, 1, 1)
+  )
+
+  # Missing data weights / mechanisms
+  mmw <- t(data.frame(
+    MCAR = c(X1 = 0, X2 = 0, X3 = 0, X4 = 0, X5 = 0, X6 = 0),
+    MAR = c(0, 0, 0, 1, 1, 1),
+    MNAR = c(1, 0, 0, 0, 0, 0)
+  ))
+
 # Experimental Conditions ------------------------------------------------------
 
   # Fully crossed factors

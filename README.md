@@ -40,6 +40,30 @@ We use predictors measuring the second latent variable:
 We use the observed items because if we use the latent variables there would be some unpredictable "spurious" MAR:
 we would use a proxy of the actual MAR predictor in the imputation models, generating an imputation situation closer to MNAR than MAR.
 
+In summary, these are the **missing data patterns** we want to impose:
+
+```
+  X1 X2 X3 X4 X5 X6
+1  0  0  0  1  1  1
+2  1  0  0  1  1  1
+3  0  1  0  1  1  1
+4  0  0  1  1  1  1
+```
+
+where 0 indicates a variable receiving missing values, and 1 indicates a fully observed variable.
+TODO: it might be an idea to scan EVS data to get a sense of the frequency of missing data patterns.
+
+These are the **missing data mechanisms** we want to use:
+
+```
+     X1 X2 X3 X4 X5 X6
+MCAR  0  0  0  0  0  0
+MAR   0  0  0  1  1  1
+MNAR  1  0  0  0  0  0
+```
+
+where 0 indicates a variable with no weight in the linear combination making up the linear predictor for the logit(p) of missingness, and 1 indicates a weight of 1.
+
 ### Experimental conditions
 
 We vary the following factors:
