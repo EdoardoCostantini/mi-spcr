@@ -94,6 +94,20 @@ We vary the following factors:
     The levels of these factors are used only when possible.
     For example, when the true number of latent variables is 3 (2 + `nla = 1`), then the total number of items is 3 * 3 = 9, so all values of `npcs > 9` are not possible and are discarded.
 
+### Performance measures
+
+We are interested in:
+
+- item 1 mean: a univariate parameter of interest
+- item 1 sd: a univariate parameter of interest
+- item 1 and 2 correlation coefficient: bivariate parameter of interest
+
+For these parameters, we want to compute the following performance measures:
+
+- Bias
+- Confidence interval coverage
+- Confidence interval width
+
 ## How to replicate results
 
 To replicate the study, you first need to make sure you have installed all the packages used.
