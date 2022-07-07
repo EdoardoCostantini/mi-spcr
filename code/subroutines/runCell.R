@@ -2,7 +2,7 @@
 # Objective: runs a single repetiton of a single experimental condition
 # Author:    Edoardo Costantini
 # Created:   2022-07-05
-# Modified:  2022-07-05
+# Modified:  2022-07-07
 # Note:      A "cell" is a given repetition for a given condition.
 #            This function: 
 #            - generates 1 data set, 
@@ -19,7 +19,7 @@ runCell <- function(rp, cond, fs, parms) {
   # Run internals in a tryCatch statement
   tryCatch({
 
-    # Data Generation ---------------------------------------------------------
+    # Obtain truth ------------------------------------------------------------
 
     # Generate data
     dataGen_out <- dataGen(
@@ -32,11 +32,17 @@ runCell <- function(rp, cond, fs, parms) {
         p_junk = .1
     )
 
-    # Impose Missingness
+    # Induce missingness ------------------------------------------------------
+
     preds <- dataGen_out$x[, parms$vmap$mp, drop = FALSE]
     targets <- dataGen_out$x[, parms$vmap$ta, drop = FALSE]
 
-    # Imputation --------------------------------------------------------------
+    # Apply methods -----------------------------------------------------------
+
+    # Evaluate imputations ----------------------------------------------------
+
+    # For each condition, store the mice object of a subset of the repetitions
+    # These can be used to perform the checks described by ObermanVink0000
 
     # Analyze and pool --------------------------------------------------------
 

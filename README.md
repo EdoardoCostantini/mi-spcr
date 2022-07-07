@@ -2,6 +2,71 @@
 
 Here I describe the content of this repository and how to replicate the simulation study.
 
+# Simulation study outline
+
+## Compared methods
+We want to compare the performance of four methods univariate imputation methods that automatically address the problem of choosing the imputation model predictors. 
+We use these methods as univariate imputation models in a mice algorithm.
+The methods are:
+
+- mi-pcr
+- mi-spcr
+- mi-pls
+- mi-pcvor
+
+We use as reference methods:
+
+- mi-am
+- mi-qp
+- mi-all
+- cc
+
+## Data generation
+
+We generate data according to a confirmatory factor analysis model.
+We want there to be a latent structure, but we don't want to use PCA as a data generation model to avoid using a single model for both data generation and imputation (see Oberman Vink 0000).
+
+## Missing data imposition
+
+We impose multivariate missing data on 3 items, measuring the first latent variable, according to a general missing data pattern (i.e., not monotone).
+We use predictors measuring the second latent variable:
+
+- We want to have a multivariate problem because that's what happens in reality.
+- We don't want too many variables because it would complicate the design and increase imputation time without adding interesting information.
+- We want to have MAR predictors (if required) measuring a different latent variable.
+We use the observed items because if we use the latent variables there would be some unpredictable "spurious" MAR:
+we would use a proxy of the actual MAR predictor in the imputation models, generating an imputation situation closer to MNAR than MAR.
+
+## Experimental conditions
+
+We vary the following factors:
+
+- The **proportion of missing cases** (`pm = .1, .25, .50`):
+    Values were chosen based on literature recommendations (Oberman Vink 0000) per variable or total proportion of cases?
+- **Missing data mechanism** (`mech = MCAR, MAR, MNAR`):
+    It's important to have all of these situations because:
+    - MCAR - a good method should at least work here
+    - MAR - the basic assumption everyone makes
+    - MNAR - any method will likely be used in this situation
+- The **shape of missing data** (`loc = right, left, mid, tail`):
+    Read SchoutenVink2021 to understand the impact of this choice
+- The **number of noisy auxiliary variables** (`nla = 1, 10, 100`): 
+    From previous work, we know the unsupervised PCA methods require to use of enough PCs as there are latent variables in the data generating model.
+    We want to vary the true number of latent variables to verify this.
+    The values chosen will reflect:
+    - 1 - simple case, do we really need it?
+    - 10 - possible to use enough PCS to cover it
+    - 100 - possible to use enough PCS to cover it, but possibly not enough dimensionality reduction?
+- The **number of principal components** used by the approach (`npcs`);
+    To verify the point described for the number of noisy auxiliary variables we need to use the imputation methods with different number of PCs.
+    In deciding these numbers, we kept in mind the true number of latent variables is always 2 + `nla`.
+    We chose:
+    - 1 - is it ever sufficient to use a single component?
+    - from 2 to 15 - cover all values around 10 to see how the methods behave around the true values
+    - 100 + 2 - the correct number for the final level of the `nla`, too high in all other cases
+    The levels of these factors are used only when possible.
+    For example, when the true number of latent variables is 3 (2 + `nla = 1`), then the total number of items is 3 * 3 = 9, so all values of `npcs > 9` are not possible and are discarded.
+
 # How to replicate results
 
 To replicate the study, you first need to make sure you have installed all the packages used.
