@@ -2,9 +2,9 @@
 # Objective: Function to generate data with a latent structure
 # Author:    Edoardo Costantini
 # Created:   2022-07-05
-# Modified:  2022-07-05
+# Modified:  2022-07-08
 
-dataGen <- function(N, L, J, P, rho_high, rho_junkm, p_junk) {
+dataGen <- function(N, L, J, P, rho_high, rho_junk, p_junk) {
 
     # Example inputs
     # N = 50
