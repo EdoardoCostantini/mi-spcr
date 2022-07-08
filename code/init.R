@@ -2,21 +2,21 @@
 # Objective: initialization script
 # Author:    Edoardo Costantini
 # Created:   2022-07-05
-# Modified:  2022-07-07
-
-# Packages ---------------------------------------------------------------------
-
-  # Load packages from the project library
-  library(mice, lib.loc = "./input/rlib/")
-
-  # Load packages
-  library(MASS)
+# Modified:  2022-07-08
 
 # Check the working directory --------------------------------------------------
 
   if(!grepl("code", getwd())){
     setwd("./code")
   }
+
+# Packages ---------------------------------------------------------------------
+
+  # Load packages from the project library
+  library(mice, lib.loc = "../input/rlib/")
+
+  # Load packages
+  library(MASS)
 
 # Load Functions ---------------------------------------------------------------
 
