@@ -2,7 +2,7 @@
 # Objective: Function to generate data with a latent structure
 # Author:    Edoardo Costantini
 # Created:   2022-07-05
-# Modified:  2022-07-08
+# Modified:  2022-07-11
 
 dataGen <- function(N, L, J, P, rho_high, rho_junk, p_junk) {
 
@@ -78,8 +78,8 @@ dataGen <- function(N, L, J, P, rho_high, rho_junk, p_junk) {
 
     # Give meaningful names ---------------------------------------------------
 
-    colnames(x) <- paste0("z", 1:ncol(x))
-    colnames(scs_lv) <- paste0("lv", 1:ncol(scs_lv))
+    colnames(x) <- paste0("X", 1:ncol(x))
+    colnames(scs_lv) <- paste0("Z", 1:ncol(scs_lv))
 
     # Scale it correctly
     x_scaled <- apply(x, 2, function(j) j * sqrt(parms$item_var))
@@ -89,8 +89,8 @@ dataGen <- function(N, L, J, P, rho_high, rho_junk, p_junk) {
     # Return ------------------------------------------------------------------
     return(
         list(
-            x = data.frame(x_cont),
-            lv = data.frame(scs_lv),
+            X = data.frame(x_cont),
+            Z = data.frame(scs_lv),
             index_junk_aux = index_junk_aux
         )
     )
