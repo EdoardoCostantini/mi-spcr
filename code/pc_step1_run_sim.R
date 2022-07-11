@@ -2,7 +2,7 @@
 # Objective: Run the simulation study
 # Author:    Edoardo Costantini
 # Created:   2022-07-08
-# Modified:  2022-07-08
+# Modified:  2022-07-11
 
 # Environment ------------------------------------------------------------------
 
@@ -33,6 +33,10 @@
     # Create a run-sepecific output subfolder
     fs$out_dir <- paste0("../output/", fs$start_time, "/")
     dir.create(fs$out_dir)
+
+    # Create a subfolder to store mids objects
+    fs$mids_dir <- paste0(fs$out_dir, "mids", "/")
+    dir.create(fs$mids_dir)
 
     # Define filenmaes for the results and progress report files
     fs$file_name_res <- fs$start_time

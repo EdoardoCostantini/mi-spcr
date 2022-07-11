@@ -2,7 +2,7 @@
 # Objective: initialization script
 # Author:    Edoardo Costantini
 # Created:   2022-07-05
-# Modified:  2022-07-08
+# Modified:  2022-07-11
 
 # Check the working directory --------------------------------------------------
 
@@ -14,6 +14,7 @@
 
   # Load packages from the project library
   library(mice, lib.loc = "../input/rlib/")
+  # library(mice, lib.loc = paste0(.libPaths(), "Dev/"))
 
   # Load packages
   library(MASS)
@@ -47,7 +48,7 @@
   parms <- list()
 
   # Data generation
-  parms$N  <- 1e3  # sample size 
+  parms$N  <- 5e2  # sample size 
   parms$L  <- 2    # fixed number latent variables
   parms$J  <- 3    # number items per latent variable
   parms$cor_high <- .7   # true latent cov for target variables
@@ -81,31 +82,47 @@
     MNAR = c(1, 0, 0, 0, 0, 0)
   ))
 
+  # Genearl imputation parameters
+  parms$mice_ndt <- 5
+  parms$mice_iters <- 20
+
 # Experimental Conditions ------------------------------------------------------
 
   # Fully crossed factors
-  pm <- c(.1, .25, .5)
-  mech <- c("MCAR", "MAR", "MNAR")
-  loc <- c("LEFT", "MID", "RIGHT")
-  nla <- c(1, 10, 100)
+  pm    <- c(.1) #c(.1, .25, .5)
+  mech  <- c("MCAR", "MAR") # c("MCAR", "MAR", "MNAR")
+  loc <- "RIGHT" # c("TAIL", "MID", "RIGHT")
+  nla   <- c(10, 50, 100)
 
   # Other factors
-  method <- c("pcr", "spcr", "pls", "pcovr") # pca based methods
-  npcs <- c(1:15, 102)
+  method_pcr <- c("pcr", "spcr", "pls", "pcovr") # pca based methods
+  method_rmi <- c("qp", "am", "all") # reference mi methods
+  method_cc  <- c("cc") # complete case analysis
+
+  # Combine factors part 1
+  npcs <- c(1, 5:15, 45:55)
+  npcs <- c(1:55)
+
+  npcs_list <- lapply(nla, function(i) {
+    (i - 2):(i + 2)
+  })
+
+  npcs <- unique(unlist(c(1, npcs_list)))
+
   cnds_pt1 <- expand.grid(
     npcs = npcs,
-    method = method,
+    method = method_pcr,
     nla = nla,
     pm = pm,
     mech = mech,
     loc = loc
   )
 
-  method <- c("qp", "am", "all", "cc")              # non-pca based methods
+  # Combine factors part 2
   npcs <- 0
   cnds_pt2 <- expand.grid(
     npcs = npcs,
-    method = method,
+    method = c(method_rmi, method_cc),
     nla = nla,
     pm = pm,
     mech = mech,
@@ -119,5 +136,9 @@
   cnds <- rbind(cnds_pt1, cnds_pt2)
   
   # Get rid of impossible number of npcs for a given number of latent variables
-  cnds$nlt <- (cnds$nla + 2) * parms$J
-  cnds <- cnds[cnds$npcs <= cnds$nlt, ]
+  cnds$p <- (cnds$nla) * parms$J # total number of variables
+  cnds <- cnds[cnds$npcs <= cnds$p, ]
+
+  # Create a condition tag
+  cnds_chrt <- sapply(cnds, as.character)
+  cnds$tag <- paste0(colnames(cnds), "-", cnds_chrt[1, ], collapse = "-")
