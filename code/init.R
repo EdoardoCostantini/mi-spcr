@@ -2,7 +2,7 @@
 # Objective: initialization script
 # Author:    Edoardo Costantini
 # Created:   2022-07-05
-# Modified:  2022-07-11
+# Modified:  2022-07-12
 
 # Check the working directory --------------------------------------------------
 
@@ -18,6 +18,8 @@
 
   # Load packages
   library(MASS)
+  library(lavaan)
+  library(tidyverse)
 
 # Load Functions ---------------------------------------------------------------
 

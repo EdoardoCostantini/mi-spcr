@@ -2,7 +2,7 @@
 # Objective: runs a single repetiton of a single experimental cndition
 # Author:    Edoardo Costantini
 # Created:   2022-07-05
-# Modified:  2022-07-11
+# Modified:  2022-07-12
 # Note:      A "cell" is a given repetition for a given cndition.
 #            This function: 
 #            - generates 1 data set, 
@@ -66,7 +66,7 @@ runCell <- function(rp, cnd, fs, parms) {
       # Impute
       mice_mids <- mice(X_mis,
         m = parms$mice_ndt,
-        maxit = 100,
+        maxit = parms$mice_iters,
         method = mice.impute.active,
         npcs = cnd$npcs,
         # DoF = "naive",
@@ -135,6 +135,12 @@ runCell <- function(rp, cnd, fs, parms) {
     }
 
     # Analyze and pool --------------------------------------------------------
+
+    if (exists("mice_mids")) {
+      estimates_out <- estimatesPool(mids = mice_mids, targets = parms$vmap$ta)
+    } else {
+      estimates_out <- estimatesComp(dt = na.omit(X_mis), targets = parms$vmap$ta)
+    }
 
     # Store Output ------------------------------------------------------------
 
