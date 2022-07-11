@@ -24,6 +24,12 @@ We use as reference methods:
 - mi-all
 - cc
 
+### Research questions
+
+1. Does supervised MI-PCA need at least the true number of latent variables as unsupervised PCA does?
+
+2. Does supervised MI-PCA perform better than MI-QP?
+
 ### Data generation
 
 We generate data according to a confirmatory factor analysis model.
