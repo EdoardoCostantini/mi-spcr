@@ -2,7 +2,7 @@
 # Objective: Run the simulation study
 # Author:    Edoardo Costantini
 # Created:   2022-07-08
-# Modified:  2022-07-11
+# Modified:  2022-07-12
 
 # Environment ------------------------------------------------------------------
 
@@ -18,31 +18,9 @@
     # Initialize the environment:
     source("./init.R")
 
-# Run specifications -----------------------------------------------------------
-
-    # number of repetitions
-    reps <- 1 : 5 # define repetitions
-
-    # number of clusters for parallelization
-    clusters <- 5 
-
-    # Create object to store file system directives
-    fs <- list()
-    fs$start_time <- format(Sys.time(), "%Y%m%d_%H%M%S")
-
-    # Create a run-sepecific output subfolder
-    fs$out_dir <- paste0("../output/", fs$start_time, "/")
+    # Create folders and report files
     dir.create(fs$out_dir)
-
-    # Create a subfolder to store mids objects
-    fs$mids_dir <- paste0(fs$out_dir, "mids", "/")
     dir.create(fs$mids_dir)
-
-    # Define filenmaes for the results and progress report files
-    fs$file_name_res <- fs$start_time
-
-    # Progress report file
-    fs$file_name_prog <- fs$start_time
     file.create(paste0(fs$out_dir, fs$file_name_prog, ".txt"))
 
     cat(paste0("SIMULATION PROGRESS REPORT",
@@ -52,6 +30,14 @@
         file = paste0(fs$out_dir, fs$file_name_prog, ".txt"),
         sep = "\n",
         append = TRUE)
+
+# Run specifications -----------------------------------------------------------
+
+    # number of repetitions
+    reps <- 1 : 5 # define repetitions
+
+    # number of clusters for parallelization
+    clusters <- 5 
 
 # Parallelization --------------------------------------------------------------
 

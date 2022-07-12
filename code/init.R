@@ -150,3 +150,21 @@
   # Create a condition tag
   cnds_chrt <- sapply(cnds, as.character)
   cnds$tag <- paste0(colnames(cnds), "-", cnds_chrt[1, ], collapse = "-")
+
+# File system ------------------------------------------------------------------
+
+  # Create object to store file system directives
+  fs <- list()
+  fs$start_time <- format(Sys.time(), "%Y%m%d_%H%M%S")
+
+  # Create a run-sepecific output subfolder
+  fs$out_dir <- paste0("../output/", fs$start_time, "/")
+
+  # Create a subfolder to store mids objects
+  fs$mids_dir <- paste0(fs$out_dir, "mids", "/")
+
+  # Define filenmaes for the results and progress report files
+  fs$file_name_res <- fs$start_time
+
+  # Progress report file
+  fs$file_name_prog <- fs$start_time
