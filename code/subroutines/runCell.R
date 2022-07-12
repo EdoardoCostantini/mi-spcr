@@ -137,9 +137,15 @@ runCell <- function(rp, cnd, fs, parms) {
     # Analyze and pool --------------------------------------------------------
 
     if (exists("mice_mids")) {
-      estimates_out <- estimatesPool(mids = mice_mids, targets = parms$vmap$ta)
+      estimates_out <- estimatesPool(
+        object = mice_mids,
+        targets = parms$vmap$ta
+      )
     } else {
-      estimates_out <- estimatesComp(dt = na.omit(X_mis), targets = parms$vmap$ta)
+      estimates_out <- estimatesComp(
+        object = na.omit(X_mis),
+        targets = parms$vmap$ta
+      )
     }
 
     # Store Output ------------------------------------------------------------

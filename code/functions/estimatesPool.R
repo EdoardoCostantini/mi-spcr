@@ -1,23 +1,23 @@
 # Project:   mi-spcr
-# Objective: Estimate and pool for mids results
+# Objective: Estimate and pool for object results
 # Author:    Edoardo Costantini
 # Created:   2022-07-11
 # Modified:  2022-07-12
 
-estimatesPool <- function(mids, targets) {
+estimatesPool <- function(object, targets) {
 
-    # Internals
-    # mids = mids_out$mids
-    # targets = parms$vmap$ta
+    # Function parameters:
+    # object = mids_out$mids # mids object
+    # targets = parms$vmap$ta # vector of indices of the variables under analysis
 
     # Body
 
     # Pool means ---------------------------------------------------------------
 
     # Fit linear models
-    fitX1 <- mids %>% with(lm(X1 ~ 1))
-    fitX2 <- mids %>% with(lm(X2 ~ 1))
-    fitX3 <- mids %>% with(lm(X3 ~ 1))
+    fitX1 <- object %>% with(lm(X1 ~ 1))
+    fitX2 <- object %>% with(lm(X2 ~ 1))
+    fitX3 <- object %>% with(lm(X3 ~ 1))
     
     # Pool estimates
     pooled_means <- rbind(
@@ -35,18 +35,18 @@ estimatesPool <- function(mids, targets) {
 
     # Put together
     out_means <- cbind(
-        type = "mean",
-        par = rownames(pooled_means),
+        stat = "mean",
+        vars = rownames(pooled_means),
         pooled_means[, c("estimate", "fmi")],
         pooled_means_CIs
     )
 
     # Change names
-    colnames(out_means) <- c("type", "par", "est", "fmi", "lwr", "upr")
+    colnames(out_means) <- c("stat", "vars", "est", "fmi", "lwr", "upr")
 
     # Pool correlations --------------------------------------------------------
 
-    cor_out <- miceadds::micombine.cor(mids,
+    cor_out <- miceadds::micombine.cor(object,
         variables = targets,
         conf.level = .95,
         method = "pearson",
@@ -60,8 +60,8 @@ estimatesPool <- function(mids, targets) {
 
     # Store name of parameter
     cor_unique <- cbind(
-        type = "cor",
-        par = paste0(
+        stat = "cor",
+        vars = paste0(
             cor_unique$variable1,
             cor_unique$variable2
         ),
@@ -69,14 +69,14 @@ estimatesPool <- function(mids, targets) {
     )
 
     # Drop useless column
-    cor_select <- cor_unique[, c("type", "par", "r", "fmi", "lower95", "upper95")]
+    cor_select <- cor_unique[, c("stat", "vars", "r", "fmi", "lower95", "upper95")]
 
     # Change names
-    colnames(cor_select) <- c("type", "par", "est", "fmi", "lwr", "upr")
+    colnames(cor_select) <- c("stat", "vars", "est", "fmi", "lwr", "upr")
 
     # Pool variances(sd?) and covariances --------------------------------------
 
-    cov_out <- miceadds::micombine.cov(mids,
+    cov_out <- miceadds::micombine.cov(object,
         variables = targets,
         conf.level = .95,
         nested = FALSE
@@ -88,8 +88,8 @@ estimatesPool <- function(mids, targets) {
 
     # Store name of parameter
     cov_unique <- cbind(
-        type = ifelse(cov_unique[, 1] == cov_unique[, 2], "var", "cov"),
-        par = ifelse(cov_unique[, 1] == cov_unique[, 2],
+        stat = ifelse(cov_unique[, 1] == cov_unique[, 2], "var", "cov"),
+        vars = ifelse(cov_unique[, 1] == cov_unique[, 2],
             cov_unique$variable1,
             paste0(
                 cov_unique$variable1,
@@ -100,13 +100,13 @@ estimatesPool <- function(mids, targets) {
     )
 
     # Drop useless column
-    cov_select <- cov_unique[, c("type", "par", "cov", "fmi", "lower95", "upper95")]
+    cov_select <- cov_unique[, c("stat", "vars", "cov", "fmi", "lower95", "upper95")]
 
     # Change names
-    colnames(cov_select) <- c("type", "par", "est", "fmi", "lwr", "upr")
+    colnames(cov_select) <- c("stat", "vars", "est", "fmi", "lwr", "upr")
 
     # Sort covariances
-    cov_select <- cov_select[order(cov_select$type, decreasing = TRUE), ]
+    cov_select <- cov_select[order(cov_select$stat, decreasing = TRUE), ]
 
     # Put all together 
     out_pool <- rbind(out_means, cov_select, cor_select)

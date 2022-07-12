@@ -4,58 +4,62 @@
 # Created:   2022-07-11
 # Modified:  2022-07-12
 
-estimatesComp <- function(dt, targets) {
+estimatesComp <- function(object, targets) {
+
+    # Function parameters:
+    # object = na.omit(X_mis) # compelte cases from data set
+    # targets = parms$vmap$ta # vector of indices of the variables under analysis
 
     # Means, variances, and covariances ----------------------------------------
 
     # Estimate means, variances, and covariances in bulk
     fit <- sem(
-        model = genLavaanMod(dt, targets = targets),
-        data = dt
+        model = genLavaanMod(object, targets = targets),
+        data = object
     )
 
     # Extract parameters
     est_sem <- parameterEstimates(fit)
 
     # Create vector of parameter type
-    type <- ifelse(est_sem$lhs == est_sem$rhs, "var", "cov")
-    type[est_sem$op == "~1"] <- "mean"
+    stat <- ifelse(est_sem$lhs == est_sem$rhs, "var", "cov")
+    stat[est_sem$op == "~1"] <- "mean"
 
     # Store name of parameter
     est_sem <- cbind(
-        par = apply(est_sem, 1, function(i) {
+        vars = apply(est_sem, 1, function(i) {
             if (grepl("1", i[2])) {
                 par_name <- i[1]
             } else {
                 par_name <- paste0(i[c(1, 3)], collapse = "")
             }
         }),
-        type = type,
+        stat = stat,
         est_sem
     )
 
     # Drop useless column
-    est_sem <- est_sem[, c("type", "par", "est", "ci.lower", "ci.upper")]
+    est_sem <- est_sem[, c("stat", "vars", "est", "ci.lower", "ci.upper")]
 
     # Change names
-    colnames(est_sem) <- c("type", "par", "est", "lwr", "upr")
+    colnames(est_sem) <- c("stat", "vars", "est", "lwr", "upr")
 
     # Correlations -------------------------------------------------------------
 
-    var_names <- colnames(dt[, targets])
+    var_names <- colnames(object[, targets])
     all_cors <- t(combn(var_names, 2))
     est_cor <- data.frame(matrix(NA, ncol = 5, nrow = nrow(all_cors)))
     est_cor[, 1] <- "cor"
     for (r in 1:nrow(all_cors)) {
-        y <- dt[, all_cors[r, 1]]
-        x <- dt[, all_cors[r, 2]]
+        y <- object[, all_cors[r, 1]]
+        x <- object[, all_cors[r, 2]]
         cor_test <- cor.test(y, x)
         est_cor[r, 2] <- paste0(all_cors[r, 1], all_cors[r, 2]) # id
         est_cor[r, 3:ncol(est_cor)] <- c(cor_test$estimate, cor_test$conf.int) # data
     }
 
     # Give proper names
-    colnames(est_cor) <- c("type", "par", "est", "lwr", "upr")
+    colnames(est_cor) <- c("stat", "vars", "est", "lwr", "upr")
 
     # Join results
     est <- rbind(est_sem, est_cor)
