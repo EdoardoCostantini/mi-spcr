@@ -8,12 +8,12 @@
 
   rm(list = ls()) # to clean up
   source("./init.R") # only for support functions
-  in_dir <- "../output/" # directory where results are stored
-  target_tar <- "20220712-155155-trial.tar.gz"
+  location <- "../output/" # directory where results are stored
+  tar_name <- "20220712-155155-trial.tar.gz"
 
 # Load Results ------------------------------------------------------------
 
-  output <- readTarGz(target_tar)
+  output <- readTarGz(tar_name)
 
   # Collect main results
   rds_main_names <- grep("main", output$file_names)
@@ -32,6 +32,6 @@
   saveRDS(list(main = rds_main,
                error = rds_error,
                sInfo = output$sInfo),
-          paste(paste0(in_dir, tools::file_path_sans_ext(target_tar, compression = TRUE)),
+          paste(paste0(location, tools::file_path_sans_ext(tar_name, compression = TRUE)),
                 "pc",
                 "unzipped.rds", sep = "-"))
