@@ -63,3 +63,12 @@
         type = "source",
         lib = "../input/rlib/"
     )
+
+# stringr 1.4.0 ----------------------------------------------------------------
+
+    devtools::install_version(
+        package = "stringr",
+        version = "1.4.0",
+        type = "source",
+        lib = "../input/rlib/"
+    )
