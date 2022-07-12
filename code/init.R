@@ -154,7 +154,9 @@
 
   # Create a condition tag
   cnds_chrt <- sapply(cnds, as.character)
-  cnds$tag <- paste0(colnames(cnds), "-", cnds_chrt[1, ], collapse = "-")
+  cnds$tag <- apply(cnds_chrt, 1, function(i){
+    paste0(colnames(cnds), "-", i, collapse = "-")
+  })
 
 # File system ------------------------------------------------------------------
 
