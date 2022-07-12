@@ -132,7 +132,10 @@ COMING SOON
 
 You can also replicate the simulation on a personal computer by following these steps:
 
-COMING SOON
+1. run the `prep_machine.R` script assuming working directory `./code/` - This script will:
+    - create a local R library for the R packages needed by this simulation study
+    - install the required version of all packages in this local folder, directly from CRAN (note: this will not interfere with the R-packages versions you have installed on your computer)
+    - install the required development version of `mice` in this local folder
 
 ### Convergence checks
 

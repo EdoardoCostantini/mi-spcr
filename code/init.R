@@ -10,16 +10,22 @@
     setwd("./code")
   }
 
+  # Define path to folder for project-specific R packages
+  R_pack_lib <- "../input/rlib/"
+
+  # Create rlib if it doesn't exist
+  if(!any(grepl(R_pack_lib, list.dirs("../")))){
+    system(command = "mkdir ../input/rlib")
+  }
+
 # Packages ---------------------------------------------------------------------
 
   # Load packages from the project library
-  library(mice, lib.loc = "../input/rlib/")
+  library(mice, lib.loc = R_pack_lib)
   # library(mice, lib.loc = paste0(.libPaths(), "Dev/"))
-
-  # Load packages
-  library(MASS)
-  library(lavaan)
-  library(tidyverse)
+  library(MASS, lib.loc = R_pack_lib)
+  library(lavaan, lib.loc = R_pack_lib)
+  library(dplyr, lib.loc = R_pack_lib)
 
 # Load Functions ---------------------------------------------------------------
 
