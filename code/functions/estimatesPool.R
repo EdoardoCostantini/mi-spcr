@@ -2,7 +2,7 @@
 # Objective: Estimate and pool for mids results
 # Author:    Edoardo Costantini
 # Created:   2022-07-11
-# Modified:  2022-07-11
+# Modified:  2022-07-12
 
 estimatesPool <- function(mids, targets) {
 
@@ -35,13 +35,14 @@ estimatesPool <- function(mids, targets) {
 
     # Put together
     out_means <- cbind(
+        type = "mean",
         par = rownames(pooled_means),
         pooled_means[, c("estimate", "fmi")],
         pooled_means_CIs
     )
 
     # Change names
-    colnames(out_means) <- c("par", "est", "fmi", "lwr", "upr")
+    colnames(out_means) <- c("type", "par", "est", "fmi", "lwr", "upr")
 
     # Pool correlations --------------------------------------------------------
 
@@ -59,19 +60,19 @@ estimatesPool <- function(mids, targets) {
 
     # Store name of parameter
     cor_unique <- cbind(
+        type = "cor",
         par = paste0(
             cor_unique$variable1,
-            "r",
             cor_unique$variable2
         ),
         cor_unique
     )
 
     # Drop useless column
-    cor_select <- cor_unique[, c("par", "r", "fmi", "lower95", "upper95")]
+    cor_select <- cor_unique[, c("type", "par", "r", "fmi", "lower95", "upper95")]
 
     # Change names
-    colnames(cor_select) <- c("par", "est", "fmi", "lwr", "upr")
+    colnames(cor_select) <- c("type", "par", "est", "fmi", "lwr", "upr")
 
     # Pool variances(sd?) and covariances --------------------------------------
 
@@ -87,22 +88,27 @@ estimatesPool <- function(mids, targets) {
 
     # Store name of parameter
     cov_unique <- cbind(
-        par = paste0(
+        type = ifelse(cov_unique[, 1] == cov_unique[, 2], "var", "cov"),
+        par = ifelse(cov_unique[, 1] == cov_unique[, 2],
             cov_unique$variable1,
-            "v",
-            cov_unique$variable2
+            paste0(
+                cov_unique$variable1,
+                cov_unique$variable2
+            )
         ),
         cov_unique
     )
 
     # Drop useless column
-    cov_select <- cov_unique[, c("par", "cov", "fmi", "lower95", "upper95")]
+    cov_select <- cov_unique[, c("type", "par", "cov", "fmi", "lower95", "upper95")]
 
     # Change names
-    colnames(cov_select) <- c("par", "est", "fmi", "lwr", "upr")
+    colnames(cov_select) <- c("type", "par", "est", "fmi", "lwr", "upr")
+
+    # Sort covariances
+    cov_select <- cov_select[order(cov_select$type, decreasing = TRUE), ]
 
     # Put all together 
-
     out_pool <- rbind(out_means, cov_select, cor_select)
     rownames(out_pool) <- 1:nrow(out_pool)
 

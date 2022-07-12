@@ -17,39 +17,45 @@ estimatesComp <- function(dt, targets) {
     # Extract parameters
     est_sem <- parameterEstimates(fit)
 
+    # Create vector of parameter type
+    type <- ifelse(est_sem$lhs == est_sem$rhs, "var", "cov")
+    type[est_sem$op == "~1"] <- "mean"
+
     # Store name of parameter
     est_sem <- cbind(
         par = apply(est_sem, 1, function(i) {
             if (grepl("1", i[2])) {
                 par_name <- i[1]
             } else {
-                par_name <- paste0(i[c(1, 3)], collapse = "v")
+                par_name <- paste0(i[c(1, 3)], collapse = "")
             }
         }),
+        type = type,
         est_sem
     )
 
     # Drop useless column
-    est_sem <- est_sem[, c("par", "est", "ci.lower", "ci.upper")]
+    est_sem <- est_sem[, c("type", "par", "est", "ci.lower", "ci.upper")]
 
     # Change names
-    colnames(est_sem) <- c("par", "est", "lwr", "upr")
+    colnames(est_sem) <- c("type", "par", "est", "lwr", "upr")
 
     # Correlations -------------------------------------------------------------
 
     var_names <- colnames(dt[, targets])
     all_cors <- t(combn(var_names, 2))
-    est_cor <- data.frame(matrix(NA, ncol = 4, nrow = nrow(all_cors)))
+    est_cor <- data.frame(matrix(NA, ncol = 5, nrow = nrow(all_cors)))
+    est_cor[, 1] <- "cor"
     for (r in 1:nrow(all_cors)) {
         y <- dt[, all_cors[r, 1]]
         x <- dt[, all_cors[r, 2]]
         cor_test <- cor.test(y, x)
-        est_cor[r, 1] <- paste0(all_cors[r, 1], "r", all_cors[r, 2]) # id
-        est_cor[r, -1] <- c(cor_test$estimate, cor_test$conf.int) # data
+        est_cor[r, 2] <- paste0(all_cors[r, 1], all_cors[r, 2]) # id
+        est_cor[r, 3:ncol(est_cor)] <- c(cor_test$estimate, cor_test$conf.int) # data
     }
 
     # Give proper names
-    colnames(est_cor) <- c("par", "est", "lwr", "upr")
+    colnames(est_cor) <- c("type", "par", "est", "lwr", "upr")
 
     # Join results
     est <- rbind(est_sem, est_cor)
@@ -58,7 +64,7 @@ estimatesComp <- function(dt, targets) {
     est$fmi <- NA
 
     # Position it right after est
-    est <- est[, c(1:2, 5, 3:4)]
+    est <- est[, c(1:3, 6, 4:5)]
 
     # Add confidence interval width --------------------------------------------
 
