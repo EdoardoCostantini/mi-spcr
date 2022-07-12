@@ -38,10 +38,16 @@ runCell <- function(rp, cnd, fs, parms) {
     # Induce missingness ------------------------------------------------------
 
     # Active missing data mechanism
-    mmw_active <- mmw[cnd$mech, ]
+    mmw_active <- matrix(
+      mmw[cnd$mech, ],
+      nrow = nrow(mm),
+      ncol = ncol(mmw),
+      byrow = TRUE,
+      dimnames = list(1:nrow(mm), colnames(mmw))
+    )
 
     # Variables involved in missing data amputation (VIMs)
-    vim <- colnames(X) %in% names(mmw_active)
+    vim <- colnames(X) %in% colnames(mmw_active)
   
     # Amputation
     amp_out <- ampute(
