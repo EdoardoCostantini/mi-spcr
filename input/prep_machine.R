@@ -11,31 +11,40 @@
         setwd("./code")
     }
 
+# devtools 2.4.2 ---------------------------------------------------------------
+    
+    install.packages(
+        pkgs = "https://cran.r-project.org/src/contrib/Archive/devtools/devtools_2.4.2.tar.gz",
+        repos = NULL,
+        type = "source",
+        lib = "../input/rlib/"
+    )
+
 # MASS 7.3-57 ------------------------------------------------------------------
 
-    install.packages(
-        pkgs = "https://cran.r-project.org/src/contrib/Archive/MASS/MASS_7.3-57.tar.gz",
-        repos = NULL, 
+    devtools::install_version(
+        package = "MASS",
+        version = "7.3-57",
         type = "source",
         lib = "../input/rlib/"
     )
 
 # lavaan 0.6-11 ----------------------------------------------------------------
 
-    install.packages(
-        pkgs = "https://cran.r-project.org/src/contrib/Archive/lavaan/lavaan_0.6-11.tar.gz",
-        repos = NULL,
+    devtools::install_version(
+        package = "lavaan",
+        version = "0.6-12",
         type = "source",
         lib = "../input/rlib/"
     )
 
 # dplyr 1.0.8 ------------------------------------------------------------------
 
-    install.packages(
-        pkgs = "https://cran.r-project.org/src/contrib/Archive/dplyr/dplyr_1.0.8.tar.gz",
-        repos = NULL,
+    devtools::install_version(
+        package = "dplyr",
+        version = "1.0.9",
         type = "source",
-        lib = "./input/rlib/"
+        lib = "../input/rlib/"
     )
 
 # mice 3.14.7.9000 (local experimental version)---------------------------------
