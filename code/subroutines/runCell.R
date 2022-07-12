@@ -64,6 +64,7 @@ runCell <- function(rp, cnd, fs, parms) {
       mice.impute.active <- as.character(cnd$meth)
 
       # Impute
+      mice_start <- Sys.time()
       mice_mids <- mice(X_mis,
         m = parms$mice_ndt,
         maxit = parms$mice_iters,
@@ -74,6 +75,7 @@ runCell <- function(rp, cnd, fs, parms) {
         # printFlag = FALSE,
         eps = 0
       )
+      mice_ends <- Sys.time()
     }
 
     # If reference mi method is required
@@ -100,6 +102,7 @@ runCell <- function(rp, cnd, fs, parms) {
       }
 
       # Impute
+      mice_start <- Sys.time()
       mice_mids <- mice(X_mis,
         m = parms$mice_ndt,
         maxit = parms$mice_iters,
@@ -109,6 +112,7 @@ runCell <- function(rp, cnd, fs, parms) {
         eps = 0,  # no lienar dependency checks
         ridge = 0 # no ridge regression applied
       )
+      mice_ends <- Sys.time()
 
     }
 
@@ -150,9 +154,21 @@ runCell <- function(rp, cnd, fs, parms) {
 
     # Store Output ------------------------------------------------------------
 
+    # Define imputation time (if imputation was done)
+    imp_time <- ifelse(
+      test = exists("mice_mids"),
+      yes = as.numeric(difftime(mice_ends, mice_start, units = c("secs"))),
+      no = NA
+    )
+
     # Attach condition
     row.names(cnd) <- NULL # to avoid warning
-    res <- cbind(rp = rp, cnd, estimates_out)
+    res <- cbind(
+      rp = rp,
+      cnd,
+      estimates_out,
+      time = imp_time
+    )
 
     # Store Main Results
     saveRDS(res,
