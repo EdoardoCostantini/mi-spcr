@@ -34,10 +34,10 @@
 # Run specifications -----------------------------------------------------------
 
     # number of repetitions
-    reps <- 1 : 5 # define repetitions
+    reps <- c(1, 5, 100) #1 : 5 # define repetitions
 
     # number of clusters for parallelization
-    clusters <- 5 
+    clusters <- 3
 
 # Parallelization --------------------------------------------------------------
 
