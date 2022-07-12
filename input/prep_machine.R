@@ -54,3 +54,12 @@
         type = "source",
         lib = "./input/rlib/"
     )
+
+# rlecuyer 0.3-5 ---------------------------------------------------------------
+
+    devtools::install_version(
+        package = "rlecuyer",
+        version = "0.3-5",
+        type = "source",
+        lib = "../input/rlib/"
+    )

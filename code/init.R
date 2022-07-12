@@ -26,6 +26,7 @@
   library(MASS, lib.loc = R_pack_lib)
   library(lavaan, lib.loc = R_pack_lib)
   library(dplyr, lib.loc = R_pack_lib)
+  library(rlecuyer, lib.loc = R_pack_lib)
 
 # Load Functions ---------------------------------------------------------------
 
@@ -54,6 +55,10 @@
 
   # Empty List
   parms <- list()
+
+  # Seed
+  parms$seed     <- 20220712
+  parms$nStreams <- 1000
 
   # Data generation
   parms$N  <- 5e2  # sample size 
