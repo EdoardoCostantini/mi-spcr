@@ -158,18 +158,21 @@
 
 # File system ------------------------------------------------------------------
 
+  # 1-word run description
+  run_descr <- "trial"
+
   # Create object to store file system directives
   fs <- list()
-  fs$start_time <- format(Sys.time(), "%Y%m%d_%H%M%S")
+  fs$start_time <- format(Sys.time(), "%Y%m%d-%H%M%S")
 
   # Create a run-sepecific output subfolder
-  fs$out_dir <- paste0("../output/", fs$start_time, "/")
+  fs$out_dir <- paste0("../output/", fs$start_time, "-", run_descr, "/")
 
   # Create a subfolder to store mids objects
   fs$mids_dir <- paste0(fs$out_dir, "mids", "/")
 
   # Define filenmaes for the results and progress report files
-  fs$file_name_res <- fs$start_time
+  fs$file_name_res <- paste0(fs$start_time, "-", run_descr)
 
   # Progress report file
-  fs$file_name_prog <- fs$start_time
+  fs$file_name_prog <- paste0(fs$start_time, "-", run_descr)
