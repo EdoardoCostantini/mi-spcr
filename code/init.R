@@ -28,6 +28,9 @@
   library(dplyr, lib.loc = R_pack_lib)
   library(rlecuyer, lib.loc = R_pack_lib)
 
+  # Load packages included in R installation
+  library(parallel)
+
 # Load Functions ---------------------------------------------------------------
 
   # Subroutines

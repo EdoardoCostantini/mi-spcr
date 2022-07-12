@@ -59,7 +59,7 @@
         cl = clus,
         X = reps,
         fun = runRep,
-        conds = conds,
+        cnds = cnds,
         parms = parms,
         fs = fs
     )
@@ -85,7 +85,7 @@
     # Store sessoin info
     out_support <- list()
     out_support$parms <- parms
-    out_support$conds <- conds
+    out_support$cnds <- cnds
     out_support$session_info <- devtools::session_info()
     out_support$run_time <- run_time
     saveRDS(
