@@ -114,7 +114,7 @@
   # Other factors
   method_pcr <- c("pcr", "spcr", "pls", "pcovr") # pca based methods
   method_rmi <- c("qp", "am", "all") # reference mi methods
-  method_cc  <- c("cc") # complete case analysis
+  method_noi  <- c("cc", "fo") # complete case analysis and fully observed data analysis
 
   # Combine factors part 1
   npcs <- c(1, 5:15, 45:55)
@@ -139,7 +139,7 @@
   npcs <- 0
   cnds_pt2 <- expand.grid(
     npcs = npcs,
-    method = c(method_rmi, method_cc),
+    method = c(method_rmi, method_noi),
     nla = nla,
     pm = pm,
     mech = mech,

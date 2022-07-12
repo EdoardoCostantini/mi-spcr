@@ -146,14 +146,22 @@ runCell <- function(rp, cnd, fs, parms) {
 
     # Analyze and pool --------------------------------------------------------
 
+    # If MI was used
     if (exists("mice_mids")) {
       estimates_out <- estimatesPool(
         object = mice_mids,
         targets = parms$vmap$ta
       )
     } else {
+    # If MI was not used
+      if(cnd$meth == "cc"){
+        X_complete <- na.omit(X_mis)
+      }
+      if(cnd$meth == "fo"){
+        X_complete <- X
+      }
       estimates_out <- estimatesComp(
-        object = na.omit(X_mis),
+        object = X_complete,
         targets = parms$vmap$ta
       )
     }
