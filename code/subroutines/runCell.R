@@ -150,15 +150,31 @@ runCell <- function(rp, cnd, fs, parms) {
 
     # Store Output ------------------------------------------------------------
 
+    # Attach condition
+    row.names(cnd) <- NULL # to avoid warning
+    res <- cbind(rp = rp, cnd, estimates_out)
+
+    # Store Main Results
+    saveRDS(res,
+      file = paste0(
+        fs$out_dir,
+        "rp-", rp, "-", cnd$tag,
+        "-main",
+        ".rds"
+      )
+    )
+
     ### END TRYCATCH EXPRESSION
   }, error = function(e){
     err <- paste0("Original Error: ", e)
     err_res <- cbind(rp = rp, cnd, Error = err)
     saveRDS(err_res,
-            file = paste0(fs$out_dir,
-                          "rp-", rp, "-", cnd$tag,
-                          "-ERROR",
-                          ".rds")
+      file = paste0(
+        fs$out_dir,
+        "rp-", rp, "-", cnd$tag,
+        "-ERROR",
+        ".rds"
+      )
     )
     return(NULL)
   }
