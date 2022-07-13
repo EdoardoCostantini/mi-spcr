@@ -2,7 +2,7 @@
 # Objective: Estimate and pool for no imputation results
 # Author:    Edoardo Costantini
 # Created:   2022-07-11
-# Modified:  2022-07-12
+# Modified:  2022-07-13
 
 estimatesComp <- function(object, targets) {
 
@@ -28,10 +28,10 @@ estimatesComp <- function(object, targets) {
     # Store name of parameter
     est_sem <- cbind(
         vars = apply(est_sem, 1, function(i) {
-            if (grepl("1", i[2])) {
+            if (grepl("1", i[2]) || i[1] == i[3]) {
                 par_name <- i[1]
             } else {
-                par_name <- paste0(i[c(1, 3)], collapse = "")
+                    par_name <- paste0(i[c(1, 3)], collapse = "")
             }
         }),
         stat = stat,
