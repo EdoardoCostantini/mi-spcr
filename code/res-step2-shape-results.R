@@ -12,7 +12,7 @@
 # Load Results -----------------------------------------------------------------
 
   loaction <- "../output/"
-  run_name <- "20220713-162504-trial-pc-unzipped" # toy run on pc
+  run_name <- "20220713-163954-trial-pc-unzipped" # toy run on pc
   out <- readRDS(paste0(loaction, run_name, ".rds"))
 
   sInfo <- out$sInfo
