@@ -2,7 +2,7 @@
 # Objective: initialization script
 # Author:    Edoardo Costantini
 # Created:   2022-07-05
-# Modified:  2022-07-12
+# Modified:  2022-07-13
 
 # Check the working directory --------------------------------------------------
 
@@ -173,9 +173,6 @@
 
   # Create a run-sepecific output subfolder
   fs$out_dir <- paste0("../output/", fs$start_time, "-", run_descr, "/")
-
-  # Create a subfolder to store mids objects
-  fs$mids_dir <- paste0(fs$out_dir, "mids", "/")
 
   # Define filenmaes for the results and progress report files
   fs$file_name_res <- paste0(fs$start_time, "-", run_descr)
