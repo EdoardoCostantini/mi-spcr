@@ -2,7 +2,7 @@
 # Objective: Run the simulation study
 # Author:    Edoardo Costantini
 # Created:   2022-07-08
-# Modified:  2022-07-12
+# Modified:  2022-07-13
 
 # Environment ------------------------------------------------------------------
 
@@ -20,7 +20,6 @@
 
     # Create folders and report files
     dir.create(fs$out_dir)
-    dir.create(fs$mids_dir)
     file.create(paste0(fs$out_dir, fs$file_name_prog, ".txt"))
 
     cat(paste0("SIMULATION PROGRESS REPORT",
