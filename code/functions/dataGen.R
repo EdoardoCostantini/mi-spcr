@@ -8,17 +8,17 @@ dataGen <- function(N, L, J, P, mu, sd, rho_high, rho_junk, p_junk) {
 
     # Example inputs
     # N = 50
-    # L = 1+5
+    # L = 10
     # J = 3
-    # P = L * J
     # mu = 0
     # sd = 1
     # rho_high = .7
     # rho_junk = .1
-    # p_junk = .1
+    # p_junk = .8
 
     # Define other parameters of interest --------------------------------------
 
+    P <- L * J
     L_aux <- L - 1
 
     # Latent Variables Covariance matrix ---------------------------------------
@@ -29,7 +29,7 @@ dataGen <- function(N, L, J, P, mu, sd, rho_high, rho_junk, p_junk) {
     # Distinguish between important variables and possible auxiliary
     index_junk_aux <- tail(
         1:ncol(Phi),
-        round(L_aux * p_junk, 0)
+        round(ncol(Phi) * p_junk, 0)
     )
 
     # Change rho values (if needed)

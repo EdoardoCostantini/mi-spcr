@@ -2,7 +2,7 @@
 # Objective: runs a single repetiton of a single experimental cndition
 # Author:    Edoardo Costantini
 # Created:   2022-07-05
-# Modified:  2022-07-13
+# Modified:  2022-07-14
 # Note:      A "cell" is a given repetition for a given cndition.
 #            This function: 
 #            - generates 1 data set, 
@@ -26,7 +26,6 @@ runCell <- function(rp, cnd, fs, parms) {
         N = parms$N,
         L = cnd$nla,
         J = parms$J,
-        P = cnd$nla * parms$J,
         mu = parms$item_mean,
         sd = sqrt(parms$item_var),
         rho_high = parms$cor_high,
