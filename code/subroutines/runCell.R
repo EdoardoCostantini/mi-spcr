@@ -27,6 +27,8 @@ runCell <- function(rp, cnd, fs, parms) {
         L = cnd$nla,
         J = parms$J,
         P = cnd$nla * parms$J,
+        mu = parms$item_mean,
+        sd = sqrt(parms$item_var),
         rho_high = parms$cor_high,
         rho_junk = parms$cor_low,
         p_junk = .1
