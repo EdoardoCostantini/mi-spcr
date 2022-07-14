@@ -25,12 +25,12 @@ runCell <- function(rp, cnd, fs, parms) {
     dataGen_out <- dataGen(
         N = parms$N,
         L = cnd$nla,
+        L_junk = cnd$nla - 3,
         J = parms$J,
         mu = parms$item_mean,
         sd = sqrt(parms$item_var),
         rho_high = parms$cor_high,
-        rho_junk = parms$cor_low,
-        p_junk = .1
+        rho_junk = parms$cor_low
     )
 
     # Extract data

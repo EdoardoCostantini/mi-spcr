@@ -4,22 +4,21 @@
 # Created:   2022-07-05
 # Modified:  2022-07-14
 
-dataGen <- function(N, L, J, P, mu, sd, rho_high, rho_junk, p_junk) {
+dataGen <- function(N, L, L_junk, J, P, mu, sd, rho_high, rho_junk) {
 
     # Example inputs
     # N = 50
     # L = 10
+    # L_junk = 7
     # J = 3
     # mu = 0
     # sd = 1
     # rho_high = .7
     # rho_junk = .1
-    # p_junk = .8
 
     # Define other parameters of interest --------------------------------------
 
     P <- L * J
-    L_aux <- L - 1
 
     # Latent Variables Covariance matrix ---------------------------------------
 
@@ -27,10 +26,11 @@ dataGen <- function(N, L, J, P, mu, sd, rho_high, rho_junk, p_junk) {
     Phi <- toeplitz(c(1, rep(rho_high, L - 1)))
 
     # Distinguish between important variables and possible auxiliary
-    index_junk_aux <- tail(
-        1:ncol(Phi),
-        round(ncol(Phi) * p_junk, 0)
-    )
+    if((L-L_junk+1) <= L){
+     index_junk_aux <- (L-L_junk+1):L
+    } else {
+     index_junk_aux <- NULL
+    }
 
     # Change rho values (if needed)
     Phi[index_junk_aux, ] <- rho_junk # junk
