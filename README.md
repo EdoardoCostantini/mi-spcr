@@ -46,26 +46,12 @@ We use predictors measuring the second latent variable:
 We use the observed items because if we use the latent variables there would be some unpredictable "spurious" MAR:
 we would use a proxy of the actual MAR predictor in the imputation models, generating an imputation situation closer to MNAR than MAR.
 
-In summary, these are the **missing data patterns** we want to impose:
-
-```
-  X1 X2 X3 X4 X5 X6
-1  0  0  0  1  1  1
-2  1  0  0  1  1  1
-3  0  1  0  1  1  1
-4  0  0  1  1  1  1
-```
-
-where 0 indicates a variable receiving missing values, and 1 indicates a fully observed variable.
-TODO: it might be an idea to scan EVS data to get a sense of the frequency of missing data patterns.
-
 These are the **missing data mechanisms** we want to use:
 
 ```
      X1 X2 X3 X4 X5 X6
 MCAR  0  0  0  0  0  0
 MAR   0  0  0  1  1  1
-MNAR  1  0  0  0  0  0
 ```
 
 where 0 indicates a variable with no weight in the linear combination making up the linear predictor for the logit(p) of missingness, and 1 indicates a weight of 1.
@@ -75,31 +61,28 @@ where 0 indicates a variable with no weight in the linear combination making up 
 We vary the following factors:
 
 - The **proportion of missing cases** (`pm = .1, .25, .50`):
-    Values were chosen based on literature recommendations (Oberman Vink 0000) per variable or total proportion of cases?
+  - imposed as stepwise univariate amputation
+  - levels chosen based on literature recommendations (Oberman Vink 0000)
 - **Missing data mechanism** (`mech = MCAR, MAR, MNAR`):
     It's important to have all of these situations because:
   - MCAR - a good method should at least work here
   - MAR - the basic assumption everyone makes
-  - MNAR - any method will likely be used in this situation
-- The **shape of missing data** (`loc = right, left, mid, tail`):
-    Read SchoutenVink2021 to understand the impact of this choice
-- The **number of noisy auxiliary variables** (`nla = 1, 10, 100`):
+- The **shape of missing data** (`loc = right, left, tail`): defined as a fixed random factor with levels sampled from
+- The **number of noisy auxiliary variables** (`nla = 2, 10, 100`):
     From previous work, we know the unsupervised PCA methods require to use of enough PCs as there are latent variables in the data generating model.
     We want to vary the true number of latent variables to verify this.
     The values chosen will reflect:
-  - 1 - simple case, do we really need it?
-  - 10 - possible to use enough PCS to cover it
-  - 100 - possible to use enough PCS to cover it, but possibly not enough dimensionality reduction?
+  - 2 - simple case where we only have the two latent variables that are important for imputation (1 latent variable measured by items receiving amputation and imputation; 1 latent variable measured by the MAR predictors) to show
+  - 10 - small dimensionality
+  - 100 - large dimensionality
 - The **number of principal components** used by the approach (`npcs`);
-    To verify the point described for the number of noisy auxiliary variables we need to use the imputation methods with different numbers of PCs.
-    In deciding these numbers, we kept in mind the true number of latent variables is always 2 + `nla`.
-    We chose:
-  - 1 - is it ever sufficient to use a single component?
-  - from 2 to 15 - cover all values around 10 to see how the methods behave around the true values
-  - 100 + 2 - the correct number for the final level of the `nla`, too high in all other cases
-    The levels of these factors are used only when possible.
-    For example, when the true number of latent variables is 3 (2 + `nla = 1`), then the total number of items is 3 * 3 = 9, so all values of `npcs > 9` are not possible and are discarded.
-
+  To verify the point described for the number of noisy auxiliary variables we need to use the imputation methods with different numbers of PCs.
+  These numbers depend of the number of latent variables used:
+  - `nla = 2` -> `npcs = [1:6]`
+  - `nla = 10` -> `npcs = [1:12, 20, 30]`
+  - `nla = 50` -> `npcs = [1:12, 20, 30, 30, 40, 48:52, 60, 100, 150]`
+  - `nla = 100` -> `npcs = [1:10, seq(20, 90, by = 10), 98, 99, 100, 101, 102, 110, 300]`
+  
 ### Performance measures
 
 We are interested in:
