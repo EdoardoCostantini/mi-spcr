@@ -2,10 +2,10 @@
 # Objective: runs a single repetiton of a single experimental cndition
 # Author:    Edoardo Costantini
 # Created:   2022-07-05
-# Modified:  2022-07-15
+# Modified:  2022-07-18
 # Note:      A "cell" is a given repetition for a given cndition.
-#            This function: 
-#            - generates 1 data set, 
+#            This function:
+#            - generates 1 data set,
 #            - performs imputations,
 #            - stores output.
 
@@ -38,29 +38,31 @@ runCell <- function(rp, cnd, fs, parms) {
 
     # Induce missingness ------------------------------------------------------
 
-    # Active missing data mechanism
-    mmw_active <- matrix(
-      mmw[cnd$mech, ],
-      nrow = nrow(mm),
-      ncol = ncol(mmw),
-      byrow = TRUE,
-      dimnames = list(1:nrow(mm), colnames(mmw))
-    )
+    # Create copy of original data to impose missing values on
+    X_mis <- X
 
-    # Variables involved in missing data amputation (VIMs)
-    vim <- colnames(X) %in% colnames(mmw_active)
-  
-    # Amputation
-    amp_out <- ampute(
-      data = X[, vim],
-      prop = cnd$pm,
-      mech = as.character(cnd$mech),
-      patterns = mm,
-      weights = mmw_active
-    )
+    # Impose missing values on a per-variable basis
+    for (i in seq_along(parms$vmap$ta)) {
 
-    # Arrange missing data
-    X_mis <- cbind(amp_out$amp, X[, !vim])
+      # Sample response vector
+
+      if(cnd$mech == "MCAR"){
+        nR <- rbinom(n = parms$N, size = 1, prob = cnd$pm) == 1
+      }
+
+      if(cnd$mech == "MAR"){
+        nR <- simMissingness(pm   = cnd$pm,
+                             data = X,
+                             preds = parms$vmap$mp,
+                             beta = rep(1, 3),
+                             type = c("high", "low", "tails")[i])
+      }
+
+      # Fill in NAs
+
+      X_mis[nR, i] <- NA
+
+    }
 
     # Apply methods -----------------------------------------------------------
 
