@@ -2,7 +2,7 @@
 # Objective: runs a single repetiton of a single experimental cndition
 # Author:    Edoardo Costantini
 # Created:   2022-07-05
-# Modified:  2022-07-14
+# Modified:  2022-07-15
 # Note:      A "cell" is a given repetition for a given cndition.
 #            This function: 
 #            - generates 1 data set, 
@@ -13,7 +13,7 @@ runCell <- function(rp, cnd, fs, parms) {
 
   # Example Internals -------------------------------------------------------
 
-  # cnd = cnds[1, ]
+  # cnd = cnds["26", ]
   # rp   = 1
 
   # Run internals in a tryCatch statement
@@ -64,60 +64,160 @@ runCell <- function(rp, cnd, fs, parms) {
 
     # Apply methods -----------------------------------------------------------
 
-    # If mi-pcr based method is required
-    if(cnd$meth %in% method_pcr){
+    # Impute pcr
+    if(cnd$meth == "pcr"){
 
-      # Define active PCR method
-      mice.impute.active <- as.character(cnd$meth)
-
-      # Impute
       mice_start <- Sys.time()
+
       mice_mids <- mice(X_mis,
-        m = parms$mice_ndt,
-        maxit = parms$mice_iters,
-        method = mice.impute.active,
-        npcs = cnd$npcs,
-        # DoF = "naive",
-        DoF = "kramer",
-        # printFlag = FALSE,
-        eps = 0
+                        m = parms$mice_ndt,
+                        maxit = parms$mice_iters,
+                        method = "pcr",
+                        npcs = cnd$npcs,
+                        # printFlag = FALSE,
+                        threshold = 1,
+                        eps = 0,
+                        ridge = 0
       )
+
       mice_ends <- Sys.time()
+
     }
 
-    # If reference mi method is required
-    if (cnd$meth %in% method_rmi) {
+    # Impute spcr
+    if(cnd$meth == "spcr"){
 
-      # Define predictor matrix (active set) depending on mi method
-      if(cnd$meth %in% "qp"){
-        pred_mat <- quickpred(X_mis)
-      }
-      if (cnd$meth %in% "am") {
-        pred_mat <- matrix(0,
-          ncol(X_mis), ncol(X_mis),
-          dimnames = list(colnames(X_mis), colnames(X_mis))
-        )
-        pred_mat[parms$vmap$ta, parms$vmap$ta] <- 1
-        diag(pred_mat) <- 0
-      }
-      if (cnd$meth %in% "all") {
-        pred_mat <- matrix(1,
-          ncol(X_mis), ncol(X_mis),
-          dimnames = list(colnames(X_mis), colnames(X_mis))
-        )
-        diag(pred_mat) <- 0
-      }
+      mice_start <- Sys.time()
+
+      mice_mids <- mice(X_mis,
+                        m = parms$mice_ndt,
+                        maxit = parms$mice_iters,
+                        method = "spcr",
+                        theta = seq(0.1, 1, by = 0.01),
+                        npcs = cnd$npcs,
+                        nfolds = 10,
+                        # printFlag = FALSE,
+                        threshold = 1,
+                        eps = 0,
+                        ridge = 0
+      )
+
+      mice_mids$loggedEvents
+
+      mice_ends <- Sys.time()
+
+    }
+
+    # Impute pls
+    if(cnd$meth == "pls"){
+
+      mice_start <- Sys.time()
+
+      mice_mids <- mice(X_mis,
+                        m = parms$mice_ndt,
+                        maxit = parms$mice_iters,
+                        method = "pls",
+                        nlvs = cnd$npcs,
+                        DoF = "kramer",
+                        # printFlag = FALSE,
+                        threshold = 1,
+                        eps = 0,
+                        ridge = 0
+      )
+
+      mice_ends <- Sys.time()
+
+    }
+
+    # Impute pcovr
+    if(cnd$meth == "pcovr"){
+
+      mice_start <- Sys.time()
+
+      mice_mids <- mice(X_mis,
+                        m = parms$mice_ndt,
+                        maxit = parms$mice_iters,
+                        method = "pcovr",
+                        npcs = cnd$npcs,
+                        DoF = "kramer",
+                        # printFlag = FALSE,
+                        threshold = 1,
+                        eps = 0,
+                        ridge = 0
+      )
+
+      mice_ends <- Sys.time()
+
+    }
+
+    if(cnd$meth == "qp"){
+
+      # Define predictor matrix with quickpred defaults
+      pred_mat <- quickpred(X_mis)
+
+      # Impute with deafult values for linear dependency checks
+      mice_start <- Sys.time()
+      mice_mids <- mice(X_mis,
+                        m = parms$mice_ndt,
+                        maxit = parms$mice_iters,
+                        method = "norm.boot",
+                        predictorMatrix = pred_mat,
+                        printFlag = FALSE,
+                        threshold = .999,
+                        eps = 1e-04,  # no lienar dependency checks
+                        ridge = 1e-05 # no ridge regression applied
+      )
+      mice_ends <- Sys.time()
+
+    }
+    if (cnd$meth == "am") {
+
+      # Define predictor matrix based only on variables we will use in analysis
+      pred_mat <- matrix(0,
+                         ncol(X_mis), ncol(X_mis),
+                         dimnames = list(colnames(X_mis), colnames(X_mis))
+      )
+      pred_mat[parms$vmap$ta, parms$vmap$ta] <- 1
+      diag(pred_mat) <- 0
 
       # Impute
       mice_start <- Sys.time()
       mice_mids <- mice(X_mis,
-        m = parms$mice_ndt,
-        maxit = parms$mice_iters,
-        method = "norm.boot",
-        predictorMatrix = pred_mat,
-        printFlag = FALSE,
-        eps = 0,  # no lienar dependency checks
-        ridge = 0 # no ridge regression applied
+                        m = parms$mice_ndt,
+                        maxit = parms$mice_iters,
+                        method = "norm.boot",
+                        predictorMatrix = pred_mat,
+                        printFlag = FALSE,
+                        # No safeties
+                        threshold = 1,
+                        eps = 0,
+                        ridge = 0
+      )
+      mice_ends <- Sys.time()
+
+    }
+
+    if (cnd$meth == "all") {
+
+      # Define predictor matrix containing all of the possible predictors
+      pred_mat <- matrix(1,
+                         ncol(X_mis), ncol(X_mis),
+                         dimnames = list(colnames(X_mis), colnames(X_mis))
+      )
+      diag(pred_mat) <- 0
+
+      # Impute
+      mice_start <- Sys.time()
+      mice_mids <- mice(X_mis,
+                        m = parms$mice_ndt,
+                        maxit = parms$mice_iters,
+                        method = "norm.boot",
+                        predictorMatrix = pred_mat,
+                        printFlag = FALSE,
+                        # No safeties
+                        threshold = 1,
+                        eps = 0,
+                        ridge = 0
       )
       mice_ends <- Sys.time()
 
