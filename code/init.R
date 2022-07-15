@@ -68,7 +68,8 @@
   parms$N  <- 5e2  # sample size 
   parms$L  <- 2    # fixed number latent variables
   parms$J  <- 3    # number items per latent variable
-  parms$cor_high <- .7   # true latent cov for target variables
+  parms$loading <- .85
+  parms$cor_high <- .8   # true latent cov for target variables
   parms$cor_low <- .1 # for junk auxiliary
   parms$item_mean <- 5 # true item mean
   parms$item_var <- (2.5)^2 # true item variance

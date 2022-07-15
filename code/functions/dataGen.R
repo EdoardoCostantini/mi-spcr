@@ -2,13 +2,14 @@
 # Objective: Function to generate data with a latent structure
 # Author:    Edoardo Costantini
 # Created:   2022-07-05
-# Modified:  2022-07-14
+# Modified:  2022-07-15
 
-dataGen <- function(N, L, L_junk, J, P, mu, sd, rho_high, rho_junk) {
+dataGen <- function(N, L, L_junk, loading = .85, J, P, mu, sd, rho_high, rho_junk) {
 
     # Example inputs
     # N = 50
     # L = 10
+    # loading = .85,
     # L_junk = 7
     # J = 3
     # mu = 0
@@ -43,7 +44,7 @@ dataGen <- function(N, L, L_junk, J, P, mu, sd, rho_high, rho_junk) {
 
     # Factor loadings ----------------------------------------------------------
 
-    lambda <- rep(.85, P)
+    lambda <- rep(loading, P)
 
     # Observed Items Error Covariance matrix ----------------------------------
     # Note: here we create uncorrelated errors for the observed items
