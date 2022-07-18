@@ -114,3 +114,83 @@ data.frame(
   mean = round(c(true = 5, colMeans(store_mu)), 3),
   cor = round(c(true = mean(store_cor_true), colMeans(store_cor)), 3)
 )
+
+# Creating a context where mi-qp will perform badly -----------------------------------
+# Location of missing values should be a fixed factor because otherwise the effect
+# disappears
+
+reps <- 1e2
+store_res <- list()
+
+for (r in 1:reps){
+  print(r)
+
+  # Gen data
+  dataGen_out <- dataGen(
+    N = 500,
+    L = 300,
+    L_junk = 300-3,
+    J = 3,
+    loading = .85,
+    mu = 5,
+    sd = 2.5,
+    rho_high = .9,
+    rho_junk = .9
+  )
+
+  # Induce missingness ------------------------------------------------------
+
+  # Create copy of original data to impose missing values on
+  X_mis <- X
+
+  # Impose missing values on a per-variable basis
+  for (i in seq_along(parms$vmap$ta)) {
+
+    # Sample response vector
+
+    if(cnd$mech == "MCAR"){
+      nR <- rbinom(n = parms$N, size = 1, prob = cnd$pm) == 1
+    }
+
+    if(cnd$mech == "MAR"){
+      nR <- simMissingness(pm   = cnd$pm,
+                           data = X,
+                           preds = parms$vmap$mp,
+                           beta = rep(1, 3),
+                           type = c("high", "low", "tails")[i])
+    }
+
+    # Fill in NAs
+
+    X_mis[nR, i] <- NA
+
+  }
+
+  # Define predictor matrix with quickpred defaults
+  pred_mat <- quickpred(X_mis)
+
+  # Impute with deafult values for linear dependency checks
+  mice_start <- Sys.time()
+  mice_mids <- mice(X_mis,
+                    m = 5,
+                    maxit = 20,
+                    method = "norm.boot",
+                    predictorMatrix = pred_mat,
+                    # printFlag = FALSE,
+                    threshold = .999,
+                    eps = 1e-04,
+                    ridge = 1e-05
+  )
+  mice_ends <- Sys.time()
+
+  # Estimate something
+  estimates_out <- estimatesPool(
+    object = mice_mids,
+    targets = parms$vmap$ta
+  )
+
+  store_res[[r]] <- estimates_out[, -(1:2)]
+
+}
+
+Reduce("+", store_res)/reps
