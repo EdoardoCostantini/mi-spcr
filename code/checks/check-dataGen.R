@@ -16,15 +16,15 @@ for (i in 1:reps){
   print(i)
   # Generate data
   dataGen_out <- dataGen(
-    N = parms$N,
-    L = cnd$nla,
-    L_junk = cnd$nla - 3,
-    J = parms$J,
-    loading = parms$loading,
-    mu = parms$item_mean,
-    sd = sqrt(parms$item_var),
-    rho_high = parms$cor_high,
-    rho_junk = parms$cor_low
+    N = 500,
+    L = 300,
+    L_junk = 300-3,
+    J = 3,
+    loading = .85,
+    mu = 5,
+    sd = 2.5,
+    rho_high = .9,
+    rho_junk = .9
   )
 
   # Extract data
