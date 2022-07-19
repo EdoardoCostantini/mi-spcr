@@ -54,10 +54,10 @@
 
 # mice 3.14.7.9000 (local experimental version)---------------------------------
 
-    install.packages("./input/mice_3.14.7.9000.tar.gz",
+    install.packages("../input/mice_3.14.7.9000.tar.gz",
         repos = NULL,
         type = "source",
-        lib = "./input/rlib/"
+        lib = "../input/rlib/"
     )
 
 # rlecuyer 0.3-5 ---------------------------------------------------------------
