@@ -2,7 +2,7 @@
 # Objective: initialization script
 # Author:    Edoardo Costantini
 # Created:   2022-07-05
-# Modified:  2022-07-13
+# Modified:  2022-07-19
 
 # Check the working directory --------------------------------------------------
 
@@ -65,7 +65,7 @@
   parms$nStreams <- 1000
 
   # Data generation
-  parms$N  <- 5e2  # sample size 
+  parms$N  <- 1e3  # sample size TODO: decide between 1e3 and 5e2
   parms$L  <- 2    # fixed number latent variables
   parms$J  <- 3    # number items per latent variable
   parms$loading <- .85
@@ -83,34 +83,18 @@
     mp = (1:parms$J) + parms$J # mar Predictors
   )
 
-  # Missing data patterns
-  mm <- data.frame(
-    X1 = c(0, 1, 0, 0),
-    X2 = c(0, 0, 1, 0),
-    X3 = c(0, 0, 0, 1),
-    X4 = c(1, 1, 1, 1),
-    X5 = c(1, 1, 1, 1),
-    X6 = c(1, 1, 1, 1)
-  )
-
-  # Missing data weights / mechanisms
-  mmw <- t(data.frame(
-    MCAR = c(X1 = 0, X2 = 0, X3 = 0, X4 = 0, X5 = 0, X6 = 0),
-    MAR = c(0, 0, 0, 1, 1, 1),
-    MNAR = c(1, 0, 0, 0, 0, 0)
-  ))
-
-  # Genearl imputation parameters
+  # General imputation parameters
   parms$mice_ndt <- 5
-  parms$mice_iters <- 20
+  parms$mice_iters <- 25
 
 # Experimental Conditions ------------------------------------------------------
 
   # Fully crossed factors
-  pm    <- c(.1) #c(.1, .25, .5)
+  pm    <- c(.1, .25, .5) # TODO: Do we really need the .5?
   mech  <- c("MCAR", "MAR") # c("MCAR", "MAR", "MNAR")
-  loc <- "RIGHT" # c("TAIL", "MID", "RIGHT")
-  nla   <- c(10, 50, 100)
+  loc <- "rlt" # c("TAIL", "MID", "RIGHT")
+  nla   <- c(2, 10, 100)
+  auxcor <- c(.1, .5, parms$cor_high)[1]
 
   # Other factors
   method_pcr <- c("pcr", "spcr", "pls", "pcovr") # pca based methods
@@ -118,19 +102,13 @@
   method_noi  <- c("cc", "fo") # complete case analysis and fully observed data analysis
 
   # Combine factors part 1
-  npcs <- c(1, 5:15, 45:55)
-  npcs <- c(1:55)
-
-  npcs_list <- lapply(nla, function(i) {
-    (i - 2):(i + 2)
-  })
-
-  npcs <- unique(unlist(c(1, npcs_list)))
+  npcs <- sort(unique(c(1:10, 11:12, 20, seq(30, 90, 20), 98:102, 110, (nla*parms$J - 1))))
 
   cnds_pt1 <- expand.grid(
     npcs = npcs,
     method = method_pcr,
     nla = nla,
+    auxcor = auxcor,
     pm = pm,
     mech = mech,
     loc = loc
@@ -142,20 +120,25 @@
     npcs = npcs,
     method = c(method_rmi, method_noi),
     nla = nla,
+    auxcor = auxcor,
     pm = pm,
     mech = mech,
     loc = loc
   )
 
   # Combine condition objects
-  head(cnds_pt1)
-  head(cnds_pt2)
-
   cnds <- rbind(cnds_pt1, cnds_pt2)
   
   # Get rid of impossible number of npcs for a given number of latent variables
   cnds$p <- (cnds$nla) * parms$J # total number of variables
-  cnds <- cnds[cnds$npcs <= cnds$p, ]
+  cnds <- cnds[cnds$npcs < (cnds$p), ]
+
+  # Get rid of undesired granularity of npcs
+  keep_rows <- !(cnds$npcs %in% c(11, 12, 20, 29) & cnds$nla == 100)
+  cnds <- cnds[keep_rows, ]
+
+  # Redefine rownames
+  rownames(cnds) <- 1:nrow(cnds)
 
   # Create a condition tag
   cnds_chrt <- sapply(cnds, as.character)

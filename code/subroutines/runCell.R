@@ -2,7 +2,7 @@
 # Objective: runs a single repetiton of a single experimental cndition
 # Author:    Edoardo Costantini
 # Created:   2022-07-05
-# Modified:  2022-07-18
+# Modified:  2022-07-19
 # Note:      A "cell" is a given repetition for a given cndition.
 #            This function:
 #            - generates 1 data set,
@@ -25,13 +25,13 @@ runCell <- function(rp, cnd, fs, parms) {
     dataGen_out <- dataGen(
         N = parms$N,
         L = cnd$nla,
-        L_junk = cnd$nla - 3,
+        L_junk = cnd$nla - 2,
         J = parms$J,
         loading = parms$loading,
         mu = parms$item_mean,
         sd = sqrt(parms$item_var),
         rho_high = parms$cor_high,
-        rho_junk = parms$cor_low
+        rho_junk = cnd$auxcor
     )
 
     # Extract data
@@ -96,7 +96,7 @@ runCell <- function(rp, cnd, fs, parms) {
                         m = parms$mice_ndt,
                         maxit = parms$mice_iters,
                         method = "spcr",
-                        theta = seq(0.1, 1, by = 0.01),
+                        theta = seq(0.1, 1, by = 0.1),
                         npcs = cnd$npcs,
                         nfolds = 10,
                         # printFlag = FALSE,
@@ -121,7 +121,7 @@ runCell <- function(rp, cnd, fs, parms) {
                         maxit = parms$mice_iters,
                         method = "pls",
                         nlvs = cnd$npcs,
-                        DoF = "kramer",
+                        DoF = "naive",
                         # printFlag = FALSE,
                         threshold = 1,
                         eps = 0,
@@ -142,7 +142,7 @@ runCell <- function(rp, cnd, fs, parms) {
                         maxit = parms$mice_iters,
                         method = "pcovr",
                         npcs = cnd$npcs,
-                        DoF = "kramer",
+                        DoF = "naive",
                         # printFlag = FALSE,
                         threshold = 1,
                         eps = 0,
@@ -167,8 +167,8 @@ runCell <- function(rp, cnd, fs, parms) {
                         predictorMatrix = pred_mat,
                         printFlag = FALSE,
                         threshold = .999,
-                        eps = 1e-04,  # no lienar dependency checks
-                        ridge = 1e-05 # no ridge regression applied
+                        eps = 1e-04,
+                        ridge = 1e-05
       )
       mice_ends <- Sys.time()
 
