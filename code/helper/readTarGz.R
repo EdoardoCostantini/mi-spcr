@@ -2,7 +2,7 @@
 # Objective: function to read compressed output
 # Author:    Edoardo Costantini
 # Created:   2022-07-08
-# Modified:  2022-07-08
+# Modified:  2022-07-19
 
 readTarGz <- function(tar_name, subfolders = FALSE){
   # Description:
@@ -14,7 +14,7 @@ readTarGz <- function(tar_name, subfolders = FALSE){
 
   # Unzip folder
   untar_command <- paste0("tar -xvf ", tar_name)
-  system(untar_command)
+  system(command = untar_command)
 
   # Unzipped folder name
   name_run <- str_replace(tar_name, ".tar.gz", "")
