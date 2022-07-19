@@ -2,13 +2,18 @@
 # Objective: Install packages required for running simulation
 # Author:    Edoardo Costantini
 # Created:   2022-07-05
-# Modified:  2022-07-12
+# Modified:  2022-07-19
 
 # Set up -----------------------------------------------------------------------
 
     # Check working direcotry
     if (!grepl("code", getwd())) {
         setwd("./code")
+    }
+
+    # Check if folder for local library exists, if not create it
+    if (!grepl("rlib", list.dirs("../input/", recursive = FALSE))) {
+        dir.create("../input/rlib")
     }
 
 # devtools 2.4.2 ---------------------------------------------------------------
