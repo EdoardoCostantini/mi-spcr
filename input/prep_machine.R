@@ -12,18 +12,13 @@
     }
 
     # Check if folder for local library exists, if not create it
-    if (!grepl("rlib", list.dirs("../input/", recursive = FALSE))) {
+    if (any(!grepl("rlib", list.files("../input/", recursive = FALSE)))) {
         dir.create("../input/rlib")
     }
 
 # devtools 2.4.2 ---------------------------------------------------------------
     
-    install.packages(
-        pkgs = "https://cran.r-project.org/src/contrib/Archive/devtools/devtools_2.4.2.tar.gz",
-        repos = NULL,
-        type = "source",
-        lib = "../input/rlib/"
-    )
+    install.packages("devtools")
 
 # MASS 7.3-57 ------------------------------------------------------------------
 
@@ -54,11 +49,18 @@
 
 # mice 3.14.7.9000 (local experimental version)---------------------------------
 
+    # First install dependencies needed by the costum package in the main folder
+    # ATTENTION: these will be installed in your main library
+    d <- tempdir()
+    untar("../input/mice_3.14.7.9000.tar.gz", compressed = "gzip", exdir = d)
+    devtools::install_deps(file.path(d, "mice"))
+
+    # Then install the mice package you need
     install.packages("../input/mice_3.14.7.9000.tar.gz",
-        repos = NULL,
-        type = "source",
-        lib = "../input/rlib/"
-    )
+            repos = NULL,
+            type = "source",
+            lib = "../input/rlib/"
+        )
 
 # rlecuyer 0.3-5 ---------------------------------------------------------------
 
