@@ -2,7 +2,7 @@
 # Objective: Estimate time per condition
 # Author:    Edoardo Costantini
 # Created:   2022-07-18
-# Modified:  2022-07-18
+# Modified:  2022-07-20
 
 # Diagnostics run --------------------------------------------------------------
 
@@ -105,24 +105,22 @@
 # Read results ----------------------------------------------------------------
 
     # Load Results
-    file_name <- "../output/20220718-171027-trial.tar.gz"
-    output <- readTarGz(file_name)
+    tar_name <- "../output/20220719-133959-trial.tar.gz"
+    output <- readTarGz(tar_name)
 
     # Collect main time results
     rds_main_names <- grep("main", output$file_names)
     rds_main <- do.call(rbind, output$out[rds_main_names])
 
     # Define a time-per-condition data.frame
-    time_per_condition <- data.frame(
-      tag = unique(rds_main$tag),
-      time = unique(rds_main$time)
-    )
+    time_per_condition <- rds_main[!duplicated(rds_main[, c("tag", "time")]), c("tag", "time")]
 
     # Attach experimental factors as columns
     time_per_condition <- merge(output$sInfo$cnds, time_per_condition, by = "tag")
 
     # Sort information by method
     time_per_condition <- arrange(time_per_condition, method, nla)
+    # time_per_condition <- arrange(time_per_condition, desc(time))
 
     # Deliver information in minutes
     time_per_condition$time_minutes <- round(time_per_condition$time / 60, 3)
@@ -164,7 +162,7 @@
 # Calculate expected CPU time
 
 # Time to run a single repetition of all conditions (on blade, in hours)
-time_to_run <- sum(time_per_condition$time_minutes)/60
+time_to_run <- sum(time_per_condition$time_minutes, na.rm = TRUE)/60
 time_to_run <- 10
 
 # the goal number of repetitions
