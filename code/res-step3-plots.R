@@ -2,7 +2,7 @@
 # Objective: Making plots
 # Author:    Edoardo Costantini
 # Created:   2022-07-19
-# Modified:  2022-07-19
+# Modified:  2022-07-20
 
 # Clean environment:
 rm(list = ls())
@@ -20,7 +20,15 @@ runName <- "8447019_main_gg_shape.rds" # good run with lisa
 runName <- "8469421_main_gg_shape.rds" # final run with lisa
 
 # Read output
-gg_shape <- readRDS("../output/20220719-142259-trial-pc-main-res.rds")
+gg_shape <- readRDS("../output/20220719-155627-trial-pc-main-res.rds")
+dat_sub <- gg_shape
+
+plot_x_axis <- "npcs"
+plot_y_axis <- "coverage"
+moderator <- "method"
+grid_x_axis <- "mech"
+grid_y_axis <- "pm"
+
 head(gg_shape)
 
 # Fix factors for this plot
@@ -49,11 +57,6 @@ for (f in seq_along(filters)){
 }
 head(dat_sub)
 # Define what to plot
-plot_x_axis <- "npcs"
-plot_y_axis <- "coverage"
-moderator <- "method"
-grid_x_axis <- "mech"
-grid_y_axis <- "pm"
 
 # Plot
 plot_main <- dat_sub %>%
@@ -105,6 +108,9 @@ ui <- fluidPage(
       selectInput("auxcor",
                   "Correlation of auxiliary variables",
                   choices = unique(gg_shape$auxcor)),
+      sliderInput("npcs", "Number of principal components",
+                  min = min(gg_shape$npcs), max = max(gg_shape$npcs), value = 500
+      ),
       checkboxGroupInput("method", "Imputation methods to compare:",
                          choices = levels(gg_shape$method),
                          selected = levels(gg_shape$method)),
@@ -125,12 +131,13 @@ server <- function(input, output, session) {
              vars == input$vars,
              stat == input$stat,
              auxcor == input$auxcor,
-             method %in% input$method) %>%
+             method %in% input$method,
+             npcs <= input$npcs) %>%
       ggplot(aes_string(x = plot_x_axis,
                         y = input$plot_y_axis,
                         group = moderator)) +
       geom_point(aes_string(shape = moderator), size = 1.5) +
-      geom_line() +
+      geom_line(aes_string(lines = moderator)) +
       scale_x_continuous(breaks = sort(unique(dat_sub$npcs)), sort(unique(dat_sub$npcs))) +
       facet_grid(reformulate(grid_x_axis,
                              grid_y_axis),
