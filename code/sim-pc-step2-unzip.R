@@ -2,14 +2,14 @@
 # Objective: put results together from tar archive obtained with pc run
 # Author:    Edoardo Costantini
 # Created:   2022-07-12
-# Modified:  2022-07-13
+# Modified:  2022-07-20
 
 # Prep environment --------------------------------------------------------
 
   rm(list = ls()) # to clean up
   source("./init.R") # only for support functions
-  location <- "../output/" # directory where results are stored
-  tar_name <- "20220713-163954-trial.tar.gz"
+  tar_name <- "../output/20220719-133959-trial.tar.gz"
+  tar_name <- "../output/20220719-133959-trial.tar.gz"
 
 # Load Results ------------------------------------------------------------
 
@@ -38,6 +38,6 @@
                mids = rds_mids,
                error = rds_error,
                sInfo = output$sInfo),
-          paste(paste0(location, tools::file_path_sans_ext(tar_name, compression = TRUE)),
+          paste(tools::file_path_sans_ext(tar_name, compression = TRUE),
                 "pc",
                 "unzipped.rds", sep = "-"))

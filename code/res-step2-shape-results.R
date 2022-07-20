@@ -2,7 +2,7 @@
 # Objective: combine and shape results from simulation study
 # Author:    Edoardo Costantini
 # Created:   2022-07-12
-# Modified:  2022-07-12
+# Modified:  2022-07-20
 
 # Prep environment -------------------------------------------------------------
 
@@ -11,9 +11,8 @@
 
 # Load Results -----------------------------------------------------------------
 
-  loaction <- "../output/"
-  run_name <- "20220713-163954-trial-pc-unzipped" # toy run on pc
-  out <- readRDS(paste0(loaction, run_name, ".rds"))
+  run_name <- "../output/20220719-133959-trial-pc-unzipped.rds" # toy run on pc
+  out <- readRDS(run_name)
 
   sInfo <- out$sInfo
   res <- out$main
@@ -25,10 +24,10 @@
   methods <- exp_fact[1:2]
 
   # Define component related to data generation
-  data_gen <- exp_fact[3:7]
+  data_gen <- exp_fact[3:8]
 
   # Define tag component
-  tag <- exp_fact[8]
+  tag <- exp_fact[9]
 
   # Define component related to the stored outcomes
   outcomes <- c("stat", "vars")
@@ -49,7 +48,7 @@
   # > Check --------------------------------------------------------------------
 
   # Define a reference value to check
-  check_cond <- "npcs-0-method-fo-nla-100-pm-0.1-mech-MCAR-loc-RIGHT-p-300"
+  check_cond <- "npcs-0-method-fo-nla-2-auxcor-0.1-pm-0.1-mech-MAR-loc-rlt-p-6"
   check_stat <- "mean"
   check_vars <- "X1"
 
@@ -110,7 +109,7 @@
   # > Check --------------------------------------------------------------------
 
   # Define a reference value to check
-  check_cond <- "npcs-1-method-pcr-nla-10-pm-0.1-mech-MCAR-loc-RIGHT-p-30"
+  check_cond <- "npcs-29-method-pcr-nla-10-auxcor-0.1-pm-0.25-mech-MAR-loc-rlt-p-30"
   check_stat <- "mean"
   check_vars <- "X2"
 
@@ -142,7 +141,7 @@
   # > Check --------------------------------------------------------------------
 
   # Define a reference value to check
-  check_cond <- "npcs-8-method-pcr-nla-100-pm-0.1-mech-MCAR-loc-RIGHT-p-300"
+  check_cond <- "npcs-29-method-pcr-nla-10-auxcor-0.1-pm-0.25-mech-MAR-loc-rlt-p-30"
   check_stat <- "var"
   check_vars <- "X1"
 
@@ -176,7 +175,7 @@
   # > Check --------------------------------------------------------------------
 
   # Define a reference value to check
-  check_cond <- "npcs-0-method-fo-nla-100-pm-0.1-mech-MCAR-loc-RIGHT-p-300"
+  check_cond <- "npcs-29-method-pcr-nla-10-auxcor-0.1-pm-0.25-mech-MAR-loc-rlt-p-30"
   check_stat <- "mean"
   check_vars <- "X1"
 

@@ -2,18 +2,15 @@
 # Objective: function to read compressed output
 # Author:    Edoardo Costantini
 # Created:   2022-07-08
-# Modified:  2022-07-19
+# Modified:  2022-07-20
 
 readTarGz <- function(tar_name, subfolders = FALSE){
   # Description:
   # Given the name of a tar.gz folder in the "output" project folder
   # it unzips it, reads the content, and deletes the unziepped folder
 
-  # Move to Output folder
-  setwd("../output/")
-
   # Unzip folder
-  untar_command <- paste0("tar -xvf ", tar_name)
+  untar_command <- paste0("tar -xvf ", tar_name, " -C ../output/")
   system(command = untar_command)
 
   # Unzipped folder name
@@ -45,9 +42,6 @@ readTarGz <- function(tar_name, subfolders = FALSE){
 
   # Delete Folder
   system(command = paste0("rm -rf ", name_run))
-
-  # Revert WD to code folder
-  setwd("../code/")
 
   # Return outputs
   return(list(out = out,
