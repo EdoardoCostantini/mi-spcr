@@ -2,7 +2,7 @@
 # Objective: initialization script
 # Author:    Edoardo Costantini
 # Created:   2022-07-05
-# Modified:  2022-07-19
+# Modified:  2022-07-21
 
 # Check the working directory --------------------------------------------------
 
@@ -62,10 +62,10 @@
 
   # Seed
   parms$seed     <- 20220712
-  parms$nStreams <- 1000
+  parms$nStreams <- 1000 # TODO: should this be as large as the number of parallel processes?
 
   # Data generation
-  parms$N  <- 1e3  # sample size TODO: decide between 1e3 and 5e2
+  parms$N  <- 500  # sample size
   parms$L  <- 2    # fixed number latent variables
   parms$J  <- 3    # number items per latent variable
   parms$loading <- .85
@@ -90,19 +90,19 @@
 # Experimental Conditions ------------------------------------------------------
 
   # Fully crossed factors
-  pm    <- c(.1, .25, .5) # TODO: Do we really need the .5?
+  pm    <- c(.1, .25, .5)#[1:2] # TODO: Do we really need the .5?
   mech  <- c("MCAR", "MAR") # c("MCAR", "MAR", "MNAR")
   loc <- "rlt" # c("TAIL", "MID", "RIGHT")
-  nla   <- c(2, 10, 100)
+  nla   <- c(2, 10, 50)#[1:2]
   auxcor <- c(.1, .5, parms$cor_high)[1]
 
   # Other factors
-  method_pcr <- c("pcr", "spcr", "pls", "pcovr") # pca based methods
+  method_pcr <- c("pcr", "spcr", "pls", "pcovr")#[1:2] # pca based methods
   method_rmi <- c("qp", "am", "all") # reference mi methods
   method_noi  <- c("cc", "fo") # complete case analysis and fully observed data analysis
 
   # Combine factors part 1
-  npcs <- sort(unique(c(1:10, 11:12, 20, seq(30, 90, 20), 98:102, 110, (nla*parms$J - 1))))
+  npcs <- sort(unique(c(1:10, 11:12, seq(20, 40, 10), 48:52, 60, (nla*parms$J - 1))))
 
   cnds_pt1 <- expand.grid(
     npcs = npcs,
@@ -134,7 +134,7 @@
   cnds <- cnds[cnds$npcs < (cnds$p), ]
 
   # Get rid of undesired granularity of npcs
-  keep_rows <- !(cnds$npcs %in% c(11, 12, 20, 29) & cnds$nla == 100)
+  keep_rows <- !(cnds$npcs %in% c(11, 12, 20, 29) & cnds$nla == 50)
   cnds <- cnds[keep_rows, ]
 
   # Redefine rownames
