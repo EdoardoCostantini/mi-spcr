@@ -2,7 +2,7 @@
 # Objective: runs a single repetiton of a single experimental cndition
 # Author:    Edoardo Costantini
 # Created:   2022-07-05
-# Modified:  2022-07-19
+# Modified:  2022-07-21
 # Note:      A "cell" is a given repetition for a given cndition.
 #            This function:
 #            - generates 1 data set,
@@ -96,7 +96,7 @@ runCell <- function(rp, cnd, fs, parms) {
                         m = parms$mice_ndt,
                         maxit = parms$mice_iters,
                         method = "spcr",
-                        theta = seq(0.1, 1, by = 0.1),
+                        theta = seq(0.05, .95, by = .01),
                         npcs = cnd$npcs,
                         nfolds = 10,
                         # printFlag = FALSE,
