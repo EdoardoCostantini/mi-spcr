@@ -87,6 +87,7 @@ plot_main
 # R shiny plot -----------------------------------------------------------------
 
 library(shiny)
+library(shinyWidgets)
 library(ggplot2)
 
 ui <- fluidPage(
@@ -108,9 +109,12 @@ ui <- fluidPage(
       selectInput("auxcor",
                   "Correlation of auxiliary variables",
                   choices = unique(gg_shape$auxcor)),
-      sliderInput("npcs", "Number of principal components",
-                  min = min(gg_shape$npcs), max = max(gg_shape$npcs), value = 500
-      ),
+      shinyWidgets::sliderTextInput(inputId = "npcs",
+                                    label = "Number of principal components",
+                                    hide_min_max = TRUE,
+                                    choices = sort(unique(gg_shape$npcs)),
+                                    selected = max(unique(gg_shape$npcs)),
+                                    grid = TRUE),
       checkboxGroupInput("method", "Imputation methods to compare:",
                          choices = levels(gg_shape$method),
                          selected = levels(gg_shape$method)),
