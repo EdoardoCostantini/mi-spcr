@@ -4,21 +4,28 @@
 # Created:   2022-07-05
 # Modified:  2022-07-26
 
-# Check the working directory --------------------------------------------------
+# File system ------------------------------------------------------------------
 
-  if(!grepl("code", getwd())){
-    setwd("./code")
-  }
+  # 1-word run description
+  run_descr <- "trial"
+
+  # Define an object to store file system directives
+  fs <- list()
+  fs$start_time <- format(Sys.time(), "%Y%m%d-%H%M%S")
+
+  # Define a run-sepecific output subfolder
+  fs$out_dir <- paste0("../output/", fs$start_time, "-", run_descr, "/")
+
+  # Define filenmaes for the results and progress report files
+  fs$file_name_res <- paste0(fs$start_time, "-", run_descr)
+
+  # Progress report file
+  fs$file_name_prog <- paste0(fs$start_time, "-", run_descr)
+
+# Packages ---------------------------------------------------------------------
 
   # Define path to folder for project-specific R packages
   R_pack_lib <- "../input/rlib/"
-
-  # Create rlib if it doesn't exist
-  if(!any(grepl(R_pack_lib, list.dirs("../")))){
-    system(command = "mkdir ../input/rlib")
-  }
-
-# Packages ---------------------------------------------------------------------
 
   # Load packages from the project library
   library(mice, lib.loc = R_pack_lib)
@@ -66,22 +73,18 @@
   parms$nStreams <- 1000 # TODO: should this be as large as the number of parallel processes?
 
   # Data generation
-  parms$N  <- 500  # sample size
-  parms$L  <- 2    # fixed number latent variables
-  parms$J  <- 3    # number items per latent variable
-  parms$loading <- .85
-  parms$cor_high <- .8   # true latent cov for target variables
-  parms$cor_low <- .1 # for junk auxiliary
-  parms$item_mean <- 5 # true item mean
-  parms$item_var <- (2.5)^2 # true item variance
-
-  # Missingness
-  parms$pm <- .3       # proportion of missings level
+  parms$N         <- 500      # sample size
+  parms$L         <- 2        # fixed number latent variables
+  parms$J         <- 3        # number items per latent variable
+  parms$loading   <- .85      # factor loadings
+  parms$cor_high  <- .8       # true latent cor for target variables
+  parms$item_mean <- 5        # true item mean
+  parms$item_var  <- (2.5)^2  # true item variance
 
   # Map variables to their roles
   parms$vmap <- list(
-    ta = 1:parms$J, # target of missingness, imputation, and analysis
-    mp = (1:parms$J) + parms$J # mar Predictors
+    ta = 1:parms$J,            # target of missingness, imputation, and analysis
+    mp = (1:parms$J) + parms$J # mar predictors
   )
 
   # General imputation parameters
@@ -91,20 +94,26 @@
 # Experimental Conditions ------------------------------------------------------
 
   # Fully crossed factors
-  pm    <- c(.1, .25, .5)#[1:2] # TODO: Do we really need the .5?
-  mech  <- c("MCAR", "MAR") # c("MCAR", "MAR", "MNAR")
-  loc <- "rlt" # c("TAIL", "MID", "RIGHT")
-  nla   <- c(2, 10, 50)#[1:2]
+  pm     <- c(.1, .25, .5)
+  mech   <- c("MCAR", "MAR")
+  loc    <- "rlt"
+  nla    <- c(2, 10, 50)
   auxcor <- c(.1, .5, parms$cor_high)[1]
 
   # Other factors
-  method_pcr <- c("pcr", "spcr", "pls", "pcovr")#[1:2] # pca based methods
+  method_pcr <- c("pcr", "spcr", "pls", "pcovr") # pca based methods
   method_rmi <- c("qp", "am", "all") # reference mi methods
-  method_noi  <- c("cc", "fo") # complete case analysis and fully observed data analysis
+  method_noi <- c("cc", "fo") # complete case analysis and fully observed data analysis
+  npcs <- sort(
+    unique(
+      c(1:10, 11:12, seq(20, 40, 10),
+        48:52,
+        60, (nla*parms$J - 1)
+      )
+    )
+  ) # number of principal components
 
   # Combine factors part 1
-  npcs <- sort(unique(c(1:10, 11:12, seq(20, 40, 10), 48:52, 60, (nla*parms$J - 1))))
-
   cnds_pt1 <- expand.grid(
     npcs = npcs,
     method = method_pcr,
@@ -116,9 +125,8 @@
   )
 
   # Combine factors part 2
-  npcs <- 0
   cnds_pt2 <- expand.grid(
-    npcs = npcs,
+    npcs = 0,
     method = c(method_rmi, method_noi),
     nla = nla,
     auxcor = auxcor,
@@ -135,7 +143,7 @@
   cnds <- cnds[cnds$npcs < (cnds$p), ]
 
   # Get rid of undesired granularity of npcs
-  keep_rows <- !(cnds$npcs %in% c(11, 12, 20, 29) & cnds$nla == 50)
+  keep_rows <- !(cnds$npcs %in% c(11, 12, 29) & cnds$nla == 50)
   cnds <- cnds[keep_rows, ]
 
   # Redefine rownames
@@ -146,21 +154,3 @@
   cnds$tag <- apply(cnds_chrt, 1, function(i){
     paste0(colnames(cnds), "-", i, collapse = "-")
   })
-
-# File system ------------------------------------------------------------------
-
-  # 1-word run description
-  run_descr <- "trial"
-
-  # Create object to store file system directives
-  fs <- list()
-  fs$start_time <- format(Sys.time(), "%Y%m%d-%H%M%S")
-
-  # Create a run-sepecific output subfolder
-  fs$out_dir <- paste0("../output/", fs$start_time, "-", run_descr, "/")
-
-  # Define filenmaes for the results and progress report files
-  fs$file_name_res <- paste0(fs$start_time, "-", run_descr)
-
-  # Progress report file
-  fs$file_name_prog <- paste0(fs$start_time, "-", run_descr)
