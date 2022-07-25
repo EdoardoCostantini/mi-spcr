@@ -2,7 +2,7 @@
 # Objective: runs a single repetiton of a single experimental cndition
 # Author:    Edoardo Costantini
 # Created:   2022-07-05
-# Modified:  2022-07-21
+# Modified:  2022-07-26
 # Note:      A "cell" is a given repetition for a given cndition.
 #            This function:
 #            - generates 1 data set,
@@ -77,7 +77,7 @@ runCell <- function(rp, cnd, fs, parms) {
                         maxit = parms$mice_iters,
                         method = "pcr",
                         npcs = cnd$npcs,
-                        # printFlag = FALSE,
+                        printFlag = FALSE,
                         threshold = 1,
                         eps = 0,
                         ridge = 0
@@ -99,7 +99,7 @@ runCell <- function(rp, cnd, fs, parms) {
                         theta = seq(0.05, .95, by = .01),
                         npcs = cnd$npcs,
                         nfolds = 10,
-                        # printFlag = FALSE,
+                        printFlag = FALSE,
                         threshold = 1,
                         eps = 0,
                         ridge = 0
@@ -122,7 +122,7 @@ runCell <- function(rp, cnd, fs, parms) {
                         method = "pls",
                         nlvs = cnd$npcs,
                         DoF = "naive",
-                        # printFlag = FALSE,
+                        printFlag = FALSE,
                         threshold = 1,
                         eps = 0,
                         ridge = 0
@@ -143,7 +143,7 @@ runCell <- function(rp, cnd, fs, parms) {
                         method = "pcovr",
                         npcs = cnd$npcs,
                         DoF = "naive",
-                        # printFlag = FALSE,
+                        printFlag = FALSE,
                         threshold = 1,
                         eps = 0,
                         ridge = 0
