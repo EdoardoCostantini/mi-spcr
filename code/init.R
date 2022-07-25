@@ -2,7 +2,7 @@
 # Objective: initialization script
 # Author:    Edoardo Costantini
 # Created:   2022-07-05
-# Modified:  2022-07-21
+# Modified:  2022-07-26
 
 # Check the working directory --------------------------------------------------
 
@@ -22,7 +22,8 @@
 
   # Load packages from the project library
   library(mice, lib.loc = R_pack_lib)
-  # library(mice, lib.loc = paste0(.libPaths(), "Dev/"))
+  # library(mice, lib.loc = paste0(.libPaths(), "-dev/"))
+  library(miceadds, lib.loc = R_pack_lib)
   library(MASS, lib.loc = R_pack_lib)
   library(lavaan, lib.loc = R_pack_lib)
   library(dplyr, lib.loc = R_pack_lib)
