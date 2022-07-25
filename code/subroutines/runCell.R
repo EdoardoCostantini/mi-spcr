@@ -284,6 +284,7 @@ runCell <- function(rp, cnd, fs, parms) {
     res <- cbind(
       rp = rp,
       cnd,
+      run = fs$file_name_res,
       estimates_out,
       time = imp_time
     )
