@@ -12,9 +12,8 @@
 # Load Results -----------------------------------------------------------------
 
   loaction <- "../output/"
-  run_name <- "20220713-163954-trial-pc-unzipped" # toy run on pc
+  run_name <- "20220719-142259-trial-pc-unzipped" # toy run on pc
   out <- readRDS(paste0(loaction, run_name, ".rds"))
-
 
 # absence of non-convergence ---------------------------------------------------
 

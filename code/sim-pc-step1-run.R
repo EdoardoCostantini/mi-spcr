@@ -2,7 +2,7 @@
 # Objective: Run the simulation study
 # Author:    Edoardo Costantini
 # Created:   2022-07-08
-# Modified:  2022-07-13
+# Modified:  2022-07-26
 
 # Environment ------------------------------------------------------------------
 
@@ -33,10 +33,10 @@
 # Run specifications -----------------------------------------------------------
 
     # number of repetitions
-    reps <- c(1, 5, 100) #1 : 5 # define repetitions
+    reps <- (1:100)[1:16] #1 : 5 # define repetitions
 
     # number of clusters for parallelization
-    clusters <- 3
+    clusters <- 8
 
 # Parallelization --------------------------------------------------------------
 

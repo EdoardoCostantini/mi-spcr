@@ -37,12 +37,12 @@
     # number of repetitions
     reps <- c(1) #1 : 5 # define repetitions
 
-    # condition indeces
-    cindex <- 1 : nrow(cnds) # define repetitions
-    cindex <- 1 : 20 # define repetitions
+    # which conditions should be run?
+    cindex <- 1 : nrow(cnds)
+    cindex <- 1 : 5
 
     # number of clusters for parallelization
-    clusters <- 10
+    clusters <- 5
 
 # - Parallelization ------------------------------------------------------------
 
@@ -105,7 +105,10 @@
 # Read results ----------------------------------------------------------------
 
     # Load Results
-    tar_name <- "../output/20220719-133959-trial.tar.gz"
+    tar_name <- "../output/20220719-133959-trial.tar.gz" # 1e3 max nla = 100
+    tar_name <- "../output/20220720-101833-trial.tar.gz" # 5e3 max nla = 50
+    tar_name <- "../output/20220725-111938-trial.tar.gz" # 5e3 max nla = 50
+
     output <- readTarGz(tar_name)
 
     # Collect main time results
@@ -157,30 +160,29 @@
             paste(tools::file_path_sans_ext(file_name, compression = TRUE),
                   "prep-diagnostics.rds", sep = "-"))
 
-
 # LISA estimate ----------------------------------------------------------------
 # Calculate expected CPU time
 
-# Time to run a single repetition of all conditions (on blade, in hours)
-time_to_run <- sum(time_per_condition$time_minutes, na.rm = TRUE)/60
-time_to_run <- 10
+    # Time to run a single repetition of all conditions (on blade, in hours)
+    time_to_run <- sum(time_per_condition$time_minutes, na.rm = TRUE)/60
+    time_to_run <- 10
 
-# the goal number of repetitions
-goal_reps <- 500 # should match your total goal of repetitions
+    # the goal number of repetitions
+    goal_reps <- 500 # should match your total goal of repetitions
 
-# number of cores usable in each lisa node
-ncores    <- 15
+    # number of cores usable in each lisa node
+    ncores    <- 15
 
-# how will the tasks be devided in arrayes
-# e.g.: I want to specify a sbatch array of 2 tasks (sbatch -a 1-2 job_script_array.sh)
-narray    <- ceiling(goal_reps/ncores)
-n_nodes   <- goal_reps/ncores # number of arrays
+    # how will the tasks be devided in arrayes
+    # e.g.: I want to specify a sbatch array of 2 tasks (sbatch -a 1-2 job_script_array.sh)
+    narray    <- ceiling(goal_reps/ncores)
+    n_nodes   <- goal_reps/ncores # number of arrays
 
-# Define a conservative wall time (max is 90ish h? TODO: check max time)
-wall_time <- time_to_run * 2 # expected job time on lisa
+    # Define a conservative wall time (max is 90ish h? TODO: check max time)
+    wall_time <- time_to_run * 2 # expected job time on lisa
 
-# Indicative SBU consumption
-n_nodes * ncores * time_to_run
+    # Indicative SBU consumption
+    n_nodes * ncores * time_to_run
 
-# Conservative SBU consumption
-n_nodes * ncores * wall_time # 10000 left on my account
+    # Conservative SBU consumption
+    n_nodes * ncores * wall_time # 10000 left on my account
