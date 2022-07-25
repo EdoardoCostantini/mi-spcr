@@ -2,7 +2,7 @@
 # Objective: Install packages required for running simulation
 # Author:    Edoardo Costantini
 # Created:   2022-07-05
-# Modified:  2022-07-19
+# Modified:  2022-07-25
 
 # Set up -----------------------------------------------------------------------
 
@@ -16,66 +16,67 @@
         dir.create("../input/rlib")
     }
 
-# devtools 2.4.2 ---------------------------------------------------------------
-    
+# versions 0.3 -----------------------------------------------------------------
+
     install.packages("devtools")
+    install.packages("versions")
 
 # MASS 7.3-57 ------------------------------------------------------------------
 
-    devtools::install_version(
-        package = "MASS",
-        version = "7.3-57",
-        type = "source",
+    versions::install.versions(
+        pkgs = "MASS",
+        versions = "7.3-57",
         lib = "../input/rlib/"
     )
 
 # lavaan 0.6-11 ----------------------------------------------------------------
 
-    devtools::install_version(
-        package = "lavaan",
-        version = "0.6-12",
-        type = "source",
+    versions::install.versions(
+        pkgs = "lavaan",
+        versions = "0.6-12",
         lib = "../input/rlib/"
     )
 
 # dplyr 1.0.8 ------------------------------------------------------------------
 
-    devtools::install_version(
-        package = "dplyr",
-        version = "1.0.9",
-        type = "source",
+    versions::install.versions(
+        pkgs = "dplyr",
+        versions = "1.0.9",
         lib = "../input/rlib/"
     )
 
 # mice 3.14.7.9000 (local experimental version)---------------------------------
 
-    # First install dependencies needed by the costum package in the main folder
-    # ATTENTION: these will be installed in your main library
-    d <- tempdir()
-    untar("../input/mice_3.14.7.9000.tar.gz", compressed = "gzip", exdir = d)
-    devtools::install_deps(file.path(d, "mice"))
+    # First install mice and its dependencies
+    install.packages("mice",
+                     lib = "../input/rlib/")
 
-    # Then install the mice package you need
-    install.packages("../input/mice_3.14.7.9000.tar.gz",
-            repos = NULL,
-            type = "source",
-            lib = "../input/rlib/"
-        )
+    # Then install the developmental version of mice we need
+    install.packages("../input/mice_3.14.7.9001.tar.gz",
+                     repos = NULL,
+                     type = "source",
+                     lib = "../input/rlib/")
 
 # rlecuyer 0.3-5 ---------------------------------------------------------------
 
-    devtools::install_version(
-        package = "rlecuyer",
-        version = "0.3-5",
-        type = "source",
+    versions::install.versions(
+        pkgs = "rlecuyer",
+        versions = "0.3-5",
         lib = "../input/rlib/"
     )
 
 # stringr 1.4.0 ----------------------------------------------------------------
 
-    devtools::install_version(
-        package = "stringr",
-        version = "1.4.0",
-        type = "source",
+    versions::install.versions(
+        pkgs = "stringr",
+        versions = "1.4.0",
+        lib = "../input/rlib/"
+    )
+
+# miceadds 3.13-12 -------------------------------------------------------------
+
+    versions::install.versions(
+        pkgs = "miceadds",
+        versions = "3.13-12",
         lib = "../input/rlib/"
     )
