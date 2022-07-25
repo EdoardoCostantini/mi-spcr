@@ -234,7 +234,7 @@ runCell <- function(rp, cnd, fs, parms) {
     # every 100 rps
 
     if (exists("mice_mids")) {
-      if (rp == 1 || rp %% 100 == 0) {
+      if (rp %in% c(1, 100, 200)) {
         saveRDS(
           object = mice_mids,
           file = paste0(
