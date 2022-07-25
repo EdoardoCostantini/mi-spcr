@@ -6,8 +6,10 @@
 
 # File system ------------------------------------------------------------------
 
-  # 1-word run description
-  run_descr <- "trial"
+  # 1-word run description (only if not given by other run)
+  if(!exists("run_descr")){
+    run_descr <- "trial"
+  }
 
   # Define an object to store file system directives
   fs <- list()
