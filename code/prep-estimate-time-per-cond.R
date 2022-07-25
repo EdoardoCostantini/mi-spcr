@@ -2,7 +2,7 @@
 # Objective: Estimate time per condition
 # Author:    Edoardo Costantini
 # Created:   2022-07-18
-# Modified:  2022-07-20
+# Modified:  2022-07-26
 
 # Diagnostics run --------------------------------------------------------------
 
@@ -179,5 +179,8 @@ n_nodes   <- goal_reps/ncores # number of arrays
 # Define a conservative wall time (max is 90ish h? TODO: check max time)
 wall_time <- time_to_run * 2 # expected job time on lisa
 
+# Indicative SBU consumption
+n_nodes * ncores * time_to_run
+
 # Conservative SBU consumption
-n_nodes * ncores * wall_time # TODO: check how much you have left
+n_nodes * ncores * wall_time # 10000 left on my account
