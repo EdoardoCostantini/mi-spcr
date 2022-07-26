@@ -96,7 +96,7 @@ runCell <- function(rp, cnd, fs, parms) {
                         m = parms$mice_ndt,
                         maxit = parms$mice_iters,
                         method = "spcr",
-                        theta = seq(0.05, .95, by = .01),
+                        theta = seq(0.05, .95, by = .05),
                         npcs = cnd$npcs,
                         nfolds = 10,
                         printFlag = FALSE,
