@@ -2,12 +2,13 @@
 # Objective: put results together from tar archive obtained with pc run
 # Author:    Edoardo Costantini
 # Created:   2022-07-12
-# Modified:  2022-07-20
+# Modified:  2022-07-26
 
 # Prep environment --------------------------------------------------------
 
   rm(list = ls()) # to clean up
-  source("./init.R") # only for support functions
+  source("init-software.R")
+
   tar_name <- "../output/20220719-133959-trial.tar.gz"
   tar_name <- "../output/20220719-133959-trial.tar.gz"
 

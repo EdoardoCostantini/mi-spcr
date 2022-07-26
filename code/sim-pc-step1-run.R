@@ -15,8 +15,12 @@
         print("Working directory changed")
     }
 
+    # 1-word run description
+    run_descr <- "small-run-for-plot-development"
+
     # Initialize the environment:
-    source("./init.R")
+    source("init-software.R") # load packages
+    source("init-objects.R")  # load objects
 
     # Create folders and report files
     dir.create(fs$out_dir)
@@ -33,23 +37,28 @@
 # Run specifications -----------------------------------------------------------
 
     # number of repetitions
-    reps <- (1:100)[1:16] #1 : 5 # define repetitions
+    reps <- (1:100)[1:3] #1 : 5 # define repetitions
 
-    # number of clusters for parallelization
-    clusters <- 8
+    # Subset conditions?
+    subset_cond <- TRUE
+    if(subset_cond == TRUE){
+        cnds <- cnds %>%
+          filter(pm == c(.1, .25),
+                 nla == c(2, 10))
+    }
 
 # Parallelization --------------------------------------------------------------
+
+    # number of clusters for parallelization
+    clusters <- 3
 
     # Open clusters
     clus <- makeCluster(clusters)
 
-    # export global env to worker nodes
-    clusterExport(cl = clus, varlist = "fs", envir = .GlobalEnv)
-
     # export scripts to be executed to worker nodes
-    clusterEvalQ(cl = clus, expr = source("./init.R"))
+    clusterEvalQ(cl = clus, expr = source("./init-software.R"))
 
-# mcApply parallel -------------------------------------------------------------
+# parallel apply ---------------------------------------------------------------
 
     sim_start <- Sys.time()
 

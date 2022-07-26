@@ -21,7 +21,8 @@
     run_descr <- "time-per-condition-estimate-spcr-theta-01"
 
     # Initialize the environment:
-    source("./init.R")
+    source("init-software.R")
+    source("init-objects.R")
 
     # Create folders and report files
     dir.create(fs$out_dir)
@@ -45,8 +46,9 @@
     cindex <- 1 : 5
     cindex <- which(cnds$pm == .5 &
                       cnds$mech == "MAR" &
-                      cnds$nl == 50 &
+                      cnds$nla == 50 &
                       cnds$method == "spcr")
+    # TODO: replace with filter
 
     # number of clusters for parallelization
     clusters <- 4
@@ -63,7 +65,7 @@
     clusterExport(cl = clus, varlist = "fs", envir = .GlobalEnv)
 
     # export scripts to be executed to worker nodes
-    clusterEvalQ(cl = clus, expr = source("./init.R"))
+    clusterEvalQ(cl = clus, expr = source("init-software.R"))
 
 # - mcApply parallel -----------------------------------------------------------
 
@@ -118,7 +120,6 @@
     tar_name <- "../output/20220720-115604-trial.tar.gz" # 1e3 max nla = 50
     tar_name <- "../output/20220720-101833-trial.tar.gz" # 5e2 max nla = 50
     tar_name <- "../output/20220726-100630-time-per-condition-estimate-spcr-theta-05.tar.gz" # 1e3 max nla = 50
-    tar_name <- "../output/20220726-100630-time-per-condition-estimate-spcr-theta-01.tar.gz" # 1e3 max nla = 50
 
     output <- readTarGz(tar_name)
 

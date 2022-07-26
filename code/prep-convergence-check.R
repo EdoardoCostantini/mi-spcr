@@ -21,7 +21,8 @@
 # - Load default environment ---------------------------------------------------
 
     # Initialize the environment:
-    source("./init.R")
+    source("init-software.R")
+    source("init-objects.R")
 
     # Create folders and report files
     dir.create(fs$out_dir)
@@ -41,7 +42,8 @@
     reps <- 1
 
     # which conditions should we check?
-    cindex <- which(cnds$pm == .5 & cnds$mech == "MAR" & cnds$nl == 50)
+    cindex <- which(cnds$pm == .5 & cnds$mech == "MAR" & cnds$nla == 50)
+    # TODO: replace with filter
 
     # number of clusters for parallelization
     clusters <- 5
@@ -57,11 +59,8 @@
     # Open clusters
     clus <- makeCluster(clusters)
 
-    # export global env to worker nodes
-    clusterExport(cl = clus, varlist = "fs", envir = .GlobalEnv)
-
     # export scripts to be executed to worker nodes
-    clusterEvalQ(cl = clus, expr = source("./init.R"))
+    clusterEvalQ(cl = clus, expr = source("init-software.R"))
 
 # - mcApply parallel -----------------------------------------------------------
 
