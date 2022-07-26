@@ -4,7 +4,7 @@
 # Created:   2022-07-25
 # Modified:  2022-07-26
 
-# Prepare run ------------------------------------------------------------------
+# 1. Prepare run ---------------------------------------------------------------
 
     # Make sure environment is clean
     rm(list = ls())
@@ -49,6 +49,8 @@
     # Modify run parameters to check convergence
     parms$mice_iters <- 1e2
     parms$nStreams   <- max(cindex)
+
+# 2. Perform run ---------------------------------------------------------------
 
 # - Parallelization ------------------------------------------------------------
 
@@ -105,7 +107,7 @@
     # Zip result fodler
     writeTarGz(fs$file_name_res)
 
-# Read results ----------------------------------------------------------------
+# 3. Evaluate run results ---------------------------------------------------------
 
     # Load Results
     tar_name <- "../output/20220725-142823-convergence-check.tar.gz" # 5e2 max nla = 50
@@ -124,6 +126,8 @@
     # Define what combination of methods to check
     npcs <- 0
     method <- unique(cnds$method)[7]
+
+    # Produce object to filter the results
     cnd_search <- paste0("npcs-", npcs, "-method-", method)
     cnd_id <- grep(cnd_search, names(rds_mids))
 

@@ -103,6 +103,32 @@ To replicate the study, you first need to make sure you have installed all the p
 You can use the `./input/prep_machine.R` script to install them.
 In the following guide, it is assumed that the machine on which the simulation is run already has all packages installed.
 
+### Convergence checks
+
+#### Before running the simulation study
+
+To assess the lack of convergence issues, I recommend using the script `./code/prep-convergence-check.R` before running the simulation study.
+This script runs the simulation study for the subset of most complex conditions and stores the mids objects so that trace-plots can be easily obtained.
+
+To **perform the convergence checks**, perform the following steps:
+
+1. Run the first and second sections of the `./code/prep-convergence-check.R`
+2. Once the results have been stored, run section 3 to read the results and manually check the combinations of `npcs` and `methods` that you desire to check. You can do so by changing the values of the `npcs` and `method` object defined in this script.
+3. Update the `parms$mice_iters` value in `init.R` file to match the number of iterations that your think is sufficient to avoid non-convergence with all methods. 
+
+Please note the following:
+
+- The object `cindex` in the script can be used to specify the desired subset of conditions.
+- The number of iterations is set to 100, so that possible lack of convergence for every multiple imputation method is assessed.
+- The run is parallelized over the conditions.
+- The seed is set per condition.
+- Every condition is meant to be repeated only once.
+
+#### After running the simulation study
+
+The scripts used to run the simulation study results store a the mids objects for a small number of repetitions so that you may assess the lack of non-convergence in the actual run.
+You may unzip the results form the simulation study, select the files that contain mids in their name and check convergence as in the third section of `./code/prep-convergence-check.R`.
+
 ### Running the simulation on Lisa
 
 Lisa Cluster is a cluster computer system managed by SURFsara, a cooperative association of Dutch educational and
