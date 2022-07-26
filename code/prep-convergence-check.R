@@ -110,9 +110,7 @@
 # 3. Evaluate run results ---------------------------------------------------------
 
     # Load Results
-    tar_name <- "../output/20220725-142823-convergence-check.tar.gz" # 5e2 max nla = 50
-    tar_name <- "../output/20220725-184640-convergence-check.tar.gz" # 1e3 max nla = 50
-    tar_name <- "../output/20220726-090855-convergence-check.tar.gz" # 1e3 max nla = 50
+    tar_name <- "../output/20220726-094436-convergence-check.tar.gz"
     output <- readTarGz(tar_name)
 
     # Define conditions
@@ -124,8 +122,8 @@
     names(rds_mids) <- output$file_names[rds_mids_names]
 
     # Define what combination of methods to check
-    npcs <- 0
-    method <- unique(cnds$method)[7]
+    npcs <- 10
+    method <- unique(cnds$method)[4]
 
     # Produce object to filter the results
     cnd_search <- paste0("npcs-", npcs, "-method-", method)

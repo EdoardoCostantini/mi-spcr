@@ -18,7 +18,7 @@
     }
 
     # 1-word run description
-    run_descr <- "time-per-condition-estimate-spcr-theta-05"
+    run_descr <- "time-per-condition-estimate-spcr-theta-01"
 
     # Initialize the environment:
     source("./init.R")
@@ -115,8 +115,10 @@
 
     # Load Results
     tar_name <- "../output/20220719-133959-trial.tar.gz" # 1e3 max nla = 100
-    tar_name <- "../output/20220720-101833-trial.tar.gz" # 5e3 max nla = 50
-    tar_name <- "../output/20220725-111938-trial.tar.gz" # 5e3 max nla = 50
+    tar_name <- "../output/20220720-115604-trial.tar.gz" # 1e3 max nla = 50
+    tar_name <- "../output/20220720-101833-trial.tar.gz" # 5e2 max nla = 50
+    tar_name <- "../output/20220726-100630-time-per-condition-estimate-spcr-theta-05.tar.gz" # 1e3 max nla = 50
+    tar_name <- "../output/20220726-100630-time-per-condition-estimate-spcr-theta-01.tar.gz" # 1e3 max nla = 50
 
     output <- readTarGz(tar_name)
 
@@ -164,7 +166,7 @@
 
     # Time to run a single repetition of all conditions (on blade, in hours)
     time_to_run <- sum(time_per_condition$time_minutes, na.rm = TRUE)/60
-    time_to_run <- 10
+    time_to_run <- 13
 
     # the goal number of repetitions
     goal_reps <- 500 # should match your total goal of repetitions
