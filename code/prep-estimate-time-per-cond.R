@@ -17,6 +17,9 @@
         print("Working directory changed")
     }
 
+    # 1-word run description
+    run_descr <- "time-per-condition-estimate-spcr-theta-05"
+
     # Initialize the environment:
     source("./init.R")
 
@@ -40,9 +43,16 @@
     # which conditions should be run?
     cindex <- 1 : nrow(cnds)
     cindex <- 1 : 5
+    cindex <- which(cnds$pm == .5 &
+                      cnds$mech == "MAR" &
+                      cnds$nl == 50 &
+                      cnds$method == "spcr")
 
     # number of clusters for parallelization
-    clusters <- 5
+    clusters <- 4
+
+    # Modify run parameters for a parallelization over conditions
+    parms$nStreams   <- max(cindex)
 
 # - Parallelization ------------------------------------------------------------
 
@@ -70,7 +80,6 @@
         fs = fs
     )
 
-
     # Kill the cluster:
     stopCluster(clus)
 
@@ -91,7 +100,7 @@
     # Store sessoin info
     out_support <- list()
     out_support$parms <- parms
-    out_support$cnds <- cnds
+    out_support$cnds <- cnds[cindex, ]
     out_support$session_info <- devtools::session_info()
     out_support$run_time <- run_time
     saveRDS(
@@ -134,15 +143,6 @@
     # Express full cycle in hours
     time_per_condition$full_cycle_h <- round(time_per_condition$full_cycle_m/60, 1)
 
-    # Collect mids results
-    rds_mids_names <- grep("mids", output$file_names)
-    rds_mids <- output$out[rds_mids_names]
-    names(rds_mids) <- output$file_names[rds_mids_names]
-
-    # Take a peek
-    i <- 12
-    plot(rds_mids[[i]], main = output$file_names[rds_mids_names][i])
-
     # Read error results
     rds_error_names <- grep("ERROR", output$file_names)
     if(length(rds_error_names) != 0){
@@ -154,7 +154,6 @@
 # - Save processed results -----------------------------------------------------
 
     saveRDS(list(time = time_per_condition,
-                 mids = rds_mids,
                  error = rds_error,
                  sInfo = output$sInfo),
             paste(tools::file_path_sans_ext(file_name, compression = TRUE),
