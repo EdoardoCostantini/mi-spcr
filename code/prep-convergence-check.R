@@ -2,7 +2,7 @@
 # Objective: Run with many iterations to check convergence
 # Author:    Edoardo Costantini
 # Created:   2022-07-25
-# Modified:  2022-07-25
+# Modified:  2022-07-26
 
 # Prepare run ------------------------------------------------------------------
 
@@ -44,10 +44,11 @@
     cindex <- which(cnds$pm == .5 & cnds$mech == "MAR" & cnds$nl == 50)
 
     # number of clusters for parallelization
-    clusters <- 15
+    clusters <- 5
 
     # Modify run parameters to check convergence
     parms$mice_iters <- 1e2
+    parms$nStreams   <- max(cindex)
 
 # - Parallelization ------------------------------------------------------------
 
@@ -96,13 +97,10 @@
     # Store sessoin info
     out_support <- list()
     out_support$parms <- parms
-    out_support$cnds <- cnds
+    out_support$cnds <- cnds[cindex, ]
     out_support$session_info <- devtools::session_info()
     out_support$run_time <- run_time
-    saveRDS(
-      out_support,
-      paste0(fs$out_dir, "sInfo.rds")
-    )
+    saveRDS(out_support, paste0(fs$out_dir, "sInfo.rds"))
 
     # Zip result fodler
     writeTarGz(fs$file_name_res)
@@ -110,14 +108,24 @@
 # Read results ----------------------------------------------------------------
 
     # Load Results
-    tar_name <- "../output/20220725-111938-trial.tar.gz" # 5e3 max nla = 50
+    tar_name <- "../output/20220725-142823-convergence-check.tar.gz" # 5e2 max nla = 50
+    tar_name <- "../output/20220725-184640-convergence-check.tar.gz" # 1e3 max nla = 50
+    tar_name <- "../output/20220726-090855-convergence-check.tar.gz" # 1e3 max nla = 50
     output <- readTarGz(tar_name)
+
+    # Define conditions
+    cnds <- output$sInfo$cnds
 
     # Collect mids results
     rds_mids_names <- grep("mids", output$file_names)
     rds_mids <- output$out[rds_mids_names]
     names(rds_mids) <- output$file_names[rds_mids_names]
 
-    # Take a peek
-    i <- 12
-    plot(rds_mids[[i]], main = output$file_names[rds_mids_names][i])
+    # Define what combination of methods to check
+    npcs <- 0
+    method <- unique(cnds$method)[7]
+    cnd_search <- paste0("npcs-", npcs, "-method-", method)
+    cnd_id <- grep(cnd_search, names(rds_mids))
+
+    # Plot trace plots
+    plot(rds_mids[[cnd_id]], main = output$file_names[rds_mids_names][cnd_id])
