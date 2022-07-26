@@ -52,7 +52,7 @@
                      lib = "../input/rlib/")
 
     # Then install the developmental version of mice we need
-    install.packages("../input/mice_3.14.7.9001.tar.gz",
+    install.packages("../input/mice_3.14.7.9002.tar.gz",
                      repos = NULL,
                      type = "source",
                      lib = "../input/rlib/")
