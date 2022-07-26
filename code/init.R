@@ -75,7 +75,7 @@
   parms$nStreams <- 1000 # TODO: should this be as large as the number of parallel processes?
 
   # Data generation
-  parms$N         <- 500      # sample size
+  parms$N         <- 1e3      # sample size
   parms$L         <- 2        # fixed number latent variables
   parms$J         <- 3        # number items per latent variable
   parms$loading   <- .85      # factor loadings
