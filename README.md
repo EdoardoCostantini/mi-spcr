@@ -56,6 +56,8 @@ MAR   0  0  0  1  1  1
 
 where 0 indicates a variable with no weight in the linear combination making up the linear predictor for the logit(p) of missingness, and 1 indicates a weight of 1.
 
+The **type of missing data** is fixed to right, left, tails respectively for variables `X1`, `X2`, and `X3` to create realistic missing data patterns.
+
 ### Experimental conditions
 
 We vary the following factors:
@@ -63,25 +65,23 @@ We vary the following factors:
 - The **proportion of missing cases** (`pm = .1, .25, .50`):
   - imposed as stepwise univariate amputation
   - levels chosen based on literature recommendations (Oberman Vink 0000)
-- **Missing data mechanism** (`mech = MCAR, MAR, MNAR`):
+- **Missing data mechanism** (`mech = MCAR, MAR`):
     It's important to have all of these situations because:
   - MCAR - a good method should at least work here
   - MAR - the basic assumption everyone makes
-- The **shape of missing data** (`loc = right, left, tail`): defined as a fixed random factor with levels sampled from
-- The **number of noisy auxiliary variables** (`nla = 2, 10, 100`):
+- The **number of latent variables** (`nla = 2, 10, 50`):
     From previous work, we know the unsupervised PCA methods require to use of enough PCs as there are latent variables in the data generating model.
     We want to vary the true number of latent variables to verify this.
     The values chosen will reflect:
   - 2 - simple case where we only have the two latent variables that are important for imputation (1 latent variable measured by items receiving amputation and imputation; 1 latent variable measured by the MAR predictors) to show
   - 10 - small dimensionality
-  - 100 - large dimensionality
+  - 50 - large dimensionality
 - The **number of principal components** used by the approach (`npcs`);
   To verify the point described for the number of noisy auxiliary variables we need to use the imputation methods with different numbers of PCs.
   These numbers depend of the number of latent variables used:
-  - `nla = 2` -> `npcs = [1:6]`
-  - `nla = 10` -> `npcs = [1:12, 20, 30]`
-  - `nla = 50` -> `npcs = [1:12, 20, 30, 30, 40, 48:52, 60, 100, 150]`
-  - `nla = 100` -> `npcs = [1:10, seq(20, 90, by = 10), 98, 99, 100, 101, 102, 110, 300]`
+  - `nla = 2`, `p = 6` -> `npcs = [1:5]`
+  - `nla = 10`, `p = 30` -> `npcs = [1:12, 20, 29]`
+  - `nla = 50`, `p = 150` -> `npcs = [1:10, 20, 30, 40, 48:52, 60, 149]`
   
 ### Performance measures
 
