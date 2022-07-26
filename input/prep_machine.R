@@ -2,7 +2,7 @@
 # Objective: Install packages required for running simulation
 # Author:    Edoardo Costantini
 # Created:   2022-07-05
-# Modified:  2022-07-25
+# Modified:  2022-07-26
 
 # Set up -----------------------------------------------------------------------
 
@@ -20,6 +20,18 @@
 
     install.packages("devtools")
     install.packages("versions")
+
+# mice 3.14.7.9*** (local experimental version)---------------------------------
+
+    # First install mice and its dependencies
+    install.packages("mice",
+                     lib = "../input/rlib/")
+
+    # Then install the developmental version of mice we need
+    install.packages("../input/mice_3.14.7.9002.tar.gz",
+                     repos = NULL,
+                     type = "source",
+                     lib = "../input/rlib/")
 
 # MASS 7.3-57 ------------------------------------------------------------------
 
@@ -44,18 +56,6 @@
         versions = "1.0.9",
         lib = "../input/rlib/"
     )
-
-# mice 3.14.7.9000 (local experimental version)---------------------------------
-
-    # First install mice and its dependencies
-    install.packages("mice",
-                     lib = "../input/rlib/")
-
-    # Then install the developmental version of mice we need
-    install.packages("../input/mice_3.14.7.9002.tar.gz",
-                     repos = NULL,
-                     type = "source",
-                     lib = "../input/rlib/")
 
 # rlecuyer 0.3-5 ---------------------------------------------------------------
 
