@@ -2,7 +2,7 @@
 # Objective: Estimate and pool for object results
 # Author:    Edoardo Costantini
 # Created:   2022-07-11
-# Modified:  2022-07-12
+# Modified:  2022-07-27
 
 estimatesPool <- function(object, targets) {
 
@@ -23,7 +23,7 @@ estimatesPool <- function(object, targets) {
     pooled_means <- rbind(
         X1 = mice::pool(fitX1)$pooled,
         X2 = mice::pool(fitX2)$pooled,
-        X3 = c(mice::pool(fitX3)$pooled)
+        X3 = mice::pool(fitX3)$pooled
     )
 
     # Confidence intervals
