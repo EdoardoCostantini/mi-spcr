@@ -127,6 +127,30 @@ ui <- fluidPage(
 
 server <- function(input, output, session) {
 
+  # Dynamically update inputs
+  observe({
+    # Statistics and Variables requested
+    if(any(input$stat %in% c("cor", "cov"))){
+      updateSelectInput(session,
+                        "vars",
+                        choices = unique(gg_shape$vars)[1:3]
+      )
+    } else {
+      updateSelectInput(session,
+                        "vars",
+                        choices = unique(gg_shape$vars)[4:6]
+      )
+    }
+
+    # Number of components displayed by slider based on nla condition
+    npcs_to_plot <- unique((gg_shape %>% filter(nla == input$nla))$npcs)
+    npcs_to_plot <- sort(npcs_to_plot)
+    shinyWidgets::updateSliderTextInput(session,
+                                        inputId = "npcs",
+                                        choices = npcs_to_plot,
+                                        selected = max(npcs_to_plot))
+  })
+
   output$plot <- renderPlot(
     res = 96,
   {
