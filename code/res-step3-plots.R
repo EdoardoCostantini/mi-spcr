@@ -2,7 +2,7 @@
 # Objective: Making plots
 # Author:    Edoardo Costantini
 # Created:   2022-07-19
-# Modified:  2022-07-26
+# Modified:  2022-07-27
 
 # Clean environment:
 rm(list = ls())
@@ -97,6 +97,14 @@ ui <- fluidPage(
       selectInput("nla",
                   "Number of latent variables",
                   choices = sort(unique(gg_shape$nla))),
+      checkboxGroupInput("pm",
+                         "Proportion of missing values",
+                         choices = sort(unique(gg_shape$pm)),
+                         selected = sort(unique(gg_shape$pm))),
+      checkboxGroupInput("mech",
+                         "Missing data mechanism",
+                         choices = levels(gg_shape$mech),
+                         selected = levels(gg_shape$mech)),
       selectInput("stat",
                   "Statistic",
                   choices = unique(gg_shape$stat)),
