@@ -155,7 +155,6 @@ server <- function(input, output, session) {
       filter(nla == input$nla,
              vars == input$vars,
              stat == input$stat,
-             auxcor == input$auxcor,
              method %in% input$method,
              npcs <= input$npcs) %>%
       ggplot(aes_string(x = plot_x_axis,
