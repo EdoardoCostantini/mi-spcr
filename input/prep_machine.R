@@ -2,7 +2,7 @@
 # Objective: Install packages required for running simulation
 # Author:    Edoardo Costantini
 # Created:   2022-07-05
-# Modified:  2022-07-26
+# Modified:  2022-07-27
 
 # Set up -----------------------------------------------------------------------
 
@@ -28,7 +28,7 @@
                      lib = "../input/rlib/")
 
     # Then install the developmental version of mice we need
-    install.packages("../input/mice_3.14.7.9002.tar.gz",
+    install.packages("../input/mice_3.14.7.9003.tar.gz",
                      repos = NULL,
                      type = "source",
                      lib = "../input/rlib/")
