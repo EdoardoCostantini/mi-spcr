@@ -2,7 +2,7 @@
 # Objective: Run with many iterations to check convergence
 # Author:    Edoardo Costantini
 # Created:   2022-07-25
-# Modified:  2022-07-26
+# Modified:  2022-07-28
 
 # 1. Prepare run ---------------------------------------------------------------
 
@@ -120,13 +120,32 @@
     rds_mids <- output$out[rds_mids_names]
     names(rds_mids) <- output$file_names[rds_mids_names]
 
+# - Trace plots ----------------------------------------------------------------
+
     # Define what combination of methods to check
     npcs <- 10
+    method <- unique(cnds$method)[1]
+
+    # Produce object to filter the results
+    cnd_search <- paste0("npcs-", npcs, "-method-", method)
+    cnd_id <- grep(cnd_search, names(rds_mids))
+
+    # Plot
+    plot(rds_mids[[cnd_id]], main = output$file_names[rds_mids_names][cnd_id])
+
+# - Density plots --------------------------------------------------------------
+
+    # Define what combination of methods to check
+    npcs <- 5
     method <- unique(cnds$method)[4]
 
     # Produce object to filter the results
     cnd_search <- paste0("npcs-", npcs, "-method-", method)
     cnd_id <- grep(cnd_search, names(rds_mids))
 
-    # Plot trace plots
-    plot(rds_mids[[cnd_id]], main = output$file_names[rds_mids_names][cnd_id])
+    # Density plots
+    densityplot(rds_mids[[cnd_id]],
+                ylim = c(0, .50),
+                xlim = c(-5, 15),
+                main = paste0(method, " ", npcs, ": ",
+                              output$file_names[rds_mids_names][cnd_id]))
