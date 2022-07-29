@@ -58,7 +58,7 @@ ui <- fluidPage(
                                     label = "Number of principal components",
                                     hide_min_max = TRUE,
                                     choices = sort(unique(gg_shape$npcs)),
-                                    selected = max(unique(gg_shape$npcs)),
+                                    selected = range(gg_shape$npcs),
                                     grid = TRUE),
     ),
     mainPanel(
@@ -90,20 +90,23 @@ server <- function(input, output, session) {
     shinyWidgets::updateSliderTextInput(session,
                                         inputId = "npcs",
                                         choices = npcs_to_plot,
-                                        selected = max(npcs_to_plot))
+                                        selected = range(npcs_to_plot))
   })
 
   output$plot <- renderPlot(
     res = 96,
   {
     gg_shape %>%
-      filter(nla == input$nla,
-             mech %in% input$mech,
-             pm %in% input$pm,
-             vars == input$vars,
-             stat == input$stat,
-             method %in% input$method,
-             npcs <= input$npcs) %>%
+      filter(
+        nla == input$nla,
+        mech %in% input$mech,
+        pm %in% input$pm,
+        vars == input$vars,
+        stat == input$stat,
+        method %in% input$method,
+        npcs <= input$npcs[2],
+        npcs >= input$npcs[1]
+      ) %>%
       ggplot(aes_string(x = plot_x_axis,
                         y = input$plot_y_axis,
                         group = moderator)) +
