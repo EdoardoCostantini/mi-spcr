@@ -48,7 +48,6 @@
                       cnds$mech == "MAR" &
                       cnds$nla == 50 &
                       cnds$method == "spcr")
-    # TODO: replace with filter
 
     # number of clusters for parallelization
     clusters <- 4
@@ -60,9 +59,6 @@
 
     # Open clusters
     clus <- makeCluster(clusters)
-
-    # export global env to worker nodes
-    clusterExport(cl = clus, varlist = "fs", envir = .GlobalEnv)
 
     # export scripts to be executed to worker nodes
     clusterEvalQ(cl = clus, expr = source("init-software.R"))

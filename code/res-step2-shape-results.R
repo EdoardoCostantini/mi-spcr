@@ -104,7 +104,6 @@
 
   # Arrange meangingful
   bias_df <- arrange_(bias_df, .dots = c(data_gen, methods))
-  arrange_(bias_df, .dots = data_gen)
 
   # > Check --------------------------------------------------------------------
 
@@ -204,9 +203,8 @@
 
 # Store --------------------------------------------------------------------
 
-  saveRDS(output,
-          file = paste0("../output/",
-                        gsub("unzipped",
+  saveRDS(gg_shape,
+          file = paste0(gsub("unzipped",
                              "main-res",
                              run_name))
   )
