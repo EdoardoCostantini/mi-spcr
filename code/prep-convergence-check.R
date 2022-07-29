@@ -2,7 +2,7 @@
 # Objective: Run with many iterations to check convergence
 # Author:    Edoardo Costantini
 # Created:   2022-07-25
-# Modified:  2022-07-28
+# Modified:  2022-07-29
 
 # 1. Prepare run ---------------------------------------------------------------
 
@@ -110,6 +110,7 @@
 
     # Load Results
     tar_name <- "../output/20220726-094436-convergence-check.tar.gz"
+    tar_name <- "../output/20220729-104900-convergence-check.tar.gz"
     output <- readTarGz(tar_name)
 
     # Define conditions
@@ -123,15 +124,17 @@
 # - Trace plots ----------------------------------------------------------------
 
     # Define what combination of methods to check
-    npcs <- 10
-    method <- unique(cnds$method)[1]
+    npcs <- 1
+    method <- unique(cnds$method)[4]
 
     # Produce object to filter the results
     cnd_search <- paste0("npcs-", npcs, "-method-", method)
     cnd_id <- grep(cnd_search, names(rds_mids))
 
     # Plot
-    plot(rds_mids[[cnd_id]], main = output$file_names[rds_mids_names][cnd_id])
+    plot(rds_mids[[cnd_id]],
+         main = output$file_names[rds_mids_names][cnd_id],
+         ylim = list(c(4, 6), c(1, 3)))
 
 # - Density plots --------------------------------------------------------------
 
