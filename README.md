@@ -113,20 +113,21 @@ This script runs the simulation study for the subset of most complex conditions 
 To **perform the convergence checks**, perform the following steps:
 
 1. Run the first and second sections of the `./code/prep-convergence-check.R`
-2. Once the results have been stored, run section 3 to read the results and manually check the combinations of `npcs` and `methods` that you desire to check. You can do so by changing the values of the `npcs` and `method` object defined in this script.
+2. Once the results have been stored, run the third section to read the results and manually check the combinations of `npcs` and `methods` that you desire to check. You can do so by changing the values of the `npcs` and `method` object defined in this script.
 3. Update the `parms$mice_iters` value in `init.R` file to match the number of iterations that your think is sufficient to avoid non-convergence with all methods. 
 
 Please note the following:
 
-- The object `cindex` in the script can be used to specify the desired subset of conditions.
-- The number of iterations is set to 100, so that possible lack of convergence for every multiple imputation method is assessed.
+- The object `cindex` in the script can be used to specify the desired subset of conditions to check convergence. It is acceptable to check convergence for the more challenging conditions and draw conclusions for the entire simulation study.
+- The number of iterations is set to 100, so that a possible lack of convergence for every multiple imputation method can be assessed.
 - The run is parallelized over the conditions.
 - The seed is set per condition.
 - Every condition is meant to be repeated only once.
 
 #### After running the simulation study
 
-The scripts used to run the simulation study results store a the mids objects for a small number of repetitions so that you may assess the lack of non-convergence in the actual run.
+The simulation study stores mids objects for a small number of repetitions. 
+You may assess the lack of non-convergence directly on these.
 You may unzip the results form the simulation study, select the files that contain mids in their name and check convergence as in the third section of `./code/prep-convergence-check.R`.
 
 ### Running the simulation on Lisa
@@ -134,8 +135,73 @@ You may unzip the results form the simulation study, select the files that conta
 Lisa Cluster is a cluster computer system managed by SURFsara, a cooperative association of Dutch educational and
 research institutions.
 Researchers at most Dutch universities can request access to this cluster computer.
+Here it is assumed that you know how to access Lisa and upload material to the server.
 
-COMING SOON
+1. Define run and perform checks - Open the initialization script `init-objects.R` and `init-software.R` check that:
+  - you have installed all the R-packages required in `init-software.R`;
+  - the fixed parameters and experimental factor levels are set to the desired values.
+
+2. Prepare the lisa run on your computer:
+  - Run on a personal computer the script `prep-estimate-time-per-rep.R` to check how long it takes
+    to perform a single run across all the conditions with the chosen simulation study set up.
+    This will create an R object called `wall_time`.
+  - Open the script `sim-lisa-js-normal.sh` and replace the wall time in the header (`#SBATCH -t`) with the value of `wall_time`.
+  - Decide the number of repetitions, cores, and arrays in the preparatory script `prep-lisa-stopos-lines.R`
+    For example:
+    ```
+    goal_reps <- 500 
+    ncores    <- 15 # Lisa nodes have 16 cores available (16-1 used)
+    narray    <- ceiling(goal_reps/ncores) # number of arrays/nodes to use 
+    ```
+    Once you have specified these values, *run the script on your computer*. 
+    This will create a `stopos_lines` text file in the `input` folder that will define the repetition index.
+
+3. Prepare the lisa run on lisa:
+  - Go to the `lisa/` folder on you computer and create a folder with a meaningful name for the run (I usually use the current date and a tag describing the simulation). Then, copy here the `code` and `input` folders form the main repository and create an empty `output` folder.
+  - Authenticate on Lisa
+  - From your terminal, upload the folder containing the project
+    ```
+    scp -r path/to/local/project user@lisa.surfsara.nl:project
+    ```
+    For example:
+    ```
+    scp -r lisa/20211116 ******@lisa.surfsara.nl:mipca_compare
+    ```
+  - Check all the packages called by the `init-software.R` script are available and install what is not on lisa. TODO: check how does lisa install and use packages?
+  - Go back to the lisa terminal and load the following modules
+    ```
+    module load 2020
+    module load R/4.0.2-intel-2020a
+    module load Stopos/0.93-GCC-9.3.0  
+    ```
+    (or their most recent version at the time you are running this)
+  - go to the code folder on the lisa cloned project
+    ``` 
+    cd mipca_compare/code/ 
+    ```
+  - run the prepping script by
+    ```
+    . prep-lisa-create-stopos.sh ../input/stopos_lines 
+    ```
+4. Run simulation on Lisa
+  - submit the jobs by
+    ```
+    sbatch -a 1-34 lisa_js_normal.sh 
+    ```
+    Note that `1-34` defines the dimensionality of the array of jobs. 
+    For a short partitioning, only 2 arrays are allowed.
+    For other partitioning, more arrays are allowed.
+    34 is the result of `ceiling(goal_reps/ncores)` for the chosen parameters in this example.
+    You should replace this number with the one that makes sense for your study.
+  - When the array of jobs is done, you can pull the results to your machine by
+    ```
+    scp -r user@lisa.surfsara.nl:mipca_compare/output/folder path/to/local/project/output/folder
+    ```
+    
+5. Read the results on your computer:
+  - The script `sim-lisa-unzip.R` goes through the Lisa result folder, unzips tar.gz packages, and puts results together.
+  - Finally, the script `combine_results.R` ??? computes bias, CIC, and all the outcome measures. 
+    It also puts together the RDS objects that can be plotted with the functions stored in `./code/plots/`
 
 ### Running the simulation on a PC / Mac
 
@@ -159,14 +225,43 @@ COMING SOON
 Here is the project structure:
 
 ```
+.
 ├── LICENSE
 ├── README.md
 ├── code
-│   ├── checks
-│   ├── functions
-│   ├── helper
-│   ├── plots
-│   └── subroutines
+│ ├── checks
+│ │ └── check-dataGen.R
+│ ├── functions
+│ │ ├── dataGen.R
+│ │ ├── estimatesComp.R
+│ │ ├── estimatesPool.R
+│ │ ├── genLaavanMod.R
+│ │ └── simMissingness.R
+│ ├── helper
+│ │ ├── readTarGz.R
+│ │ └── writeTarGz.R
+│ ├── init-objects.R
+│ ├── init-software.R
+│ ├── plots
+│ ├── prep-convergence-check.R
+│ ├── prep-estimate-time-per-cond.R
+│ ├── prep-estimate-time-per-rep.R
+│ ├── prep-lisa-create-stopos.sh
+│ ├── prep-lisa-stopos-lines.R
+│ ├── res-step1-evaluate-imputation.R
+│ ├── res-step2-shape-results.R
+│ ├── res-step3-plots.R
+│ ├── sim-lisa-js-normal.sh
+│ ├── sim-lisa-js-short.sh
+│ ├── sim-lisa-step1-storeInfo.R
+│ ├── sim-lisa-step2-run-doRep.R
+│ ├── sim-lisa-unzip.R
+│ ├── sim-pc-step1-run.R
+│ ├── sim-pc-step2-unzip.R
+│ └── subroutines
+│     ├── runCell.R
+│     ├── runCond.R
+│     └── runRep.R
 ├── input
 │   └── prep_machine.R
 ├── lisa
