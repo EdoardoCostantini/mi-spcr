@@ -2,7 +2,7 @@
 # Objective: Making plots
 # Author:    Edoardo Costantini
 # Created:   2022-07-19
-# Modified:  2022-07-27
+# Modified:  2022-07-29
 
 # Clean environment:
 rm(list = ls())
@@ -28,7 +28,6 @@ grid_y_axis <- "pm"
 # R shiny plot -----------------------------------------------------------------
 
 ui <- fluidPage(
-  titlePanel("Plotting results for study"),
   sidebarLayout(
     sidebarPanel(
       selectInput("nla",
@@ -54,7 +53,7 @@ ui <- fluidPage(
                   choices = c("RB", "PRB", "coverage", "CIW_avg", "mcsd")),
       checkboxGroupInput("method", "Imputation methods to compare:",
                          choices = levels(gg_shape$method),
-                         selected = levels(gg_shape$method)),
+                         selected = levels(gg_shape$method)[1:4]),
       shinyWidgets::sliderTextInput(inputId = "npcs",
                                     label = "Number of principal components",
                                     hide_min_max = TRUE,
@@ -122,6 +121,7 @@ server <- function(input, output, session) {
         strip.text.y.right = element_text(angle = 0),
         plot.title = element_text(hjust = 0.5),
         axis.title = element_text(size = 10),
+        axis.title.x = element_blank(),
         # Legend
         legend.title = element_blank(),
         legend.position = "bottom",
