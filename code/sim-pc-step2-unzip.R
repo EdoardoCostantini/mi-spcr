@@ -2,7 +2,7 @@
 # Objective: put results together from tar archive obtained with pc run
 # Author:    Edoardo Costantini
 # Created:   2022-07-12
-# Modified:  2022-07-26
+# Modified:  2022-07-29
 
 # Prep environment --------------------------------------------------------
 
@@ -33,12 +33,15 @@
     rds_error <- NULL
   }
 
+  # Create object to store or move on
+  out <- list(main = rds_main,
+              mids = rds_mids,
+              error = rds_error,
+              sInfo = output$sInfo)
+
 # Save output ------------------------------------------------------------
 
-  saveRDS(list(main = rds_main,
-               mids = rds_mids,
-               error = rds_error,
-               sInfo = output$sInfo),
+  saveRDS(out,
           paste(tools::file_path_sans_ext(tar_name, compression = TRUE),
                 "pc",
                 "unzipped.rds", sep = "-"))

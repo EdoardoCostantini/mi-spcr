@@ -2,7 +2,7 @@
 # Objective: combine and shape results from simulation study
 # Author:    Edoardo Costantini
 # Created:   2022-07-12
-# Modified:  2022-07-26
+# Modified:  2022-07-29
 
 # Prep environment -------------------------------------------------------------
 
@@ -200,7 +200,7 @@
   bias_CIC <- merge(x = bias_df, y = CIC, by = c(tag, methods, data_gen, outcomes))
 
   # Merge with ICW
-  output <- merge(x = bias_CIC, y = CIW, by = c(tag, methods, data_gen, outcomes))
+  gg_shape <- merge(x = bias_CIC, y = CIW, by = c(tag, methods, data_gen, outcomes))
 
 # Store --------------------------------------------------------------------
 
@@ -208,7 +208,6 @@
           file = paste0("../output/",
                         gsub("unzipped",
                              "main-res",
-                             run_name),
-                        ".rds")
+                             run_name))
   )
 
