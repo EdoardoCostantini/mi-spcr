@@ -2,7 +2,7 @@
 # Objective: Install packages required for running simulation
 # Author:    Edoardo Costantini
 # Created:   2022-07-05
-# Modified:  2022-07-28
+# Modified:  2022-07-29
 
 # Set up -----------------------------------------------------------------------
 
@@ -62,7 +62,8 @@
     versions::install.versions(
         pkgs = "rlecuyer",
         versions = "0.3-5",
-        lib = "../input/rlib/"
+        lib = "../input/rlib/",
+        type = "source"
     )
 
 # stringr 1.4.0 ----------------------------------------------------------------
