@@ -2,7 +2,7 @@
 # Objective: Run the simulation study
 # Author:    Edoardo Costantini
 # Created:   2022-07-08
-# Modified:  2022-07-26
+# Modified:  2022-08-01
 
 # Environment ------------------------------------------------------------------
 
@@ -16,7 +16,7 @@
     }
 
     # 1-word run description
-    run_descr <- "small-run-for-plot-development"
+    run_descr <- "debug-cruve-pcr-pls-fo"
 
     # Initialize the environment:
     source("init-software.R") # load packages
@@ -37,20 +37,25 @@
 # Run specifications -----------------------------------------------------------
 
     # number of repetitions
-    reps <- (1:100)[1:3] #1 : 5 # define repetitions
+    reps <- (1:100)[1:2] #1 : 5 # define repetitions
+
+    # parms$mice_iters <- 5
 
     # Subset conditions?
     subset_cond <- TRUE
     if(subset_cond == TRUE){
         cnds <- cnds %>%
-          filter(pm == c(.1, .25),
-                 nla == c(2, 10))
+          filter(pm %in% c(.25),
+                 nla %in% c(10),
+                 npcs %in% c(1, 2),
+                 mech %in% "MAR",
+                 method %in% c("pcr", "fo"))
     }
 
 # Parallelization --------------------------------------------------------------
 
     # number of clusters for parallelization
-    clusters <- 3
+    clusters <- 10
 
     # Open clusters
     clus <- makeCluster(clusters)
