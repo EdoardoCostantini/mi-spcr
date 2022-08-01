@@ -27,7 +27,7 @@
 module load R
 
 ## Define Variables and Directories
-projDir=$HOME/mipca_compare	  # Project directory
+projDir=$HOME/mi-pcr	  # Project directory
 inDir=$projDir/code           # Source directory (for R)
 ncores=`sara-get-num-cores` 	# Number of available cores
 idJob=$SLURM_ARRAY_JOB_ID  	  # Master ID for the array of jobs
