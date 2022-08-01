@@ -2,7 +2,7 @@
 # Objective: Estimate time per repetition
 # Author:    Edoardo Costantini
 # Created:   2022-07-29
-# Modified:  2022-07-29
+# Modified:  2022-08-01
 
 # Run of single repeition (cycle through all conditions) -----------------------
 
@@ -75,7 +75,7 @@
 # LISA SBU estimate ------------------------------------------------------------
 
   # Load file
-  out_t_per_rep <- readTarGz("../output/20220729-150920-check-time-per-rep.tar.gz")
+  out_t_per_rep <- readTarGz("../output/20220729-151828-check-time-per-rep.tar.gz")
 
   # Define a manual expected time to run
   time_to_run <- 20
@@ -84,7 +84,7 @@
   time_to_run <- as.numeric(out_t_per_rep$sInfo$run_time)
 
   # the goal number of repetitions
-  goal_reps <- 500 # should match your total goal of repetitions
+  goal_reps <- 250 # should match your total goal of repetitions
 
   # number of cores usable in each lisa node
   ncores    <- 15
