@@ -2,12 +2,13 @@
 # Objective: Initialization script for functions and packages
 # Author:    Edoardo Costantini
 # Created:   2022-07-26
-# Modified:  2022-07-26
+# Modified:  2022-08-01
 
 # Packages ---------------------------------------------------------------------
 
   # Define path to folder for project-specific R packages
-  R_pack_lib <- "../input/rlib/"
+  R_pack_lib <- c(pc = "../input/rlib/",
+                  lisa = "~/R/x86_64-pc-linux-gnu-library/4.1")["pc"]
 
   # Load packages from the project library
   library(mice, lib.loc = R_pack_lib)

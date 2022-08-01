@@ -10,7 +10,7 @@
 # Objective: lisa job script (normal partition array type)
 # Author:    Edoardo Costantini
 # Created:   2022-07-29
-# Modified:  2022-07-29
+# Modified:  2022-08-01
 
 ## USAGE on LISA:
 ##   sbatch -a 1-ARRAY_NUM exp5_js_mainSim_normal.sh
@@ -45,7 +45,7 @@ outDir=$projDir/output/$idJob
 	fi
 
 ## Allow worker nodes to find my personal R packages:
-export R_LIBS=$HOME/R/x86_64-pc-linux-gnu-library/4.0/
+export R_LIBS=$HOME/R/x86_64-pc-linux-gnu-library/4.1/
 # for R_LIBS explain: https://statistics.berkeley.edu/computing/R-packages
 # this is probably overkill but keep it in the loop for safety (and maybe ask Kyle about it)
 
