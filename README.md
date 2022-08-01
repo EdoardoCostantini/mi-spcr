@@ -165,37 +165,41 @@ Here it is assumed that you know how to access Lisa and upload material to the s
     ```
     For example:
     ```
-    scp -r lisa/20211116 ******@lisa.surfsara.nl:mipca_compare
+    scp -r lisa/20211116 ******@lisa.surfsara.nl:mi-pcr
     ```
   - Check all the packages called by the `init-software.R` script are available and install what is not on lisa. TODO: check how does lisa install and use packages?
   - Go back to the lisa terminal and load the following modules
     ```
-    module load 2020
-    module load R/4.0.2-intel-2020a
-    module load Stopos/0.93-GCC-9.3.0  
+    module load 2021
+    module load R/4.1.0-foss-2021a
+    module load Stopos/0.93-GCC-10.3.0
     ```
     (or their most recent version at the time you are running this)
   - go to the code folder on the lisa cloned project
     ``` 
-    cd mipca_compare/code/ 
+    cd mi-pcr/code/ 
     ```
   - run the prepping script by
     ```
-    . prep-lisa-create-stopos.sh ../input/stopos_lines 
+    . prep-lisa-create-stopos.sh ../input/stopos_lines
     ```
 4. Run simulation on Lisa
   - submit the jobs by
     ```
-    sbatch -a 1-34 lisa_js_normal.sh 
+    sbatch -a 1-34 sim-lisa-js-normal.sh 
     ```
     Note that `1-34` defines the dimensionality of the array of jobs. 
     For a short partitioning, only 2 arrays are allowed.
     For other partitioning, more arrays are allowed.
     34 is the result of `ceiling(goal_reps/ncores)` for the chosen parameters in this example.
     You should replace this number with the one that makes sense for your study.
+    A trial job, in the short partition, can be sumbitted by:
+    ```
+    sbatch -a 1-2 sim-lisa-js-short.sh
+    ```
   - When the array of jobs is done, you can pull the results to your machine by
     ```
-    scp -r user@lisa.surfsara.nl:mipca_compare/output/folder path/to/local/project/output/folder
+    scp -r user@lisa.surfsara.nl:mi-pcr/output/folder path/to/local/project/output/folder
     ```
     
 5. Read the results on your computer:
