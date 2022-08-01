@@ -2,7 +2,7 @@
 # Objective: Making plots
 # Author:    Edoardo Costantini
 # Created:   2022-07-19
-# Modified:  2022-07-29
+# Modified:  2022-08-01
 
 # Clean environment:
 rm(list = ls())
@@ -16,11 +16,10 @@ library(shinyWidgets)
 library(dplyr)
 
 # Read output
-gg_shape <- readRDS("../output/20220726-143214-small-run-for-plot-development-pc-main-res.rds")
-dat_sub <- gg_shape
+gg_shape <- readRDS("../output/20220728-143828-diagnose-spcr-pc-main-res.rds")
 
 plot_x_axis <- "npcs"
-plot_y_axis <- "coverage"
+plot_y_axis <- "RB"
 moderator <- "method"
 grid_x_axis <- "mech"
 grid_y_axis <- "pm"
@@ -138,10 +137,9 @@ server <- function(input, output, session) {
 
 shinyApp(ui, server)
 
-library(rsconnect)
-rsconnect::deployApp()
-
 # Regular plotting -------------------------------------------------------------
+
+dat_sub <- gg_shape
 
 # Fix factors for this plot
 nla     <- unique(gg_shape$nla)[1]
@@ -151,7 +149,7 @@ mech    <- unique(gg_shape$mech)[1]
 vars    <- unique(gg_shape$vars)[1]
 stat    <- unique(gg_shape$stat)[1]
 
-filters     <- list(nla     = unique(gg_shape$nla)[2],
+filters     <- list(nla     = unique(gg_shape$nla)[1],
                     auxcor  = unique(gg_shape$auxcor)[1],
                     method  = levels(gg_shape$method)[1:6],
                     # pm      = unique(gg_shape$pm)[1],

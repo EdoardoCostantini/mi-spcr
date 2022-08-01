@@ -9,8 +9,8 @@
   rm(list = ls()) # to clean up
   source("init-software.R")
 
-  tar_name <- "../output/20220719-133959-trial.tar.gz"
-  tar_name <- "../output/20220719-133959-trial.tar.gz"
+
+  tar_name <- "../output/20220728-185933-check-pcr-spcr-work.tar.gz"
 
 # Load Results ------------------------------------------------------------
 

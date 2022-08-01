@@ -2,7 +2,7 @@
 # Objective: Estimate time per condition
 # Author:    Edoardo Costantini
 # Created:   2022-07-18
-# Modified:  2022-07-26
+# Modified:  2022-08-01
 
 # Diagnostics run --------------------------------------------------------------
 
@@ -112,10 +112,7 @@
 # Read results ----------------------------------------------------------------
 
     # Load Results
-    tar_name <- "../output/20220719-133959-trial.tar.gz" # 1e3 max nla = 100
-    tar_name <- "../output/20220720-115604-trial.tar.gz" # 1e3 max nla = 50
-    tar_name <- "../output/20220720-101833-trial.tar.gz" # 5e2 max nla = 50
-    tar_name <- "../output/20220726-100630-time-per-condition-estimate-spcr-theta-05.tar.gz" # 1e3 max nla = 50
+    tar_name <- "../output/20220726-135858-time-per-condition-estimate-spcr-theta-01.tar.gz"
 
     output <- readTarGz(tar_name)
 

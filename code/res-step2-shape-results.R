@@ -2,7 +2,7 @@
 # Objective: combine and shape results from simulation study
 # Author:    Edoardo Costantini
 # Created:   2022-07-12
-# Modified:  2022-07-29
+# Modified:  2022-08-01
 
 # Prep environment -------------------------------------------------------------
 
@@ -11,7 +11,8 @@
 
 # Load Results -----------------------------------------------------------------
 
-  run_name <- "../output/20220719-133959-trial-pc-unzipped.rds" # toy run on pc
+  run_name <- "../output/20220728-185933-check-pcr-spcr-work-pc-unzipped.rds"
+
   out <- readRDS(run_name)
 
   sInfo <- out$sInfo
@@ -108,9 +109,9 @@
   # > Check --------------------------------------------------------------------
 
   # Define a reference value to check
-  check_cond <- "npcs-29-method-pcr-nla-10-auxcor-0.1-pm-0.25-mech-MAR-loc-rlt-p-30"
-  check_stat <- "mean"
-  check_vars <- "X2"
+  check_cond <- "npcs-6-method-pcr-nla-10-auxcor-0.1-pm-0.25-mech-MCAR-loc-rlt-p-30"
+  check_stat <- "cor"
+  check_vars <- "X1X2"
 
   # Extract computed statistic
   comp1 <- bias_df %>%
