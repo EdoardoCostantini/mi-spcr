@@ -8,7 +8,7 @@
 rm(list = ls())
 
 # Calculate
-goal_reps <- 2 # should match your total goal of repetitions
+goal_reps <- 32 # should match your total goal of repetitions
 ncores    <- 16  # I want to use this many cores in each node
 narray    <- ceiling(goal_reps/ncores)  # I want to specify a sbatch array of 2 tasks (sbatch -a 1-2 job_script_array.sh)
 

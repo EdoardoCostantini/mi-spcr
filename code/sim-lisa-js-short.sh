@@ -24,7 +24,7 @@
 ##	in the preamble.
 
 ## Load Modules
-#module load R
+module load R
 
 ## Define Variables and Directories
 projDir=$HOME/mi-pcr	        # Project directory
@@ -53,7 +53,7 @@ outDir=$projDir/output/$idJob
 export STOPOS_POOL=pool
 
 ## Loop Over Cores
-for (( i=1; i<ncores ; i++ )) ; do
+for (( i=1; i<=ncores ; i++ )) ; do
 (
 	## Get the next line or parameters from the stopos pool:
 	stopos next
@@ -72,8 +72,7 @@ for (( i=1; i<ncores ; i++ )) ; do
 #	Rscript $inDir/sim-lisa-step2-run-doRep.R $STOPOS_VALUE $tmpOut/
 	# script_name.R --options repetition_counter output_directory
 
-#	Rscript $inDir/saveRDS.R $tmpOut/
-  touch $tmpOut/prova.txt
+	Rscript $inDir/saveRDSLisa.R $tmpOut/ $STOPOS_VALUE
 
  	## Remove the used parameter line from the stopos pool:
 	stopos remove
