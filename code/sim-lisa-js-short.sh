@@ -10,7 +10,7 @@
 # Objective: lisa job script (short partition array type)
 # Author:    Edoardo Costantini
 # Created:   2022-07-29
-# Modified:  2022-08-01
+# Modified:  2022-08-03
 
 ## USAGE on LISA:
 ##   sbatch -a 1-ARRAY_NUM exp5_js_mainSim.sh
@@ -24,10 +24,10 @@
 ##	in the preamble.
 
 ## Load Modules
-module load R
+#module load R
 
 ## Define Variables and Directories
-projDir=$HOME/mi-pcr	  # Project directory
+projDir=$HOME/mi-pcr	        # Project directory
 inDir=$projDir/code           # Source directory (for R)
 ncores=`sara-get-num-cores` 	# Number of available cores
 idJob=$SLURM_ARRAY_JOB_ID  	  # Master ID for the array of jobs
@@ -35,7 +35,7 @@ idTask=$SLURM_ARRAY_TASK_ID 	# Array index for the current job
 
 ## Define Output Directories
 # Temporary
-tmpOut="$TMPDIR"/$idJob\_$idTask
+tmpOut="$TMPDIR"/$idJob-$idTask
 mkdir -p $tmpOut
 
 # Final
@@ -45,7 +45,7 @@ outDir=$projDir/output/$idJob
 	fi
 
 ## Allow worker nodes to find my personal R packages:
-export R_LIBS=$HOME/R/x86_64-pc-linux-gnu-library/4.1/
+# export R_LIBS=$HOME/R/x86_64-pc-linux-gnu-library/4.1/
 # for R_LIBS explain: https://statistics.berkeley.edu/computing/R-packages
 # this is probably overkill but keep it in the loop for safety (and maybe ask Kyle about it)
 
@@ -53,7 +53,7 @@ export R_LIBS=$HOME/R/x86_64-pc-linux-gnu-library/4.1/
 export STOPOS_POOL=pool
 
 ## Loop Over Cores
-for (( i=1; i<=ncores ; i++ )) ; do
+for (( i=1; i<ncores ; i++ )) ; do
 (
 	## Get the next line or parameters from the stopos pool:
 	stopos next
@@ -63,14 +63,17 @@ for (( i=1; i<=ncores ; i++ )) ; do
 	    break
 	fi
 
-	## If it's the first Stopos value, then Run the Rscript to store session info
-	if [ $STOPOS_VALUE = 1 ]; then
-	    Rscript ./sim-lisa-step1-storeInfo.R $outDir/
-	fi
+#	## If it's the first Stopos value, then Run the Rscript to store session info
+#	if [ $STOPOS_VALUE = 1 ]; then
+#	    Rscript $inDir/sim-lisa-step1-storeInfo.R $outDir/
+#	fi
 	
 	## Call the R script with the replication number from the stopos pool:
-	Rscript $inDir/sim-lisa-step2-run-doRep.R $STOPOS_VALUE $tmpOut/
+#	Rscript $inDir/sim-lisa-step2-run-doRep.R $STOPOS_VALUE $tmpOut/
 	# script_name.R --options repetition_counter output_directory
+
+#	Rscript $inDir/saveRDS.R $tmpOut/
+  touch $tmpOut/prova.txt
 
  	## Remove the used parameter line from the stopos pool:
 	stopos remove
@@ -84,7 +87,7 @@ wait
  cd $tmpOut/
 
  # Zip everything that is inside (./.)
- tar -czf "$TMPDIR"/$idJob\_$idTask.tar.gz ./.
+ tar -czf $tmpOut.tar.gz ./.
 
 ## Copy output from scratch to output directory:
- cp -a "$TMPDIR"/$idJob\_$idTask.tar.gz $outDir/
+ cp -a $tmpOut.tar.gz $outDir/
