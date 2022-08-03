@@ -7,8 +7,8 @@
 # Packages ---------------------------------------------------------------------
 
   # Define path to folder for project-specific R packages
-  R_pack_lib <- c(pc = "../input/rlib/",
-                  lisa = "~/R/x86_64-pc-linux-gnu-library/4.1")["pc"]
+  R_pack_lib <- list(pc = "../input/rlib/",
+                     lisa = NULL)[["lisa"]]
 
   # Load packages from the project library
   library(mice, lib.loc = R_pack_lib)

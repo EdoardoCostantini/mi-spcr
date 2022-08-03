@@ -146,6 +146,7 @@ Here it is assumed that you know how to access Lisa and upload material to the s
      to perform a single run across all the conditions with the chosen simulation study set up.
      This will create an R object called `wall_time`.
    - Open the script `sim-lisa-js-normal.sh` and replace the wall time in the header (`#SBATCH -t`) with the value of `wall_time`.
+   - Open `init-software.R` and set `R_pack_lib` to its lisa value
    - Decide the number of repetitions, cores, and arrays in the preparatory script `prep-lisa-stopos-lines.R`
      For example:
      ```

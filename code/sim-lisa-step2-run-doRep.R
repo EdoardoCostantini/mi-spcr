@@ -20,7 +20,7 @@ subset_cond <- TRUE
 if(subset_cond == TRUE){
   cnds <- cnds %>%
     filter(pm %in% c(.25),
-           nla %in% c(6),
+           nla %in% c(2),
            npcs %in% c(0, 1),
            mech %in% "MAR",
            method %in% c("pcr", "fo"))
