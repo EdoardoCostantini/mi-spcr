@@ -13,9 +13,13 @@ args        <- commandArgs(trailingOnly = TRUE)
 out_dir  <- args[1]   # overwrite output directory defined
 rp          <- as.numeric(args[2]) # replication rp = 1 to desired
 
+# Load some objects
+source("init-objects.R")
+
 # Create an empty object
 res <- list(is = getwd(),
             out_dir = out_dir,
+            fs = fs,
             rp = 3)
 
 # write a file
