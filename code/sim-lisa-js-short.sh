@@ -64,9 +64,9 @@ for (( i=1; i<=ncores ; i++ )) ; do
 	fi
 
 #	## If it's the first Stopos value, then Run the Rscript to store session info
-#	if [ $STOPOS_VALUE = 1 ]; then
-#	    Rscript $inDir/sim-lisa-step1-storeInfo.R $outDir/
-#	fi
+	if [ $STOPOS_VALUE = 1 ]; then
+	    Rscript $inDir/sim-lisa-step1-storeInfo.R $tmpOut/
+	fi
 	
 	## Call the R script with the replication number from the stopos pool:
 #	Rscript $inDir/sim-lisa-step2-run-doRep.R $STOPOS_VALUE $tmpOut/

@@ -4,12 +4,15 @@
 # Created:   2022-07-29
 # Modified:  2022-08-03
 
-# Prepare Environment
-rm(list = ls())
+# Output Directory from Terminal inputs
+args <- commandArgs(trailingOnly = TRUE)
 
 # Initialize the environment:
 source("./init-objects.R")
 source("./init-software.R")
+
+# Change location of files
+fs$out_dir <- args[1]
 
 # Subset conditions?
 # cnds <- cnds[1:2, ]
@@ -22,10 +25,6 @@ source("./init-software.R")
 #            mech %in% "MAR",
 #            method %in% c("pcr", "fo"))
 # }
-
-# Output Directory from Terminal inputs
-args <- commandArgs(trailingOnly = TRUE)
-fs$out_dir <- args[1]
 
 # Create Empty storing object
 out <- list(parms = parms,

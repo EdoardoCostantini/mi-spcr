@@ -4,10 +4,6 @@
 # Created:   2022-08-03
 # Modified:  2022-08-03
 
-# Output Directory from Terminal inputs
-args <- commandArgs(trailingOnly = TRUE)
-out_dir <- args[1]
-
 # Extract commandline arguments
 args        <- commandArgs(trailingOnly = TRUE)
 out_dir  <- args[1]   # overwrite output directory defined
@@ -31,12 +27,6 @@ res <- list(getwd = getwd(),
 
 # write a file
 saveRDS(res, file = paste0(out_dir, "rep", rp, ".rds"))
-
-# write a info file like in simulation
-saveRDS(res$sInfo,
-        paste0(fs$out_dir,
-               fs$file_name_res, ".rds")
-)
 
 # # Output Directory from Terminal inputs
 # args <- commandArgs(trailingOnly = TRUE)
