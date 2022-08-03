@@ -15,16 +15,15 @@ source("./init-software.R")
 fs$out_dir <- args[1]
 
 # Subset conditions?
-# cnds <- cnds[1:2, ]
-# subset_cond <- TRUE
-# if(subset_cond == TRUE){
-#   cnds <- cnds %>%
-#     filter(pm %in% c(.25),
-#            nla %in% c(10),
-#            npcs %in% c(1, 2),
-#            mech %in% "MAR",
-#            method %in% c("pcr", "fo"))
-# }
+subset_cond <- TRUE
+if(subset_cond == TRUE){
+  cnds <- cnds %>%
+    filter(pm %in% c(.25),
+           nla %in% c(10),
+           npcs %in% c(1, 2),
+           mech %in% "MAR",
+           method %in% c("pcr", "fo"))
+}
 
 # Create Empty storing object
 out <- list(parms = parms,
