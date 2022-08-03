@@ -15,11 +15,18 @@ rp          <- as.numeric(args[2]) # replication rp = 1 to desired
 
 # Load some objects
 source("init-objects.R")
+source("./init-software.R")
+
+# Modify store
+fs$out_dir <- args[1]
 
 # Create an empty object
-res <- list(is = getwd(),
+res <- list(getwd = getwd(),
             out_dir = out_dir,
             fs = fs,
+            parms = parms,
+            cnds = cnds,
+            sInfo = devtools::session_info(),
             rp = 3)
 
 # write a file
