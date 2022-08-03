@@ -2,7 +2,7 @@
 # Objective: Store the session information
 # Author:    Edoardo Costantini
 # Created:   2022-07-29
-# Modified:  2022-08-01
+# Modified:  2022-08-03
 
 # Prepare Environment
 rm(list = ls())
@@ -12,15 +12,16 @@ source("./init-objects.R")
 source("./init-software.R")
 
 # Subset conditions?
-subset_cond <- TRUE
-if(subset_cond == TRUE){
-  cnds <- cnds %>%
-    filter(pm %in% c(.25),
-           nla %in% c(10),
-           npcs %in% c(1, 2),
-           mech %in% "MAR",
-           method %in% c("pcr", "fo"))
-}
+# cnds <- cnds[1:2, ]
+# subset_cond <- TRUE
+# if(subset_cond == TRUE){
+#   cnds <- cnds %>%
+#     filter(pm %in% c(.25),
+#            nla %in% c(10),
+#            npcs %in% c(1, 2),
+#            mech %in% "MAR",
+#            method %in% c("pcr", "fo"))
+# }
 
 # Output Directory from Terminal inputs
 args <- commandArgs(trailingOnly = TRUE)
@@ -34,5 +35,5 @@ out <- list(parms = parms,
 # Save it in the root
 saveRDS(out,
         paste0(fs$out_dir,
-               fs$fileName_res, ".rds")
+               fs$file_name_res, ".rds")
 )
