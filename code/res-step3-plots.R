@@ -2,7 +2,7 @@
 # Objective: Making plots
 # Author:    Edoardo Costantini
 # Created:   2022-07-19
-# Modified:  2022-08-01
+# Modified:  2022-08-03
 
 # Clean environment:
 rm(list = ls())
@@ -27,43 +27,62 @@ grid_y_axis <- "pm"
 # R shiny plot -----------------------------------------------------------------
 
 ui <- fluidPage(
-  sidebarLayout(
-    sidebarPanel(
-      selectInput("nla",
-                  "Number of latent variables",
-                  choices = sort(unique(gg_shape$nla))),
-      checkboxGroupInput("pm",
-                         "Proportion of missing values",
-                         choices = sort(unique(gg_shape$pm)),
-                         selected = sort(unique(gg_shape$pm))),
-      checkboxGroupInput("mech",
-                         "Missing data mechanism",
-                         inline = TRUE,
-                         choices = levels(gg_shape$mech),
-                         selected = levels(gg_shape$mech)),
-      selectInput("stat",
-                  "Statistic",
-                  choices = unique(gg_shape$stat)),
-      selectInput("vars",
-                  "Variables",
-                  choices = unique(gg_shape$vars)),
-      selectInput("plot_y_axis",
-                  "Outcome measure",
-                  choices = c("RB", "PRB", "coverage", "CIW_avg", "mcsd")),
-      checkboxGroupInput("method", "Imputation methods to compare:",
-                         choices = levels(gg_shape$method),
-                         selected = levels(gg_shape$method)[1:4]),
-      shinyWidgets::sliderTextInput(inputId = "npcs",
-                                    label = "Number of principal components",
-                                    hide_min_max = TRUE,
-                                    choices = sort(unique(gg_shape$npcs)),
-                                    selected = range(gg_shape$npcs),
-                                    grid = TRUE),
+  fluidRow(
+    column(4,
+           hr(),
+           h4("Data generation"),
+           radioButtons("nla",
+                        "Number of latent variables",
+                        choices = sort(unique(gg_shape$nla)),
+                        inline = TRUE),
+           checkboxGroupInput("pm",
+                              "Proportion of missing values",
+                              choices = sort(unique(gg_shape$pm)),
+                              selected = sort(unique(gg_shape$pm)),
+                              inline = TRUE),
+           checkboxGroupInput("mech",
+                              "Missing data mechanism",
+                              inline = TRUE,
+                              choices = levels(gg_shape$mech),
+                              selected = levels(gg_shape$mech)),
     ),
-    mainPanel(
-      plotOutput("plot", height = "800px")
-    )
-  )
+    column(4,
+           hr(),
+           h4("Outcome measures"),
+           radioButtons("stat",
+                        "Statistic",
+                        inline = TRUE,
+                        choices = unique(gg_shape$stat)),
+           radioButtons("vars",
+                        "Variables",
+                        inline = TRUE,
+                        choices = unique(gg_shape$vars)),
+           selectInput("plot_y_axis",
+                       "Outcome measure",
+                       choices = c("RB", "PRB", "coverage", "CIW_avg", "mcsd")),
+    ),
+    column(4,
+           hr(),
+           h4("Missing data treatments"),
+           checkboxGroupInput("method",
+                              "Imputation methods to compare:",
+                              choices = levels(gg_shape$method),
+                              selected = levels(gg_shape$method)[1:4],
+                              inline = TRUE),
+           shinyWidgets::sliderTextInput(inputId = "npcs",
+                                         label = "Number of principal components",
+                                         hide_min_max = TRUE,
+                                         choices = sort(unique(gg_shape$npcs)),
+                                         selected = range(gg_shape$npcs),
+                                         grid = TRUE),
+    ),
+  ),
+    hr(),
+
+    plotOutput('plot'),
+
+    # Silent extraction of size
+    shinybrowser::detect(),
 )
 
 server <- function(input, output, session) {
@@ -72,14 +91,24 @@ server <- function(input, output, session) {
   observe({
     # Statistics and Variables requested
     if(any(input$stat %in% c("cor", "cov"))){
-      updateSelectInput(session,
-                        "vars",
-                        choices = unique(gg_shape$vars)[1:3]
+      updateRadioButtons(session,
+                         "vars",
+                         inline = TRUE,
+                         choices = unique(gg_shape$vars)[1:3]
       )
     } else {
-      updateSelectInput(session,
-                        "vars",
-                        choices = unique(gg_shape$vars)[4:6]
+      updateRadioButtons(session,
+                         "vars",
+                         inline = TRUE,
+                         choices = unique(gg_shape$vars)[4:6]
+      )
+    }
+
+    # Width of page
+    if(shinybrowser::get_width() < 768){
+      updateCheckboxGroupInput(session,
+                               inputId = "mech",
+                               selected = levels(gg_shape$mech)[2]
       )
     }
 
@@ -93,7 +122,7 @@ server <- function(input, output, session) {
   })
 
   output$plot <- renderPlot(
-    res = 96,
+    res = 96, height = 750,
   {
     gg_shape %>%
       filter(
@@ -110,7 +139,7 @@ server <- function(input, output, session) {
                         y = input$plot_y_axis,
                         group = moderator)) +
       geom_point(aes_string(shape = moderator), size = 1.5) +
-      geom_line(aes_string(lines = moderator)) +
+      geom_line() +
       scale_x_continuous(breaks = sort(unique(gg_shape$npcs)), sort(unique(gg_shape$npcs))) +
       facet_grid(reformulate(grid_x_axis,
                              grid_y_axis),
