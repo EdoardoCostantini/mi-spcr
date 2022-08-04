@@ -87,7 +87,7 @@
   goal_reps <- 250 # should match your total goal of repetitions
 
   # number of cores usable in each lisa node
-  ncores    <- 15
+  ncores    <- 16
 
   # how will the tasks be devided in arrayes
   # e.g.: I want to specify a sbatch array of 2 tasks (sbatch -a 1-2 job_script_array.sh)

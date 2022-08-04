@@ -10,7 +10,7 @@
 # Objective: lisa job script (short partition array type)
 # Author:    Edoardo Costantini
 # Created:   2022-07-29
-# Modified:  2022-08-03
+# Modified:  2022-08-04
 
 ## USAGE on LISA:
 ##   sbatch -a 1-ARRAY_NUM exp5_js_mainSim.sh
@@ -27,7 +27,7 @@
 module load R
 
 ## Define Variables and Directories
-projDir=$HOME/mi-pcr	        # Project directory
+projDir=$HOME/mi-spcr	        # Project directory
 inDir=$projDir/code           # Source directory (for R)
 ncores=`sara-get-num-cores` 	# Number of available cores
 idJob=$SLURM_ARRAY_JOB_ID  	  # Master ID for the array of jobs

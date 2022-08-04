@@ -5,12 +5,12 @@
 # Modified:  2022-08-04
 
   rm(list = ls())
-  source("./init-software.R")
+  source("init-software.R")
 
 # Unzip results -----------------------------------------------------------
 
   # Job ID
-  idJob <- "9839096"
+  idJob <- "9847608"
   
   # Define location of results
   input_dir <- paste0("../output/", idJob, "/")
@@ -53,6 +53,10 @@
     out_main_list <- output[grepl("main", fileNames)]
     out_main <- do.call(rbind, out_main_list)
 
+    # Get mids results
+    out_mids_list <- output[grepl("mids", fileNames)]
+    names(out_mids_list) <- grep("mids", fileNames, value = TRUE)
+
     # Get the errors results
     errors <- grep("ERROR", fileNames)
     if(length(errors) > 0){
@@ -70,6 +74,15 @@
                    gsub(".tar.gz", "_main.rds", tar_names[i])
             )
     )
+
+    # Mids
+    if(length(out_mids_list) > 0){
+      saveRDS(out_mids_list,
+              paste0(res_dir,
+                     gsub(".tar.gz", "_mids.rds", tar_names[i])
+              )
+      )
+    }
 
     # Errors
     saveRDS(out_errors, paste0(res_dir,
@@ -96,6 +109,10 @@
   rds_mains <- lapply(paste0(res_dir, rds_main_names), readRDS)
   rds_main <- do.call(rbind, rds_mains)
 
+  # Read mids results
+  rds_mids_names <- grep("mids", list.files(res_dir), value = TRUE)
+  rds_mids <- lapply(paste0(res_dir, rds_mids_names), readRDS)
+
   # Read error results
   rds_error_names <- grep("ERROR", list.files(res_dir), value = TRUE)
   rds_errors <- lapply(paste0(res_dir, rds_error_names), readRDS)
@@ -109,6 +126,7 @@
 
   # Save output
   saveRDS(list(main = rds_main,
+               mids = rds_mids,
                error = rds_error,
                sInfo = sInfo),
           paste0("../output/", run_name, "-lisa-", idJob, "-unzipped.rds"))

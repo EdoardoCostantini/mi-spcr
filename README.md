@@ -173,7 +173,7 @@ Bullet points starting with "PC" and "Lisa" indicate that the task should be per
    - PC: Run `prep-lisa-direcotry.sh`:
      - In your terminal, run
        ```
-       . code/prep-lisa-directory run-name
+       . code/prep-lisa-directory.sh run-name
        ```
        This script creates a folder on your computer by the name `run-name` in the `lisa/` folder.
 

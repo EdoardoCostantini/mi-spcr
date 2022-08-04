@@ -2,13 +2,13 @@
 # Objective: initialization script
 # Author:    Edoardo Costantini
 # Created:   2022-07-05
-# Modified:  2022-07-26
+# Modified:  2022-08-04
 
 # File system ------------------------------------------------------------------
 
   # 1-word run description (only if not given by other run)
   if(!exists("run_descr")){
-    run_descr <- "trial"
+    run_descr <- "run"
   }
 
   # Define an object to store file system directives
@@ -30,8 +30,8 @@
   parms <- list()
 
   # Seed
-  parms$seed     <- 20220712
-  parms$nStreams <- 1000 # TODO: should this be as large as the number of parallel processes?
+  parms$seed     <- 20220804
+  parms$nStreams <- 1000
 
   # Data generation
   parms$N         <- 1e3      # sample size

@@ -2,7 +2,7 @@
 # Objective: Store the session information
 # Author:    Edoardo Costantini
 # Created:   2022-07-29
-# Modified:  2022-08-03
+# Modified:  2022-08-04
 
 # Output Directory from Terminal inputs
 args <- commandArgs(trailingOnly = TRUE)
@@ -15,7 +15,7 @@ source("init-software.R")
 fs$out_dir <- args[1]
 
 # Subset conditions?
-subset_cond <- TRUE
+subset_cond <- FALSE
 if(subset_cond == TRUE){
   cnds <- cnds %>%
     filter(pm %in% c(.25),
@@ -23,7 +23,7 @@ if(subset_cond == TRUE){
            npcs %in% c(0, 1),
            mech %in% "MAR",
            method %in% c("pcr", "spcr", "pls", "pcovr", "fo"))
-  parms$mice_iters <- 3
+  parms$mice_iters <- 2
 }
 
 # Create Empty storing object

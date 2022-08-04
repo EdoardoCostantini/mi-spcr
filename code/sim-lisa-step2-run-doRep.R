@@ -2,7 +2,7 @@
 # Objective: Run a single repetition in lisa
 # Author:    Edoardo Costantini
 # Created:   2022-07-29
-# Modified:  2022-08-01
+# Modified:  2022-08-04
 
 # Output Directory from Terminal inputs
 args <- commandArgs(trailingOnly = TRUE)
@@ -16,7 +16,7 @@ fs$out_dir <- args[1]
 rp         <- as.numeric(args[2]) # replication rp = 1 to desired
 
 # Subset conditions?
-subset_cond <- TRUE
+subset_cond <- FALSE
 if(subset_cond == TRUE){
   cnds <- cnds %>%
     filter(pm %in% c(.25),
@@ -24,7 +24,7 @@ if(subset_cond == TRUE){
            npcs %in% c(0, 1),
            mech %in% "MAR",
            method %in% c("pcr", "spcr", "pls", "pcovr", "fo"))
-  parms$mice_iters <- 3
+  parms$mice_iters <- 2
 }
 
 # Example Inputs Not to run
