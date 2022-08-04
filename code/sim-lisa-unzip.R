@@ -2,19 +2,23 @@
 # Objective: put results together from tar archive obtained with lisa run
 # Author:    Edoardo Costantini
 # Created:   2022-07-29
-# Modified:  2021-12-16
+# Modified:  2022-08-04
 
   rm(list = ls())
-  source("./init.R")
+  source("./init-software.R")
 
 # Unzip results -----------------------------------------------------------
 
   # Job ID
-  idJob <- "8469421" # "8463508"
+  idJob <- "9839096"
   
   # Define location of results
-  input_dir <- paste0("../output/lisa/", idJob, "/")
+  input_dir <- paste0("../output/", idJob, "/")
   tar_names <- grep(".tar.gz", list.files(input_dir), value = TRUE)
+
+  # Define run name
+  run_name <- grep(".rds", list.files(input_dir), value = TRUE)
+  run_name <- tools::file_path_sans_ext(run_name, compression = TRUE)
 
   # Create empty dir to contain results
   res_dir   <- paste0(input_dir, "res/")
@@ -49,10 +53,6 @@
     out_main_list <- output[grepl("main", fileNames)]
     out_main <- do.call(rbind, out_main_list)
 
-    # Get the time results
-    out_time_list <- output[grepl("time", fileNames)]
-    out_time <- do.call(rbind, out_time_list)
-
     # Get the errors results
     errors <- grep("ERROR", fileNames)
     if(length(errors) > 0){
@@ -68,13 +68,6 @@
     saveRDS(out_main,
             paste0(res_dir,
                    gsub(".tar.gz", "_main.rds", tar_names[i])
-            )
-    )
-
-    # Time
-    saveRDS(out_time,
-            paste0(res_dir,
-                   gsub(".tar.gz", "_time.rds", tar_names[i])
             )
     )
 
@@ -103,11 +96,6 @@
   rds_mains <- lapply(paste0(res_dir, rds_main_names), readRDS)
   rds_main <- do.call(rbind, rds_mains)
 
-  # Read time results
-  rds_time_names <- grep("time", list.files(res_dir), value = TRUE)
-  rds_times <- lapply(paste0(res_dir, rds_time_names), readRDS)
-  rds_time <- do.call(rbind, rds_times)
-
   # Read error results
   rds_error_names <- grep("ERROR", list.files(res_dir), value = TRUE)
   rds_errors <- lapply(paste0(res_dir, rds_error_names), readRDS)
@@ -121,7 +109,6 @@
 
   # Save output
   saveRDS(list(main = rds_main,
-               time = rds_time,
                error = rds_error,
                sInfo = sInfo),
-          paste0(res_dir, idJob, "_unzipped.rds"))
+          paste0("../output/", run_name, "-lisa-", idJob, "-unzipped.rds"))

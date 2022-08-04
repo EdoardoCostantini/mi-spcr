@@ -2,7 +2,7 @@
 # Objective: Estimate time per repetition
 # Author:    Edoardo Costantini
 # Created:   2022-07-29
-# Modified:  2022-08-01
+# Modified:  2022-08-04
 
 # Run of single repeition (cycle through all conditions) -----------------------
 
@@ -97,7 +97,7 @@
   # Define a conservative wall time (max is 90ish h?)
   wall_time <- time_to_run * 2 # expected job time on lisa
 
-  # Indicative SBU consumption
+  # Indicative SBU consumption (expected time)
   n_nodes * ncores * time_to_run
 
   # Conservative SBU consumption

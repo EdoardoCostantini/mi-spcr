@@ -166,7 +166,11 @@ Bullet points starting with "PC" and "Lisa" indicate that the task should be per
        Rscript prep-lisa-stopos-define.R 
        ```
        This will create a `stopos-lines` text file in the `input` folder that will define the repetition index for lisa.
-   - PC: Run `èreèr-lisa-direcotry.sh`:
+   - PC: Open `sim-lisa-step1-storeInfo.R`
+     - check `subset_cond` set to `TRUE` if you want a short run, `FALSE` if you want the full run
+   - PC: Open `sim-lisa-step2-run-doRep.R`
+     - check `subset_cond` set to `TRUE` if you want a short run, `FALSE` if you want the full run
+   - PC: Run `prep-lisa-direcotry.sh`:
      - In your terminal, run
        ```
        . code/prep-lisa-directory run-name
@@ -233,8 +237,8 @@ Bullet points starting with "PC" and "Lisa" indicate that the task should be per
     
 5. Read the results on your computer:
    - PC: The script `sim-lisa-unzip.R` goes through the Lisa result folder, unzips tar.gz packages, and puts results together.
-   - PC: Finally, the script `combine_results.R` ??? computes bias, CIC, and all the outcome measures. 
-     It also puts together the RDS objects that can be plotted with the functions stored in `./code/plots/`
+   - PC: Finally, the script `res-step2-shape-results.R` computes bias, CIC, and all the outcome measures. 
+     It also puts together the RDS objects that can be plotted with the shiny app in `res-step3-plots.R`
 
 ### Running the simulation on a PC / Mac
 

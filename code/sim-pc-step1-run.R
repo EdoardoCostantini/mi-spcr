@@ -2,7 +2,7 @@
 # Objective: Run the simulation study
 # Author:    Edoardo Costantini
 # Created:   2022-07-08
-# Modified:  2022-08-01
+# Modified:  2022-08-04
 
 # Environment ------------------------------------------------------------------
 
@@ -16,7 +16,7 @@
     }
 
     # 1-word run description
-    run_descr <- "debug-cruve-pcr-pls-fo"
+    run_descr <- "check-mar-mcar-npc-1"
 
     # Initialize the environment:
     source("init-software.R") # load packages
@@ -37,7 +37,7 @@
 # Run specifications -----------------------------------------------------------
 
     # number of repetitions
-    reps <- (1:100)[1:2] #1 : 5 # define repetitions
+    reps <- (1:100)[1:30] #1 : 5 # define repetitions
 
     # parms$mice_iters <- 5
 
@@ -47,15 +47,15 @@
         cnds <- cnds %>%
           filter(pm %in% c(.25),
                  nla %in% c(10),
-                 npcs %in% c(1, 2),
-                 mech %in% "MAR",
-                 method %in% c("pcr", "fo"))
+                 npcs %in% c(0, 1, 10),
+                 # mech %in% "MAR",
+                 method %in% c("pcr", "qp", "am", "cc", "fo"))
     }
 
 # Parallelization --------------------------------------------------------------
 
     # number of clusters for parallelization
-    clusters <- 10
+    clusters <- 5
 
     # Open clusters
     clus <- makeCluster(clusters)

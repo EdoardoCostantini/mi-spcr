@@ -8,8 +8,8 @@
 args <- commandArgs(trailingOnly = TRUE)
 
 # Initialize the environment:
-source("./init-objects.R")
-source("./init-software.R")
+source("init-objects.R")
+source("init-software.R")
 
 # Change location of files
 fs$out_dir <- args[1]
@@ -22,7 +22,8 @@ if(subset_cond == TRUE){
            nla %in% c(2),
            npcs %in% c(0, 1),
            mech %in% "MAR",
-           method %in% c("pcr", "fo"))
+           method %in% c("pcr", "spcr", "pls", "pcovr", "fo"))
+  parms$mice_iters <- 3
 }
 
 # Create Empty storing object
