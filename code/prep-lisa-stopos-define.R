@@ -14,4 +14,4 @@ narray    <- ceiling(goal_reps/ncores)  # I want to specify a sbatch array of 2 
 
 # Save in input folder for Stopos
 write(x = as.character(1:goal_reps),
-      file = "../input/stopos_lines")
+      file = "../input/stopos-lines")
