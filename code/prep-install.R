@@ -2,7 +2,7 @@
 # Objective: Install packages required for running simulation
 # Author:    Edoardo Costantini
 # Created:   2022-07-05
-# Modified:  2022-08-01
+# Modified:  2022-08-04
 
 # Set up -----------------------------------------------------------------------
 
@@ -18,7 +18,7 @@
 
     # Destination directory
     destDir <- c(pc = "../input/rlib/",
-                 lisa = "~/R/x86_64-pc-linux-gnu-library/4.1")["lisa"]
+                 lisa = "~/R/x86_64-pc-linux-gnu-library/4.1")[2]
 
 # devtools ---------------------------------------------------------------------
 
