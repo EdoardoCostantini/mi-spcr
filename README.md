@@ -136,65 +136,77 @@ Lisa Cluster is a cluster computer system managed by SURFsara, a cooperative ass
 research institutions.
 Researchers at most Dutch universities can request access to this cluster computer.
 Here it is assumed that you know how to access Lisa and upload material to the server.
+Bullet points starting with "PC" and "Lisa" indicate that the task should be performed in a terminal session on either your personal computer or on Lisa, respecively.
 
-1. Define run and perform parameter checks:
-   - Open the initialization script `init-objects.R` check the fixed parameters and experimental factor levels are set to the desired values.
-   - Open the `prep-install.R`, set the vector `destDir` to its "lisa" value.
+1. **Define run** and perform parameter checks:
+   - PC: Open `init-objects.R`:
+     - check the fixed parameters and experimental factor levels are set to the desired values.
+     - set `run_descr` to a meaningful description
+   - PC: Open `prep-install.R`:
+     - set the vector `destDir` to its "lisa" value.
    
-2. Prepare the lisa run on your computer:
-   - Run on a personal computer the script `prep-estimate-time-per-rep.R` to check how long it takes
-     to perform a single run across all the conditions with the chosen simulation study set up.
-     This will create an R object called `wall_time`.
-   - Open the script `sim-lisa-js-normal.sh` and replace the wall time in the header (`#SBATCH -t`) with the value of `wall_time`.
-   - Open `init-software.R` and set `R_pack_lib` to its lisa value
-   - Decide the number of repetitions, cores, and arrays in the preparatory script `prep-lisa-stopos-lines.R`
-     For example:
-     ```
-     goal_reps <- 500 
-     ncores    <- 15 # Lisa nodes have 16 cores available (16-1 used)
-     narray    <- ceiling(goal_reps/ncores) # number of arrays/nodes to use 
-     ```
-     Once you have specified these values, *run the script on your computer*.
-     ```
-     Rscript prep-lisa-stopos-lines.R 
-     ```
-     This will create a `stopos_lines` text file in the `input` folder that will define the repetition index.
+2. **Prepare run** *on a personal computer*:
+   - PC: Open `prep-estimate-time-per-rep.R`:
+     - Run it to check how long it takes to perform a single run across all the conditions with the chosen simulation study set up.
+       This will create an R object called `wall_time`.
+   - PC: Open `sim-lisa-js-normal.sh`:
+     - replace the wall time in the header (`#SBATCH -t`) with the value of `wall_time`.
+   - PC: Open `init-software.R`:
+     - set `R_pack_lib` to its "lisa" value
+   - PC: Open `prep-lisa-stopos-define.R`: 
+     - Decide the number of repetitions, cores, and arrays in the preparatory script 
+       For example:
+       ```
+       goal_reps <- 500 
+       ncores    <- 15 # Lisa nodes have 16 cores available (16-1 used)
+       narray    <- ceiling(goal_reps/ncores) # number of arrays/nodes to use 
+       ```
+       Once you have specified these values, *run the script on your computer*.
+       ```
+       Rscript prep-lisa-stopos-define.R 
+       ```
+       This will create a `stopos_lines` text file in the `input` folder that will define the repetition index for lisa.
+   - PC: Create `date-run` directory:
+     - Go to the `lisa/` folder on your computer and create a folder with a meaningful name for the run (I usually use the current date and a tag describing the simulation).
+     - Copy to `lisa/date-run` the `code` and `input` folders form the main repository and create an empty `output` folder.
 
-3. Prepare the lisa run on lisa:
-   - Go to the `lisa/` folder on your computer and create a folder with a meaningful name for the run (I usually use the current date and a tag describing the simulation). Then, copy here the `code` and `input` folders form the main repository and create an empty `output` folder.
-   - Authenticate on Lisa
-   - From your terminal, upload the folder containing the project
+3. **Prepare run** *on lisa*:
+   - PC/Lisa: Authenticate on Lisa
+   - PC: Upload the folder containing the project to the lisa cluster by running the following command in your terminal
      ```
-     scp -r path/to/local/project user@lisa.surfsara.nl:project
+     scp -r path/to/local/project/lisa/date-run user@lisa.surfsara.nl:project
      ```
      For example:
      ```
      scp -r lisa/20211116 ******@lisa.surfsara.nl:mi-pcr
      ```
-   - On Lisa, run `prep-install.R` to install all R-packages.
-   - Check all the packages called by the `init-software.R` script are available by running
+   - Lisa: run `prep-install.R` to install all R-packages.
+     ```
+     Rscript mi-pcr/code/prep-install.R
+     ```
+   - Lisa: Check all the packages called by the `init-software.R` script are available by running
      ```
      Rscript mi-pcr/code/init-software.R
      ```
    
-   - Go back to the lisa terminal and load the following modules
+   - Lisa: Load the following modules
      ```
      module load 2021
      module load R/4.1.0-foss-2021a
      module load Stopos/0.93-GCC-10.3.0
      ```
      (or their most recent version at the time you are running this)
-   - go to the code folder on the lisa cloned project
+   - Lisa: go to the code folder in the lisa cloned project
      ``` 
      cd mi-pcr/code/ 
      ```
-   - run the prepping script by
+   - Lisa: run the prepping script by
      ```
-     . prep-lisa-create-stopos.sh ../input/stopos_lines
+     . prep-lisa-stopos-deploy.sh ../input/stopos_lines
      ```
      
-4. Run simulation on Lisa
-   - submit the jobs by
+4. **Run simulation**
+   - Lisa: submit the jobs by using the following command
      ```
      sbatch -a 1-34 sim-lisa-js-normal.sh 
      ```
@@ -207,14 +219,18 @@ Here it is assumed that you know how to access Lisa and upload material to the s
      ```
      sbatch -a 1-2 sim-lisa-js-short.sh
      ```
-   - When the array of jobs is done, you can pull the results to your machine by
+   - PC: When the array of jobs is done, you can pull the results to your machine by
      ```
      scp -r user@lisa.surfsara.nl:mi-pcr/output/folder path/to/local/project/output/folder
      ```
+     For example, from a terminal session in the main folder
+     ```
+     scp -r u590194@lisa.surfsara.nl:mi-pcr/output/9829724 ./output/
+     ```
     
 5. Read the results on your computer:
-   - The script `sim-lisa-unzip.R` goes through the Lisa result folder, unzips tar.gz packages, and puts results together.
-   - Finally, the script `combine_results.R` ??? computes bias, CIC, and all the outcome measures. 
+   - PC: The script `sim-lisa-unzip.R` goes through the Lisa result folder, unzips tar.gz packages, and puts results together.
+   - PC: Finally, the script `combine_results.R` ??? computes bias, CIC, and all the outcome measures. 
      It also puts together the RDS objects that can be plotted with the functions stored in `./code/plots/`
 
 ### Running the simulation on a PC / Mac
