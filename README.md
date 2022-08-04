@@ -142,6 +142,8 @@ Bullet points starting with "PC" and "Lisa" indicate that the task should be per
    - PC: Open `init-objects.R`:
      - check the fixed parameters and experimental factor levels are set to the desired values.
      - set `run_descr` to a meaningful description
+   - PC: Open `prep-software.R`:
+     - set the vector `R_pack_lib` to its "lisa" value.
    - PC: Open `prep-install.R`:
      - set the vector `destDir` to its "lisa" value.
    
@@ -151,13 +153,11 @@ Bullet points starting with "PC" and "Lisa" indicate that the task should be per
        This will create an R object called `wall_time`.
    - PC: Open `sim-lisa-js-normal.sh`:
      - replace the wall time in the header (`#SBATCH -t`) with the value of `wall_time`.
-   - PC: Open `init-software.R`:
-     - set `R_pack_lib` to its "lisa" value
    - PC: Open `prep-lisa-stopos-define.R`: 
      - Decide the number of repetitions, cores, and arrays in the preparatory script 
        For example:
        ```
-       goal_reps <- 500 
+       goal_reps <- 250
        ncores    <- 15 # Lisa nodes have 16 cores available (16-1 used)
        narray    <- ceiling(goal_reps/ncores) # number of arrays/nodes to use 
        ```
@@ -165,22 +165,25 @@ Bullet points starting with "PC" and "Lisa" indicate that the task should be per
        ```
        Rscript prep-lisa-stopos-define.R 
        ```
-       This will create a `stopos_lines` text file in the `input` folder that will define the repetition index for lisa.
-   - PC: Create `date-run` directory:
-     - Go to the `lisa/` folder on your computer and create a folder with a meaningful name for the run (I usually use the current date and a tag describing the simulation).
-     - Copy to `lisa/date-run` the `code` and `input` folders form the main repository and create an empty `output` folder.
+       This will create a `stopos-lines` text file in the `input` folder that will define the repetition index for lisa.
+   - PC: Run `èreèr-lisa-direcotry.sh`:
+     - In your terminal, run
+       ```
+       . code/prep-lisa-directory run-name
+       ```
+       This script creates a folder on your computer by the name `run-name` in the `lisa/` folder.
 
 3. **Prepare run** *on lisa*:
    - PC/Lisa: Authenticate on Lisa
-   - PC: Upload the folder containing the project to the lisa cluster by running the following command in your terminal
+   - PC: Upload the folder `lisa/run-name` to the lisa cluster by running the following command in your terminal
      ```
-     scp -r path/to/local/project/lisa/date-run user@lisa.surfsara.nl:project
+     scp -r path/to/local/project/lisa/date-run user@lisa.surfsara.nl:mi-spcr
      ```
      For example:
      ```
-     scp -r lisa/20211116 ******@lisa.surfsara.nl:mi-pcr
+     scp -r lisa/20211116 ******@lisa.surfsara.nl:mi-spcr
      ```
-   - Lisa: run `prep-install.R` to install all R-packages.
+   - Lisa: run `prep-install.R` to install all R-packages if it's the first time you are running it.
      ```
      Rscript mi-pcr/code/prep-install.R
      ```
@@ -198,11 +201,11 @@ Bullet points starting with "PC" and "Lisa" indicate that the task should be per
      (or their most recent version at the time you are running this)
    - Lisa: go to the code folder in the lisa cloned project
      ``` 
-     cd mi-pcr/code/ 
+     cd mi-spcr/code/
      ```
    - Lisa: run the prepping script by
      ```
-     . prep-lisa-stopos-deploy.sh ../input/stopos_lines
+     . prep-lisa-stopos-deploy.sh ../input/stopos-lines
      ```
      
 4. **Run simulation**
