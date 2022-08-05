@@ -37,7 +37,7 @@
       dependencies = TRUE,
       versions = "2.7.1",
       repo = "https://cloud.r-project.org/",
-      lib = "~/R/x86_64-pc-linux-gnu-library/4.1"
+      lib = destDir
     )
 
 # MLmetrics 7.3-57 -------------------------------------------------------------
@@ -47,7 +47,7 @@
       dependencies = TRUE,
       versions = "1.1.1",
       repo = "https://cloud.r-project.org/",
-      lib = "~/R/x86_64-pc-linux-gnu-library/4.1"
+      lib = destDir
     )
 
 # MASS 7.3-57 ------------------------------------------------------------------
@@ -123,4 +123,4 @@
     install.packages("../input/mice_3.14.7.9005.tar.gz",
                      repos = NULL,
                      type = "source",
-                     lib = "~/R/x86_64-pc-linux-gnu-library/4.1")
+                     lib = destDir)
