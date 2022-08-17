@@ -2,7 +2,7 @@
 # Objective: runs a single repetiton of a single experimental cndition
 # Author:    Edoardo Costantini
 # Created:   2022-07-05
-# Modified:  2022-08-01
+# Modified:  2022-08-17
 # Note:      A "cell" is a given repetition for a given cndition.
 #            This function:
 #            - generates 1 data set,
@@ -13,7 +13,7 @@ runCell <- function(rp, cnd, fs, parms) {
 
   # Example Internals -------------------------------------------------------
 
-  # cnd = cnds["26", ]
+  # cnd = cnds[1, ]
   # rp   = 1
 
   # Run internals in a tryCatch statement
@@ -239,9 +239,8 @@ runCell <- function(rp, cnd, fs, parms) {
           object = mice_mids,
           file = paste0(
             fs$out_dir,
-            "rp-", rp, "-",
+            "rp-", rp, "-mids-",
             cnd$tag,
-            "-mids",
             ".rds"
           )
         )
@@ -289,31 +288,31 @@ runCell <- function(rp, cnd, fs, parms) {
       time = imp_time
     )
 
-    # Store Main Results
-    saveRDS(res,
-      file = paste0(
-        fs$out_dir,
-        "rp-", rp, "-", cnd$tag,
-        "-main",
-        ".rds"
-      )
-    )
+    # Return it
+    return(res)
 
     ### END TRYCATCH EXPRESSION
   }, error = function(e){
+
+    # Extract error
     err <- paste0("Original Error: ", e)
+
+    # Attach it to a conditon
     err_res <- cbind(rp = rp, cnd, Error = err)
+
+    # And store it
     saveRDS(err_res,
       file = paste0(
         fs$out_dir,
-        "rp-", rp, "-", cnd$tag,
-        "-ERROR",
+        "rp-", rp, "-ERROR-", cnd$tag,
         ".rds"
       )
     )
-    return(NULL)
+
+    # Return NA
+    return(NA)
+
   }
   )
-
 }
 
