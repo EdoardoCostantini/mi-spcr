@@ -2,17 +2,16 @@
 # Objective: put results together from tar archive obtained with pc run
 # Author:    Edoardo Costantini
 # Created:   2022-07-12
-# Modified:  2022-07-29
+# Modified:  2022-08-18
 
 # Prep environment --------------------------------------------------------
 
   rm(list = ls()) # to clean up
-  source("init-software.R")
-
-
-  tar_name <- "../output/20220728-185933-check-pcr-spcr-work.tar.gz"
+  source("0-init-software.R")
 
 # Load Results ------------------------------------------------------------
+
+  tar_name <- "../output/20220817-155024-reduce-save.tar.gz"
 
   output <- readTarGz(tar_name)
 

@@ -3,7 +3,7 @@
 # Objective: Create a run directory for Lisa
 # Author:    Edoardo Costantini
 # Created:   2022-08-04
-# Modified:  2022-08-04
+# Modified:  2022-08-18
 
 # Define a run name
 

@@ -2,7 +2,7 @@
 # Objective: Run with many iterations to check convergence
 # Author:    Edoardo Costantini
 # Created:   2022-07-25
-# Modified:  2022-07-29
+# Modified:  2022-08-18
 
 # 1. Prepare run ---------------------------------------------------------------
 
@@ -21,8 +21,8 @@
 # - Load default environment ---------------------------------------------------
 
     # Initialize the environment:
-    source("init-software.R")
-    source("init-objects.R")
+    source("0-init-software.R")
+    source("0-init-objects.R")
 
     # Create folders and report files
     dir.create(fs$out_dir)
@@ -60,7 +60,7 @@
     clus <- makeCluster(clusters)
 
     # export scripts to be executed to worker nodes
-    clusterEvalQ(cl = clus, expr = source("init-software.R"))
+    clusterEvalQ(cl = clus, expr = source("0-init-software.R"))
 
 # - mcApply parallel -----------------------------------------------------------
 

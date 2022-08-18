@@ -4,7 +4,7 @@
 # Objective: Prepare the stopos pool on lisa (execute on lisa)
 # Author:    Edoardo Costantini
 # Created:   2022-07-29
-# Modified:  2022-07-29
+# Modified:  2022-08-18
 
 # USAGE on LISA:
 #   ./pool_script PATH_TO_POOL_LINES

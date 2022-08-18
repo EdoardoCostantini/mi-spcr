@@ -2,7 +2,7 @@
 # Objective: Write stopos lines for lisa (execute beforehand on personal computer)
 # Author:    Edoardo Costantini
 # Created:   2022-07-29
-# Modified:  2022-08-04
+# Modified:  2022-08-18
 
 # Prepare Environment
 rm(list = ls())

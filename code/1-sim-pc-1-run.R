@@ -2,7 +2,7 @@
 # Objective: Run the simulation study
 # Author:    Edoardo Costantini
 # Created:   2022-07-08
-# Modified:  2022-08-04
+# Modified:  2022-08-18
 
 # Environment ------------------------------------------------------------------
 
@@ -16,11 +16,11 @@
     }
 
     # 1-word run description
-    run_descr <- "check-mar-mcar-npc-1"
+    run_descr <- "reduce-save"
 
     # Initialize the environment:
-    source("init-software.R") # load packages
-    source("init-objects.R")  # load objects
+    source("0-init-software.R") # load packages
+    source("0-init-objects.R")  # load objects
 
     # Create folders and report files
     dir.create(fs$out_dir)
@@ -37,19 +37,19 @@
 # Run specifications -----------------------------------------------------------
 
     # number of repetitions
-    reps <- (1:100)[1:30] #1 : 5 # define repetitions
+    reps <- (1:5) #1 : 5 # define repetitions
 
     # parms$mice_iters <- 5
 
     # Subset conditions?
-    subset_cond <- TRUE
+    subset_cond <- FALSE
     if(subset_cond == TRUE){
         cnds <- cnds %>%
           filter(pm %in% c(.25),
                  nla %in% c(10),
-                 npcs %in% c(0, 1, 10),
+                 npcs %in% c(0, 1),
                  # mech %in% "MAR",
-                 method %in% c("pcr", "qp", "am", "cc", "fo"))
+                 method %in% c("pcr", "cc", "fo"))
     }
 
 # Parallelization --------------------------------------------------------------
@@ -61,7 +61,7 @@
     clus <- makeCluster(clusters)
 
     # export scripts to be executed to worker nodes
-    clusterEvalQ(cl = clus, expr = source("./init-software.R"))
+    clusterEvalQ(cl = clus, expr = source("0-init-software.R"))
 
 # parallel apply ---------------------------------------------------------------
 

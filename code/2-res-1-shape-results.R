@@ -2,16 +2,16 @@
 # Objective: combine and shape results from simulation study
 # Author:    Edoardo Costantini
 # Created:   2022-07-12
-# Modified:  2022-08-01
+# Modified:  2022-08-18
 
 # Prep environment -------------------------------------------------------------
 
   rm(list = ls()) # to clean up
-  source("init-software.R")
+  source("0-init-software.R")
 
 # Load Results -----------------------------------------------------------------
 
-  run_name <- "../output/20220728-185933-check-pcr-spcr-work-pc-unzipped.rds"
+  run_name <- "../output/20220817-155024-reduce-save-pc-unzipped.rds"
 
   out <- readRDS(run_name)
 

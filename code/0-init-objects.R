@@ -30,7 +30,7 @@
   parms <- list()
 
   # Seed
-  parms$seed     <- 20220804
+  parms$seed     <- 20220805
   parms$nStreams <- 1000
 
   # Data generation

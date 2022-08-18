@@ -2,13 +2,13 @@
 # Objective: Script to evaluate imputations
 # Author:    Edoardo Costantini
 # Created:   2022-07-13
-# Modified:  2022-07-26
+# Modified:  2022-08-18
 
 # Prep environment -------------------------------------------------------------
 
   rm(list = ls()) # to clean up
-  source("init-software.R")
-  source("init-objects.R") # only for support functions
+  source("0-init-software.R")
+  source("0-init-objects.R") # only for support functions
 
 # Load Results -----------------------------------------------------------------
 

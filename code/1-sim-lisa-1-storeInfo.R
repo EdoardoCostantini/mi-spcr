@@ -8,8 +8,8 @@
 args <- commandArgs(trailingOnly = TRUE)
 
 # Initialize the environment:
-source("init-objects.R")
-source("init-software.R")
+source("0-init-objects.R")
+source("0-init-software.R")
 
 # Change location of files
 fs$out_dir <- args[1]

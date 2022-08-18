@@ -2,7 +2,7 @@
 # Objective: Estimate time per repetition
 # Author:    Edoardo Costantini
 # Created:   2022-07-29
-# Modified:  2022-08-04
+# Modified:  2022-08-18
 
 # Run of single repeition (cycle through all conditions) -----------------------
 
@@ -19,8 +19,8 @@
   run_descr <- "check-time-per-rep"
 
   # Initialize the environment:
-  source("init-software.R")
-  source("init-objects.R")
+  source("0-init-software.R")
+  source("0-init-objects.R")
 
   # Subset conditions?
   if( FALSE ){ cnds <- cnds[1:5, ] }

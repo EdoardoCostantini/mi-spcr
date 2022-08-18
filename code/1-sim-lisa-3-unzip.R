@@ -2,10 +2,10 @@
 # Objective: put results together from tar archive obtained with lisa run
 # Author:    Edoardo Costantini
 # Created:   2022-07-29
-# Modified:  2022-08-04
+# Modified:  2022-08-18
 
   rm(list = ls())
-  source("init-software.R")
+  source("0-init-software.R")
 
 # Unzip results -----------------------------------------------------------
 

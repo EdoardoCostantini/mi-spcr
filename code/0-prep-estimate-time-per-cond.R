@@ -2,7 +2,7 @@
 # Objective: Estimate time per condition
 # Author:    Edoardo Costantini
 # Created:   2022-07-18
-# Modified:  2022-08-01
+# Modified:  2022-08-18
 
 # Diagnostics run --------------------------------------------------------------
 
@@ -21,8 +21,8 @@
     run_descr <- "time-per-condition-estimate-spcr-theta-01"
 
     # Initialize the environment:
-    source("init-software.R")
-    source("init-objects.R")
+    source("0-init-software.R")
+    source("0-init-objects.R")
 
     # Create folders and report files
     dir.create(fs$out_dir)
@@ -61,7 +61,7 @@
     clus <- makeCluster(clusters)
 
     # export scripts to be executed to worker nodes
-    clusterEvalQ(cl = clus, expr = source("init-software.R"))
+    clusterEvalQ(cl = clus, expr = source("0-init-software.R"))
 
 # - mcApply parallel -----------------------------------------------------------
 

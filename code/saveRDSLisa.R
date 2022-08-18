@@ -2,7 +2,7 @@
 # Objective: TODO
 # Author:    Edoardo Costantini
 # Created:   2022-08-03
-# Modified:  2022-08-03
+# Modified:  2022-08-18
 
 # Extract commandline arguments
 args        <- commandArgs(trailingOnly = TRUE)
@@ -10,8 +10,8 @@ out_dir  <- args[1]   # overwrite output directory defined
 rp          <- as.numeric(args[2]) # replication rp = 1 to desired
 
 # Load some objects
-source("init-objects.R")
-source("./init-software.R")
+source("0-init-objects.R")
+source("0-init-software.R")
 
 # Modify store
 fs$out_dir <- args[1]
