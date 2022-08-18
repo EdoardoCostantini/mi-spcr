@@ -2,7 +2,7 @@
 # Objective: initialization script
 # Author:    Edoardo Costantini
 # Created:   2022-07-05
-# Modified:  2022-08-04
+# Modified:  2022-08-18
 
 # File system ------------------------------------------------------------------
 
@@ -62,7 +62,7 @@
   auxcor <- c(.1, .5, parms$cor_high)[1]
 
   # Other factors
-  method_pcr <- c("pcr", "spcr", "pls", "pcovr") # pca based methods
+  method_pcr <- c("pcr", "spcr", "plsr", "pcovr") # pca based methods
   method_rmi <- c("qp", "am", "all") # reference mi methods
   method_noi <- c("cc", "fo") # complete case analysis and fully observed data analysis
   npcs <- sort(

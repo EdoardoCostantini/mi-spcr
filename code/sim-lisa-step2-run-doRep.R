@@ -2,7 +2,7 @@
 # Objective: Run a single repetition in lisa
 # Author:    Edoardo Costantini
 # Created:   2022-07-29
-# Modified:  2022-08-04
+# Modified:  2022-08-18
 
 # Output Directory from Terminal inputs
 args <- commandArgs(trailingOnly = TRUE)
@@ -23,7 +23,7 @@ if(subset_cond == TRUE){
            nla %in% c(2),
            npcs %in% c(0, 1),
            mech %in% "MAR",
-           method %in% c("pcr", "spcr", "pls", "pcovr", "fo"))
+           method %in% c("pcr", "spcr", "plsr", "pcovr", "fo"))
   parms$mice_iters <- 2
 }
 

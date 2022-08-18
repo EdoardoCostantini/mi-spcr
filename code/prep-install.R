@@ -2,7 +2,7 @@
 # Objective: Install packages required for running simulation
 # Author:    Edoardo Costantini
 # Created:   2022-07-05
-# Modified:  2022-08-04
+# Modified:  2022-08-18
 
 # Set up -----------------------------------------------------------------------
 
@@ -120,7 +120,7 @@
                      lib = destDir)
 
     # Then install the developmental version of mice we need
-    install.packages("../input/mice_3.14.7.9005.tar.gz",
+    install.packages("../input/mice_3.14.7.9006.tar.gz",
                      repos = NULL,
                      type = "source",
                      lib = destDir)

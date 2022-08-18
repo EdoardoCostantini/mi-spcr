@@ -2,7 +2,7 @@
 # Objective: runs a single repetiton of a single experimental cndition
 # Author:    Edoardo Costantini
 # Created:   2022-07-05
-# Modified:  2022-08-17
+# Modified:  2022-08-18
 # Note:      A "cell" is a given repetition for a given cndition.
 #            This function:
 #            - generates 1 data set,
@@ -111,15 +111,15 @@ runCell <- function(rp, cnd, fs, parms) {
 
     }
 
-    # Impute pls
-    if(cnd$meth == "pls"){
+    # Impute plsr
+    if(cnd$meth == "plsr"){
 
       mice_start <- Sys.time()
 
       mice_mids <- mice(X_mis,
                         m = parms$mice_ndt,
                         maxit = parms$mice_iters,
-                        method = "pls",
+                        method = "plsr",
                         nlvs = cnd$npcs,
                         DoF = "naive",
                         printFlag = FALSE,

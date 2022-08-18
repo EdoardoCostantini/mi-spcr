@@ -14,7 +14,7 @@ The methods are:
 
 - mi-pcr
 - mi-spcr
-- mi-pls
+- mi-plsr
 - mi-pcvor
 
 We use as reference methods:
