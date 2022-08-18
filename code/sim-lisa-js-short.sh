@@ -43,6 +43,9 @@ outDir=$projDir/output/$idJob
 	    mkdir -p $outDir
 	fi
 
+# Allow worker nodes to find my personal R packages:
+export R_LIBS=$HOME/R/x86_64-pc-linux-gnu-library/4.1/
+
 ## Store the stopos pool's name in the environment variable STOPOS_POOL:
 export STOPOS_POOL=pool
 
