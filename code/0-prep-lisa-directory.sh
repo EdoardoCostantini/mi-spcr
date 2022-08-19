@@ -3,7 +3,7 @@
 # Objective: Create a run directory for Lisa
 # Author:    Edoardo Costantini
 # Created:   2022-08-04
-# Modified:  2022-08-18
+# Modified:  2022-08-19
 
 # Define a run name
 
@@ -31,7 +31,7 @@
 
 # Copy mice experimental version for installation
 
-  cp ./input/mice\_3.14.7.9005.tar.gz $loc$runName/input/
+  cp ./input/mice\_3.14.7.9006.tar.gz $loc$runName/input/
 
 # Create an empty output folder
 
