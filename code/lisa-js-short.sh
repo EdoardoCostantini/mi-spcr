@@ -10,7 +10,7 @@
 # Objective: lisa job script (short partition array type)
 # Author:    Edoardo Costantini
 # Created:   2022-07-29
-# Modified:  2022-08-18
+# Modified:  2022-08-19
 
 ## USAGE on LISA:
 ##   sbatch -a 1-ARRAY_NUM exp5_js_mainSim.sh
@@ -62,11 +62,11 @@ for (( i=1; i<=ncores ; i++ )) ; do
 
   # If it's the first Stopos value, then store session info
 	if [ $STOPOS_VALUE = 1 ]; then
-	    Rscript $inDir/sim-lisa-step1-storeInfo.R $outDir/
+	    Rscript $inDir/lisa-store-info.R $outDir/
 	fi
 
 	# Call the R script with the replication number from the stopos pool:
-	Rscript $inDir/sim-lisa-step2-run-doRep.R $tmpOut/ $STOPOS_VALUE
+	Rscript $inDir/lisa-do-runRep.R $tmpOut/ $STOPOS_VALUE
 	# script_name.R --options repetition_counter output_directory
 
  	# Remove the used parameter line from the stopos pool:
