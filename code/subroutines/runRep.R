@@ -2,7 +2,7 @@
 # Objective: subroutine runRep to run all conditions for a single repetition
 # Author:    Edoardo Costantini
 # Created:   2022-07-12
-# Modified:  2022-08-17
+# Modified:  2022-08-19
 
 runRep <- function(rp, cnds, parms, fs) {
 
@@ -21,7 +21,9 @@ runRep <- function(rp, cnds, parms, fs) {
     target_rows <- 12   # number of elements to store per repetition
     target_cols <- 19   # number of columns to store per repetition
     ncnds <- nrow(cnds) # number of conditions per repetition
-    target_cols_names <- c("rp", colnames(cnds), "run", "stat", "vars", "est", "fmi", "lwr", "upr", "CIW", "time") # TODO: define based on internal results of runCell()
+    target_cols_names <- c("rp", colnames(cnds), "run",
+                           "stat", "vars", "est", "fmi",
+                           "lwr", "upr", "CIW", "time")
     initial <- seq(1, target_rows * ncnds, by = target_rows)
     stop <- seq(0, target_rows * ncnds, by = target_rows)[-1]
 
