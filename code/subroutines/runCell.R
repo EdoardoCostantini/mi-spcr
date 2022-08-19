@@ -2,7 +2,7 @@
 # Objective: runs a single repetiton of a single experimental cndition
 # Author:    Edoardo Costantini
 # Created:   2022-07-05
-# Modified:  2022-08-18
+# Modified:  2022-08-19
 # Note:      A "cell" is a given repetition for a given cndition.
 #            This function:
 #            - generates 1 data set,
@@ -234,7 +234,7 @@ runCell <- function(rp, cnd, fs, parms) {
     # every 100 rps
 
     if (exists("mice_mids")) {
-      if (rp %in% c(1, 2)) {
+      if (rp %in% c(1e3, 2e3)) {
         saveRDS(
           object = mice_mids,
           file = paste0(
