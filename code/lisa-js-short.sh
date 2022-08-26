@@ -10,7 +10,7 @@
 # Objective: lisa job script (short partition array type)
 # Author:    Edoardo Costantini
 # Created:   2022-07-29
-# Modified:  2022-08-19
+# Modified:  2022-08-26
 
 ## USAGE on LISA:
 ##   sbatch -a 1-ARRAY_NUM exp5_js_mainSim.sh
@@ -24,7 +24,7 @@
 ##	in the preamble.
 
 ## Load Modules
-module load R
+module load R/4.1.0-foss-2021a
 
 ## Define Variables and Directories
 projDir=$HOME/mi-spcr	        # Project directory

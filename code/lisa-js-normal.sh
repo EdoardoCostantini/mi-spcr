@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH -N 1
 #SBATCH -p normal
-#SBATCH -t 46:00:00
+#SBATCH -t 00:10:00
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=e.costantini@tilburguniversity.edu
 
@@ -10,7 +10,7 @@
 # Objective: lisa job script (normal partition array type)
 # Author:    Edoardo Costantini
 # Created:   2022-07-29
-# Modified:  2022-08-18
+# Modified:  2022-08-26
 
 ## USAGE on LISA:
 ##   sbatch -a 1-ARRAY_NUM exp5_js_mainSim_normal.sh
@@ -24,7 +24,7 @@
 ##
 
 ## Load Modules
-module load R
+module load R/4.1.0-foss-2021a
 
 ## Define Variables and Directories
 projDir=$HOME/mi-spcr	        # Project directory
@@ -62,11 +62,11 @@ for (( i=1; i<=ncores ; i++ )) ; do
 
   # If it's the first Stopos value, then store session info
 	if [ $STOPOS_VALUE = 1 ]; then
-	    Rscript $inDir/1-sim-lisa-1-storeInfo.R $outDir/
+	    Rscript $inDir/lisa-store-info.R $outDir/
 	fi
 
 	# Call the R script with the replication number from the stopos pool:
-	Rscript $inDir/1-sim-lisa-2-run-doRep.R $tmpOut/ $STOPOS_VALUE
+	Rscript $inDir/lisa-do-runRep.R $tmpOut/ $STOPOS_VALUE
 	# script_name.R --options repetition_counter output_directory
 
  	# Remove the used parameter line from the stopos pool:
