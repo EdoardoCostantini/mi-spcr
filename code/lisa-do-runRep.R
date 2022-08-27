@@ -19,14 +19,15 @@ fs$out_dir <- args[1]
 rp         <- as.numeric(args[2]) # replication rp = 1 to desired
 
 # Subset conditions?
-if(TRUE){
+if (FALSE) {
   cnds <- cnds %>%
-    filter(pm %in% c(.25),
-           nla %in% c(2),
-           npcs %in% c(0, 1),
-           mech %in% "MAR",
-           method %in% c("am", "cc", "fo"))
-  parms$mice_iters <- 2
+    filter(
+      pm %in% c(.25),
+      nla %in% c(10),
+      # npcs %in% c(0, 1, 10),
+      mech %in% "MAR" # ,
+      # method %in% c("pcr", "spcr", "plsr", "pcovr", "qp", "am", "all", "fo")
+    )
 }
 
 # Example Inputs Not to run
