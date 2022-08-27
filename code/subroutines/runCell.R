@@ -2,7 +2,7 @@
 # Objective: runs a single repetiton of a single experimental cndition
 # Author:    Edoardo Costantini
 # Created:   2022-07-05
-# Modified:  2022-08-19
+# Modified:  2022-08-27
 # Note:      A "cell" is a given repetition for a given cndition.
 #            This function:
 #            - generates 1 data set,
@@ -43,7 +43,7 @@ runCell <- function(rp, cnd, fs, parms) {
     X_mis <- X
 
     # Impose missing values on a per-variable basis
-    for (i in seq_along(parms$vmap$ta)) {
+    for (v in seq_along(parms$vmap$ta)) {
 
       # Sample response vector
 
@@ -56,12 +56,12 @@ runCell <- function(rp, cnd, fs, parms) {
                              data = X,
                              preds = parms$vmap$mp,
                              beta = rep(1, 3),
-                             type = c("high", "low", "tails")[i])
+                             type = c("high", "low", "tails")[v])
       }
 
       # Fill in NAs
 
-      X_mis[nR, i] <- NA
+      X_mis[nR, v] <- NA
 
     }
 
