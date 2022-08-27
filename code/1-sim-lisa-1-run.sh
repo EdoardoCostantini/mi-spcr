@@ -3,7 +3,7 @@
 # Objective: Recipe for running simulation on lisa
 # Author:    Edoardo Costantini
 # Created:   2022-08-19
-# Modified:  2022-08-24
+# Modified:  2022-08-27
 
 # Parameters
 # $1 : short / normal
@@ -23,13 +23,20 @@ cd mi-spcr/code/
 
 # Define stopos lines
 R --vanilla -e '
-  # Define parameters
-  goal_reps <- 32   # should match your total goal of repetitions
-  ncores    <- 16   # I want to use this many cores in each node
-  narray    <- ceiling(goal_reps/ncores)  # I want to specify a sbatch array of 2 tasks (sbatch -a 1-2 job_script_array.sh)
+
+  # Define how many cores will be used on a node
+  ncores    <- 16
+
+  # Define repetitions
+  first_rep <- 1
+  last_rep <- 32
+
+  # Define target number of repetitions
+  goal_reps <- length(first_rep:last_rep)   # should match your total goal of repetitions
+  narray    <- ceiling(goal_reps/ncores)  # the number to use in `sbatch -a 1-2 job_script_array.sh`
 
   # Save in input folder for Stopos
-  write(x = as.character(1:goal_reps),
+  write(x = as.character(first_rep:last_rep),
         file = "../input/stopos-lines")
 '
 
