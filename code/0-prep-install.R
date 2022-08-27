@@ -2,12 +2,20 @@
 # Objective: Install packages required for running simulation
 # Author:    Edoardo Costantini
 # Created:   2022-07-05
-# Modified:  2022-08-18
+# Modified:  2022-08-26
 
 # devtools 2.4.4 ---------------------------------------------------------------
 
     install.packages(
       "devtools",
+      dependencies = TRUE,
+      repo = "https://cloud.r-project.org/"
+    )
+
+# flexiblas --------------------------------------------------------------------
+
+    install.packages(
+      "flexiblas",
       dependencies = TRUE,
       repo = "https://cloud.r-project.org/"
     )

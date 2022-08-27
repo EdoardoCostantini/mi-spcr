@@ -2,7 +2,7 @@
 # Objective: Initialization script for functions and packages
 # Author:    Edoardo Costantini
 # Created:   2022-07-26
-# Modified:  2022-08-18
+# Modified:  2022-08-26
 
 # Packages ---------------------------------------------------------------------
 
@@ -16,6 +16,7 @@
   library(rlecuyer)
   library(stringr)
   library(parallel)
+  library(flexiblas)
 
 # Load Functions ---------------------------------------------------------------
 

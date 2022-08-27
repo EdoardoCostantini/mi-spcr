@@ -11,6 +11,9 @@ args <- commandArgs(trailingOnly = TRUE)
 source("0-init-objects.R")
 source("0-init-software.R")
 
+# Make sure that 1 r rpocess uses 1 thread
+flexiblas::flexiblas_set_num_threads(1)
+
 # Change location of files
 fs$out_dir <- args[1]
 rp         <- as.numeric(args[2]) # replication rp = 1 to desired
