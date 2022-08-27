@@ -5,6 +5,10 @@
 # Created:   2022-08-19
 # Modified:  2022-08-24
 
+# Parameters
+# $1 : short / normal
+# $2 : number of arrays
+
 # Load year module
 module load 2021
 
@@ -35,4 +39,4 @@ stopos -p pool add ../input/stopos-lines # to put the parameters as lines in the
 stopos status		                         # print a description of the resulting pool
 
 # Sbatch arrays
-sbatch -a 1-2 lisa-js-$1.sh
+sbatch -a 1-$2 lisa-js-$1.sh
