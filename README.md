@@ -130,124 +130,103 @@ The simulation study stores mids objects for a small number of repetitions.
 You may assess the lack of non-convergence directly on these.
 You may unzip the results form the simulation study, select the files that contain mids in their name and check convergence as in the third section of `./code/prep-convergence-check.R`.
 
-### Running the simulation on Lisa
+### Running the simulation study on Lisa
 
-Lisa Cluster is a cluster computer system managed by SURFsara, a cooperative association of Dutch educational and
-research institutions.
+Lisa Cluster is a cluster computer system managed by SURFsara, a cooperative association of Dutch educational and research institutions.
 Researchers at most Dutch universities can request access to this cluster computer.
 Here it is assumed that you know how to access Lisa and upload material to the server.
-Bullet points starting with "PC" and "Lisa" indicate that the task should be performed in a terminal session on either your personal computer or on Lisa, respecively.
+In the following, I list the specific tasks you should go through to replicate the results.
+Bullet points starting with "PC" and "Lisa" indicate that the task should be performed in a terminal session on either your personal computer or on Lisa, respectively.
+The idea is that you want (1) to prepare the simulation scripts on your computer, (2) upload the results to lisa and (3) run the simulation on Lisa.
 
-1. **Define run** and perform parameter checks:
-   - PC: Open `init-objects.R`:
-     - check the fixed parameters and experimental factor levels are set to the desired values.
-     - set `run_descr` to a meaningful description
-   - PC: Open `prep-software.R`:
-     - set the vector `R_pack_lib` to its "lisa" value.
-   - PC: Open `prep-install.R`:
-     - set the vector `destDir` to its "lisa" value.
-   
-2. **Prepare run** *on a personal computer*:
-   - PC: Open `prep-estimate-time-per-rep.R`:
-     - Run it to check how long it takes to perform a single run across all the conditions with the chosen simulation study set up.
+1. **Prepare run** *on a personal computer*:
+   - PC: Open `0-init-objects.R`:
+      - check/define the seed in `parms$seed`
+      - check the fixed parameters and experimental factor levels are set to the desired values.
+      - set `run_descr` to a meaningful description
+   - PC: Open `0-prep-estimate-time-per-rep.R`:
+     - Run it to check how long it takes to perform a single run across all the conditions with the chosen simulation study setup.
        This will create an R object called `wall_time`.
-   - PC: Open `sim-lisa-js-normal.sh`:
+   - PC: Open `lisa-js-normal.sh`:
      - replace the wall time in the header (`#SBATCH -t`) with the value of `wall_time`.
-   - PC: Open `prep-lisa-stopos-define.R`: 
-     - Decide the number of repetitions, cores, and arrays in the preparatory script 
-       For example:
-       ```
-       goal_reps <- 250
-       ncores    <- 15 # Lisa nodes have 16 cores available (16-1 used)
-       narray    <- ceiling(goal_reps/ncores) # number of arrays/nodes to use 
-       ```
-       Once you have specified these values, *run the script on your computer*.
-       ```
-       Rscript prep-lisa-stopos-define.R 
-       ```
-       This will create a `stopos-lines` text file in the `input` folder that will define the repetition index for lisa.
-   - PC: Open `sim-lisa-step1-storeInfo.R`
-     - check `subset_cond` set to `TRUE` if you want a short run, `FALSE` if you want the full run
-   - PC: Open `sim-lisa-step2-run-doRep.R`
-     - check `subset_cond` set to `TRUE` if you want a short run, `FALSE` if you want the full run
+   - PC: Open `1-sim-lisa-run.R`: 
+     - Under the header `Define stopos lines`, define the number of cores to use per node, and the first and last repetitions.
+        For example:
+        ```
+
+        # Define how many cores will be used on a node
+        ncores    <- 16
+
+        # Define repetitions
+        first_rep <- 49
+        last_rep <- 256
+
+        ```
+        This will run the repetitions from 49 to 256 (usually you would start from 1, but you don't need to) and it will use 16 cores on every node.
+
+   - PC: Open `lisa-do-runRep.R`
+     - check the `# Subset conditions?` if-statement is set to `FALSE` if you want to run the full simulation study, or to `TRUE` if you want to run a smaller trial study with just a few conditions.
    - PC: Run `prep-lisa-direcotry.sh`:
      - In your terminal, run
        ```
-       . code/prep-lisa-directory.sh run-name
+       . code/0-prep-lisa-directory.sh run-name
        ```
        This script creates a folder on your computer by the name `run-name` in the `lisa/` folder.
+    - PC: upload the folder `lisa/run-name` to lisa with a commend like
+      ```
+      scp -r path/to/local/project/lisa/date-run user@lisa.surfsara.nl:mi-spcr
+      ```
 
-3. **Prepare run** *on lisa*:
-   - PC/Lisa: Authenticate on Lisa
-   - PC: Upload the folder `lisa/run-name` to the lisa cluster by running the following command in your terminal
-     ```
-     scp -r path/to/local/project/lisa/date-run user@lisa.surfsara.nl:mi-spcr
-     ```
-     For example:
-     ```
-     scp -r lisa/20211116 ******@lisa.surfsara.nl:mi-spcr
-     ```
+3. **Prepare and run** *on lisa*:
    - Lisa: run `prep-install.R` to install all R-packages if it's the first time you are running it.
      ```
      Rscript mi-pcr/code/prep-install.R
      ```
-   - Lisa: Check all the packages called by the `init-software.R` script are available by running
+   - Lisa: Check all the packages are available by running
+      ```
+      Rscript mi-pcr/code/init-software.R
+      ```
+      If you don't get any errors, you are good to go.
+   - Lisa: Run the simulation by using the following bash script
      ```
-     Rscript mi-pcr/code/init-software.R
+     . mi-spcr/code/1-sim-lisa-1-run.sh partition narray
      ```
+     where:
+     - `partition` should either be `short` if you are running a small trial or `normal` if you are running the complete simulation study
+     - `narray` should be the size of the array of jobs; its value should be the one returned by the `narray` object in the script `1-sim-lisa-1-run.sh` (`ceiling(goal_reps/ncores)`)
    
-   - Lisa: Load the following modules
-     ```
-     module load 2021
-     module load R/4.1.0-foss-2021a
-     module load Stopos/0.93-GCC-10.3.0
-     ```
-     (or their most recent version at the time you are running this)
-   - Lisa: go to the code folder in the lisa cloned project
-     ``` 
-     cd mi-spcr/code/
-     ```
-   - Lisa: run the prepping script by
-     ```
-     . prep-lisa-stopos-deploy.sh ../input/stopos-lines
-     ```
-     
-4. **Run simulation**
-   - Lisa: submit the jobs by using the following command
-     ```
-     sbatch -a 1-34 sim-lisa-js-normal.sh 
-     ```
-     Note that `1-34` defines the dimensionality of the array of jobs. 
-     For a short partitioning, only 2 arrays are allowed.
-     For other partitioning, more arrays are allowed.
-     34 is the result of `ceiling(goal_reps/ncores)` for the chosen parameters in this example.
-     You should replace this number with the one that makes sense for your study.
-     A trial job, in the short partition, can be sumbitted by:
-     ```
-     sbatch -a 1-2 sim-lisa-js-short.sh
-     ```
+4. **Store the results**
    - PC: When the array of jobs is done, you can pull the results to your machine by
      ```
      scp -r user@lisa.surfsara.nl:mi-pcr/output/folder path/to/local/project/output/folder
      ```
      For example, from a terminal session in the main folder
      ```
-     scp -r u590194@lisa.surfsara.nl:mi-pcr/output/9829724 ./output/
+     scp -r user@lisa.surfsara.nl:mi-pcr/output/9829724 ./output/
      ```
     
 5. Read the results on your computer:
-   - PC: The script `sim-lisa-unzip.R` goes through the Lisa result folder, unzips tar.gz packages, and puts results together.
-   - PC: Finally, the script `res-step2-shape-results.R` computes bias, CIC, and all the outcome measures. 
-     It also puts together the RDS objects that can be plotted with the shiny app in `res-step3-plots.R`
+   - PC: The script `1-sim-lisa-2-unzip.R` goes through the Lisa result folder, unzips tar.gz packages, and puts results together.
+   - PC: Finally, you can use the script `2-res-1-shape-results.R` to compute bias, CIC, and all the outcome measures and prepare the RDS objects that can be plotted with the shiny app in `2-res-2-plots.R`.
 
 ### Running the simulation on a PC / Mac
 
 You can also replicate the simulation on a personal computer by following these steps:
 
-1. run the `prep_machine.R` script assuming working directory `./code/` - This script will:
-    - create a local R library for the R packages needed by this simulation study
-    - install the required version of all packages in this local folder, directly from CRAN (note: this will not interfere with the R-packages versions you have installed on your computer)
-    - install the required development version of `mice` in this local folder
+1. **Prepare run**:
+    - Open and run `0-prep-install.R` to install all the packages you need to run the simulation
+      This will override your `mice` installation. If this is undesirable, you can always install all these packages in a local library for this project.
+    - Open `0-init-objects.R`:
+      - check/define the seed in `parms$seed`
+      - check the fixed parameters and experimental factor levels are set to the desired values.
+      - set `run_descr` to a meaningful description
+2. **Run the simulation**:
+    - Open `1-sim-pc-1-run.R`
+      - set the object `reps` to be an integer vector with values from 1 to the number of target repetitions you want to run
+      - set the object `clusters` to the number of cores you want to use for parallelization
+3. Read the results:
+   - Open and run the script `1-sim-pc-2-unzip.R` which unzips the results and creates a unique file with all of the important results.
+   - Open and run the script `2-res-1-shape-results.R` to compute bias, CIC, and all the outcome measures and prepare the RDS objects that can be plotted with the shiny app in `2-res-2-plots.R`.
 
 ### Convergence checks
 
