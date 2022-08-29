@@ -32,6 +32,7 @@
 
 # Ignore input/rlib folder
 /input/rlib/*/
+/input/stopos-lines
 
 # > IDEs -----------------------------------------------------------------------
 
