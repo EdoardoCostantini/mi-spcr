@@ -125,8 +125,12 @@
   )
 
   # Save output
-  saveRDS(list(main = rds_main,
+  out <- list(
+    main = rds_main,
                mids = rds_mids,
                error = rds_error,
-               sInfo = sInfo),
+    sInfo = sInfo
+  )
+
+  saveRDS(out,
           paste0("../output/", run_name, "-lisa-", idJob, "-unzipped.rds"))
