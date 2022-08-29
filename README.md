@@ -247,41 +247,41 @@ Here is the project structure:
 ├── LICENSE
 ├── README.md
 ├── code
-│ ├── checks
-│ │ └── check-dataGen.R
-│ ├── functions
-│ │ ├── dataGen.R
-│ │ ├── estimatesComp.R
-│ │ ├── estimatesPool.R
-│ │ ├── genLaavanMod.R
-│ │ └── simMissingness.R
-│ ├── helper
-│ │ ├── readTarGz.R
-│ │ └── writeTarGz.R
-│ ├── init-objects.R
-│ ├── init-software.R
-│ ├── plots
-│ ├── prep-convergence-check.R
-│ ├── prep-estimate-time-per-cond.R
-│ ├── prep-estimate-time-per-rep.R
-│ ├── prep-lisa-create-stopos.sh
-│ ├── prep-lisa-stopos-lines.R
-│ ├── res-step1-evaluate-imputation.R
-│ ├── res-step2-shape-results.R
-│ ├── res-step3-plots.R
-│ ├── sim-lisa-js-normal.sh
-│ ├── sim-lisa-js-short.sh
-│ ├── sim-lisa-step1-storeInfo.R
-│ ├── sim-lisa-step2-run-doRep.R
-│ ├── sim-lisa-unzip.R
-│ ├── sim-pc-step1-run.R
-│ ├── sim-pc-step2-unzip.R
-│ └── subroutines
-│     ├── runCell.R
-│     ├── runCond.R
-│     └── runRep.R
+│   ├── 0-init-objects.R
+│   ├── 0-init-software.R
+│   ├── 0-prep-convergence-check.R
+│   ├── 0-prep-estimate-time-per-cond.R
+│   ├── 0-prep-estimate-time-per-rep.R
+│   ├── 0-prep-install.R
+│   ├── 0-prep-lisa-directory.sh
+│   ├── 1-sim-lisa-1-run.sh
+│   ├── 1-sim-lisa-2-unzip.R
+│   ├── 1-sim-pc-1-run.R
+│   ├── 1-sim-pc-2-unzip.R
+│   ├── 2-res-0-evaluate-imputation.R
+│   ├── 2-res-1-shape-results.R
+│   ├── 2-res-2-plots.R
+│   ├── checks
+│   │   └── check-dataGen.R
+│   ├── functions
+│   │   ├── dataGen.R
+│   │   ├── estimatesComp.R
+│   │   ├── estimatesPool.R
+│   │   ├── genLaavanMod.R
+│   │   └── simMissingness.R
+│   ├── helper
+│   │   ├── readTarGz.R
+│   │   └── writeTarGz.R
+│   ├── lisa-do-runRep.R
+│   ├── lisa-js-normal.sh
+│   ├── lisa-js-short.sh
+│   ├── lisa-store-info.R
+│   └── subroutines
+│       ├── runCell.R
+│       ├── runCond.R
+│       └── runRep.R
 ├── input
-│   └── prep_machine.R
+│   ├── mice_3.14.7.9006.tar.gz
 ├── lisa
 ├── manuscript
 │   ├── Makefile
