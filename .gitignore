@@ -1,4 +1,10 @@
-## Files
+# Project:   mi-spcr
+# Objective: Define What git should ingore
+# Author:    Edoardo Costantini
+# Created:   2022-04-25
+# Modified:  2022-08-29
+
+# > R trash and large files ----------------------------------------------------
 
 # History files
 .Rhistory
@@ -9,51 +15,25 @@
 *.soft.gz
 *.csv
 
-# Example code in package build process
-*-Ex.R
-
-# produced vignettes
-vignettes/*.html
-vignettes/*.pdf
-
-# OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
-.httr-oauth
-
-# Temporary files created by R markdown
-*.utf8.md
-*.knit.md
-
 # R files (.rds, workspace etc)
 *.rds
 *.RData
 *.Rhistory
 
-# Auto-save stuff:
-*~
-
-# swp files
-*.swp
-
-# Latex byproducts
-*.aux
-*.blg
-*.log
-*.blg
-
-## Folders
+# > Project folder -------------------------------------------------------------
 
 # Ignore lisa folder
 /lisa/*
 !/lisa/.gitkeep
 
 # Ignore output
-/output/*.tar.gz
-/output/console
-/output/*.txt
+/output/*
 !/output/.gitkeep
 
 # Ignore input/rlib folder
 /input/rlib/*/
+
+# > IDEs -----------------------------------------------------------------------
 
 # Ignore .idea folder
 /.idea/
@@ -67,3 +47,26 @@ vignettes/*.pdf
 # knitr and R markdown default cache directories
 /*_cache/
 /cache/
+
+# > Latex and markdown ---------------------------------------------------------
+
+# Auto-save stuff:
+*~
+
+# swp files
+*.swp
+
+# Latex byproducts
+*.aux
+*.blg
+*.log
+*.blg
+
+# Temporary files created by R markdown
+*.utf8.md
+*.knit.md
+
+# > Misc -----------------------------------------------------------------------
+
+# OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
+.httr-oauth
