@@ -232,9 +232,11 @@ You can also replicate the simulation on a personal computer by following these 
 
 COMING SOON
 
-## Output files
+## Results files
 
-COMING SOON
+If you don't want to re-run the whole study, you can download the output files from the following OSF link [coming soon]().
+The results are stored here in their initial raw form.
+You can process them as described in the `Running the simulation study on Lisa` section.
 
 ## Repository structure
 
