@@ -2,7 +2,7 @@
 # Objective: combine and shape results from simulation study
 # Author:    Edoardo Costantini
 # Created:   2022-07-12
-# Modified:  2022-08-18
+# Modified:  2022-08-29
 
 # Prep environment -------------------------------------------------------------
 
@@ -18,7 +18,7 @@
   sInfo <- out$sInfo
   res <- out$main
 
-  # Define vector of epxerimental factor
+  # Define vector of experimental factor
   exp_fact <- colnames(out$sInfo$cnds)
 
   # Define component related to missing data treatments
@@ -103,7 +103,7 @@
   bias_df$RB <- bias_df$est_avg - bias_df$ref
   bias_df$PRB <- 100 * abs(bias_df$RB) / bias_df$ref
 
-  # Arrange meangingful
+  # Arrange meaningfully
   bias_df <- arrange_(bias_df, .dots = c(data_gen, methods))
 
   # > Check --------------------------------------------------------------------

@@ -3,7 +3,7 @@
 # Objective: Recipe for running simulation on lisa
 # Author:    Edoardo Costantini
 # Created:   2022-08-19
-# Modified:  2022-08-27
+# Modified:  2022-08-29
 
 # Parameters
 # $1 : short / normal
@@ -29,7 +29,7 @@ R --vanilla -e '
 
   # Define repetitions
   first_rep <- 1
-  last_rep <- 32
+  last_rep <- 256
 
   # Define target number of repetitions
   goal_reps <- length(first_rep:last_rep)   # should match your total goal of repetitions

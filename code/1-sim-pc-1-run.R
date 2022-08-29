@@ -2,7 +2,7 @@
 # Objective: Run the simulation study
 # Author:    Edoardo Costantini
 # Created:   2022-07-08
-# Modified:  2022-08-27
+# Modified:  2022-08-29
 
 # Environment ------------------------------------------------------------------
 
@@ -42,14 +42,14 @@
     # parms$mice_iters <- 5
 
     # Subset conditions?
-    if (TRUE) {
+    if (FALSE) {
         cnds <- cnds %>%
             filter(
                 pm %in% c(.25),
                 nla %in% c(10),
-                # npcs %in% c(0, 1, 10),
-                mech %in% "MAR" # ,
-                # method %in% c("pcr", "spcr", "plsr", "pcovr", "qp", "am", "all", "fo")
+                npcs %in% c(0, 1, 10),
+                mech %in% "MAR",
+                method %in% c("pcr", "am", "fo")
             )
     }
 

@@ -2,7 +2,7 @@
 # Objective: put results together from tar archive obtained with pc run
 # Author:    Edoardo Costantini
 # Created:   2022-07-12
-# Modified:  2022-08-18
+# Modified:  2022-08-29
 
 # Prep environment --------------------------------------------------------
 
@@ -11,7 +11,7 @@
 
 # Load Results ------------------------------------------------------------
 
-  tar_name <- "../output/20220817-155024-reduce-save.tar.gz"
+  tar_name <- "../output/20220821-113157-time-estimate-no-mids.tar.gz"
 
   output <- readTarGz(tar_name)
 

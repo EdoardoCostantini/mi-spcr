@@ -24,9 +24,9 @@ if (FALSE) {
     filter(
       pm %in% c(.25),
       nla %in% c(10),
-      # npcs %in% c(0, 1, 10),
-      mech %in% "MAR" # ,
-      # method %in% c("pcr", "spcr", "plsr", "pcovr", "qp", "am", "all", "fo")
+      npcs %in% c(0, 1, 10),
+      mech %in% "MAR",
+      method %in% c("pcr", "am", "fo")
     )
 }
 
