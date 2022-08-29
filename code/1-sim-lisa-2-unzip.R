@@ -111,7 +111,11 @@
 
   # Read mids results
   rds_mids_names <- grep("mids", list.files(res_dir), value = TRUE)
+  if(length(rds_mids_names) != 0){
   rds_mids <- lapply(paste0(res_dir, rds_mids_names), readRDS)
+  } else {
+    rds_mids <- NA
+  }
 
   # Read error results
   rds_error_names <- grep("ERROR", list.files(res_dir), value = TRUE)
