@@ -2,7 +2,7 @@
 # Objective: combine and shape results from simulation study
 # Author:    Edoardo Costantini
 # Created:   2022-07-12
-# Modified:  2022-08-29
+# Modified:  2022-08-30
 
 # Prep environment -------------------------------------------------------------
 
@@ -11,7 +11,7 @@
 
 # Load Results -----------------------------------------------------------------
 
-  run_name <- "../output/20220817-155024-reduce-save-pc-unzipped.rds"
+  run_name <- "../output/20220827-094950-run-lisa-9945538-9944296-9943298-unzipped.rds"
 
   out <- readRDS(run_name)
 

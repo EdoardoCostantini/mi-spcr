@@ -2,7 +2,7 @@
 # Objective: put results together from tar archive obtained with lisa run
 # Author:    Edoardo Costantini
 # Created:   2022-07-29
-# Modified:  2022-08-18
+# Modified:  2022-08-30
 
   rm(list = ls())
   source("0-init-software.R")
@@ -10,7 +10,7 @@
 # Unzip results -----------------------------------------------------------
 
   # Job ID
-  idJob <- "9847608"
+  idJob <- "9945538-9944296-9943298"
   
   # Define location of results
   input_dir <- paste0("../output/", idJob, "/")
@@ -25,6 +25,7 @@
   system(command = paste0("mkdir -p ", res_dir))
 
   # Read results in loop
+  print("Unzipping and loading in results")
   pb <- txtProgressBar(min = 0, max = length(tar_names), style = 3)
 
   for(i in 1:length(tar_names)){
