@@ -60,6 +60,14 @@
              selectInput("plot_y_axis",
                          "Outcome measure",
                          choices = c("RB", "PRB", "coverage", "CIW_avg", "mcsd")),
+            shinyWidgets::sliderTextInput(
+                          inputId = "yrange",
+                          label = "Y axis range",
+                          hide_min_max = FALSE,
+                          choices = 0:100,
+                          selected = c(0, 10),
+                          grid = FALSE
+            ),
       ),
       column(4,
              hr(),
@@ -112,6 +120,40 @@
         )
       }
 
+      # Zoom on the y-axis
+      # Define subset of data in use
+      data_subset <- gg_shape %>%
+        filter(
+          nla == input$nla,
+          mech %in% input$mech,
+          pm %in% input$pm,
+          vars == input$vars,
+          stat == input$stat,
+          method %in% input$method,
+          npcs <= input$npcs[2],
+          npcs >= input$npcs[1]
+        )
+
+        # Define low bound
+        b_low <- floor(min(data_subset[, input$plot_y_axis]))
+        c_low <- round(min(data_subset[, input$plot_y_axis]), 3)
+
+        # Define high bound
+        b_high <- ceiling(max(data_subset[, input$plot_y_axis]))
+        c_high <- round(max(data_subset[, input$plot_y_axis]), 3)
+
+        # Define interval
+        interval <- ifelse(input$plot_y_axis == "RB" | input$plot_y_axis == "coverage", .1, 1)
+
+        # Choices
+        choices <- sort(unique(c(c_low, seq(b_low, b_high, by = interval), c_high)))
+
+        shinyWidgets::updateSliderTextInput(session,
+          inputId = "yrange",
+          choices = choices,
+          selected = c(c_low, c_high)
+        )
+      
       # Number of components displayed by slider based on nla condition
       npcs_to_plot <- unique((gg_shape %>% filter(nla == input$nla))$npcs)
       npcs_to_plot <- sort(npcs_to_plot)
@@ -141,6 +183,9 @@
         geom_point(aes_string(shape = moderator), size = 1.5) +
         geom_line() +
         scale_x_continuous(breaks = sort(unique(gg_shape$npcs)), sort(unique(gg_shape$npcs))) +
+        # Zoomable y-axis
+        coord_cartesian(ylim = c(input$yrange[1], input$yrange[2])) + 
+        # Facet grid
         facet_grid(reformulate(grid_x_axis,
                                grid_y_axis),
                    labeller = labeller(.rows = label_both,
