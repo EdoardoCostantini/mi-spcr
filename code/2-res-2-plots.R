@@ -28,6 +28,9 @@
 
 ui <- fluidPage(
   fluidRow(
+
+    # Data generation ----------------------------------------------------------
+
     column(
       4,
       hr(),
@@ -50,6 +53,31 @@ ui <- fluidPage(
         selected = levels(gg_shape$mech)
       ),
     ),
+
+    # Missing data treatments --------------------------------------------------
+
+    column(
+      4,
+      hr(),
+      h4("Missing data treatments"),
+      checkboxGroupInput("method",
+        "Imputation methods to compare:",
+        choices = levels(gg_shape$method),
+        selected = levels(gg_shape$method)[1:4],
+        inline = TRUE
+      ),
+      shinyWidgets::sliderTextInput(
+        inputId = "npcs",
+        label = "Number of principal components",
+        hide_min_max = TRUE,
+        choices = sort(unique(gg_shape$npcs)),
+        selected = range(gg_shape$npcs),
+        grid = TRUE
+      ),
+    ),
+
+    # Outcome measures ---------------------------------------------------------
+    
     column(
       4,
       hr(),
@@ -77,25 +105,7 @@ ui <- fluidPage(
         grid = FALSE
       ),
     ),
-    column(
-      4,
-      hr(),
-      h4("Missing data treatments"),
-      checkboxGroupInput("method",
-        "Imputation methods to compare:",
-        choices = levels(gg_shape$method),
-        selected = levels(gg_shape$method)[1:4],
-        inline = TRUE
-      ),
-      shinyWidgets::sliderTextInput(
-        inputId = "npcs",
-        label = "Number of principal components",
-        hide_min_max = TRUE,
-        choices = sort(unique(gg_shape$npcs)),
-        selected = range(gg_shape$npcs),
-        grid = TRUE
-      ),
-    ),
+
   ),
   hr(),
   plotOutput("plot"),
