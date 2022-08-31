@@ -107,38 +107,38 @@ ui <- fluidPage(
   server <- function(input, output, session) {
 
     # Dynamically update inputs
-    observe({
-      # Statistics and Variables requested
-      if (any(input$stat %in% c("cor", "cov"))) {
-        updateRadioButtons(session,
-          "vars",
-          inline = TRUE,
-          choices = unique(gg_shape$vars)[1:3]
-        )
-      } else {
-        updateRadioButtons(session,
-          "vars",
-          inline = TRUE,
-          choices = unique(gg_shape$vars)[4:6]
-        )
-      }
 
-      # Width of page
+    # Page width
+    observe({
       if (shinybrowser::get_width() < 768) {
         updateCheckboxGroupInput(session,
           inputId = "mech",
           selected = levels(gg_shape$mech)[2]
         )
       }
+    })
 
-      # Zoom on the y-axis
+    # Statistics and Variables requested
+    observe({
+      choices_vars <- unique((gg_shape %>% filter(stat == input$stat))$vars)
+
+      updateRadioButtons(session,
+        inputId = "vars",
+        inline = TRUE,
+        choices = choices_vars,
+        selected = choices_vars[1]
+      )
+    })
+
+    # Zoom on the y-axis
+    observe({
       # Define subset of data in use
       data_subset <- gg_shape %>%
         filter(
           nla == input$nla,
           mech %in% input$mech,
           pm %in% input$pm,
-          vars == input$vars,
+          # vars == input$vars,
           stat == input$stat,
           method %in% input$method,
           npcs <= input$npcs[2],
@@ -164,8 +164,10 @@ ui <- fluidPage(
         choices = choices,
         selected = c(c_low, c_high)
       )
+    })
 
-      # Number of components displayed by slider based on nla condition
+    # Number of components displayed by slider based on nla condition
+    observe({
       npcs_to_plot <- unique((gg_shape %>% filter(nla == input$nla))$npcs)
       npcs_to_plot <- sort(npcs_to_plot)
       shinyWidgets::updateSliderTextInput(session,
@@ -202,14 +204,14 @@ ui <- fluidPage(
           coord_cartesian(ylim = c(input$yrange[1], input$yrange[2])) +
           # Facet grid
           facet_grid(reformulate(
-              grid_x_axis,
-              grid_y_axis
-            ),
-            labeller = labeller(
-              .rows = label_both,
-              .cols = label_value
-            ),
-            switch = "y"
+            grid_x_axis,
+            grid_y_axis
+          ),
+          labeller = labeller(
+            .rows = label_both,
+            .cols = label_value
+          ),
+          switch = "y"
           ) +
           theme(
             # Text
