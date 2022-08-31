@@ -78,27 +78,31 @@ ui <- fluidPage(
 
     # Outcome measures ---------------------------------------------------------
     
+
     column(
       4,
       hr(),
       h4("Outcome measures"),
-      radioButtons("stat",
-        "Statistic",
-        inline = TRUE,
-        choices = unique(gg_shape$stat)
-      ),
-      radioButtons("vars",
-        "Variables",
-        inline = TRUE,
-        choices = unique(gg_shape$vars)
-      ),
       selectInput("plot_y_axis",
         "Outcome measure",
         choices = c("RB", "PRB", "coverage", "CIW_avg", "mcsd")
-      ),
+      ),),
+    column(2,
+    radioButtons("stat",
+      "Statistic",
+      inline = TRUE,
+      choices = unique(gg_shape$stat)
+    ),),
+    column(2,
+    radioButtons("vars",
+      "Variables",
+      inline = TRUE,
+      choices = unique(gg_shape$vars)
+    ),),
+    column(4,
       shinyWidgets::sliderTextInput(
         inputId = "yrange",
-        label = "Y axis range",
+        label = "Y-axis range",
         hide_min_max = FALSE,
         choices = 0:100,
         selected = c(0, 10),
