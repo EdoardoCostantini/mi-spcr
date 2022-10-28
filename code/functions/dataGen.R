@@ -2,14 +2,14 @@
 # Objective: Function to generate data with a latent structure
 # Author:    Edoardo Costantini
 # Created:   2022-07-05
-# Modified:  2022-07-15
+# Modified:  2022-08-28
 
 dataGen <- function(N, L, L_junk, loading = .85, J, P, mu, sd, rho_high, rho_junk) {
 
     # Example inputs
     # N = 50
     # L = 10
-    # loading = .85,
+    # loading = .85
     # L_junk = 7
     # J = 3
     # mu = 0
