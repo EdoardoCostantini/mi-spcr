@@ -2,7 +2,7 @@
 # Objective: Run with many iterations to check convergence
 # Author:    Edoardo Costantini
 # Created:   2022-07-25
-# Modified:  2022-08-18
+# Modified:  2022-11-09
 
 # 1. Prepare run ---------------------------------------------------------------
 
@@ -121,6 +121,9 @@
     rds_mids <- output$out[rds_mids_names]
     names(rds_mids) <- output$file_names[rds_mids_names]
 
+    # Store this results
+    saveRDS(rds_mids, "../output/20220729-104900-convergence-check.rds")
+    
 # - Trace plots ----------------------------------------------------------------
 
     # Define what combination of methods to check
