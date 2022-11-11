@@ -122,7 +122,7 @@
     names(rds_mids) <- output$file_names[rds_mids_names]
 
     # Store this results
-    saveRDS(rds_mids, "../output/20220729-104900-convergence-check.rds")
+    saveRDS(list(mids = rds_mids, cnds = cnds), "../output/20220729-104900-convergence-check.rds")
     
 # - Trace plots ----------------------------------------------------------------
 
