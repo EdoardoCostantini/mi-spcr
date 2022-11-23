@@ -1,9 +1,9 @@
 # Project:   mi-spcr
-# Objective: runs a single repetiton of a single experimental cndition
+# Objective: runs a single repetition of a single experimental condition
 # Author:    Edoardo Costantini
 # Created:   2022-07-05
 # Modified:  2022-08-27
-# Note:      A "cell" is a given repetition for a given cndition.
+# Note:      A "cell" is a given repetition for a given condition.
 #            This function:
 #            - generates 1 data set,
 #            - performs imputations,

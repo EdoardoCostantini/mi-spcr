@@ -2,11 +2,11 @@
 # Objective: Run the simulation study
 # Author:    Edoardo Costantini
 # Created:   2022-07-08
-# Modified:  2022-08-29
+# Modified:  2022-11-23
 
 # Environment ------------------------------------------------------------------
 
-    # Make sure environment is clean
+    # Make sure the environment is clean
     rm(list = ls())
 
     # Check the working directory
