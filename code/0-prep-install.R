@@ -2,7 +2,7 @@
 # Objective: Install packages required for running simulation
 # Author:    Edoardo Costantini
 # Created:   2022-07-05
-# Modified:  2022-08-26
+# Modified:  2022-11-23
 
 # devtools 2.4.4 ---------------------------------------------------------------
 
@@ -95,7 +95,7 @@
 # mice 3.14.7.9*** (local experimental version)---------------------------------
 
     install.packages(
-      "../input/mice_3.14.7.9006.tar.gz",
+      "../input/mice_3.14.7.9007.tar.gz",
       repos = NULL,
       type = "source"
     )
