@@ -39,7 +39,7 @@ runRep <- function(rp, cnds, parms, fs) {
         store_res[, j] <- factor(store_res[, j], levels = levels(cnds[, j]))
     }
 
-    # Cycle thorugh conditions
+    # Cycle thorough conditions
     for (i in 1:nrow(cnds)) {
         # i <- 1
         print(paste0(
