@@ -1,6 +1,6 @@
 # MI-SPCR
 
-Here I describe the content of this repository and how to replicate the simulation study.
+[![DOI](https://zenodo.org/badge/510762412.svg)](https://zenodo.org/badge/latestdoi/510762412)
 
 ## Simulation study outline
 
