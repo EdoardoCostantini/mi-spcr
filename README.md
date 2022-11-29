@@ -238,6 +238,15 @@ If you don't want to re-run the whole study, you can download the output files f
 The results are stored here in their initial raw form.
 You can process them as described in the `Running the simulation study on Lisa` section.
 
+Unfortunately, projects get big, parts need to be re-run, and it all becomes a mess. Here is a guide to correctly managing them. The current important files are:
+- `9945538-9944296-9943298` (Folder) with the following main results files associated
+  - `20220827-094950-run-lisa-9945538-9944296-9943298-unzipped.rds` containing unzipped raw data
+  - `20220827-094950-run-lisa-9945538-9944296-9943298-main-res.rds`
+  containing processed data (bias, cic, ciw computed)
+- `20221126-121849-pcovr-correct-alpha-tuning.tar.gz` which contains the re-run of the PCovR method with the correct alpha tuning. This archive has the following main results files associated:
+  - `20221126-121849-pcovr-correct-alpha-tuning-pc-unzipped.rds` containing unzipped raw data
+  - `20221126-121849-pcovr-correct-alpha-tuning-pc-main-res.rds` containing processed data (bias, cic, ciw computed)
+
 ## Repository structure
 
 Here is the project structure:
