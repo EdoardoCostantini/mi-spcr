@@ -2,7 +2,7 @@
 # Objective: combine and shape results from simulation study
 # Author:    Edoardo Costantini
 # Created:   2022-07-12
-# Modified:  2022-08-30
+# Modified:  2022-11-29
 
 # Prep environment -------------------------------------------------------------
 
@@ -12,16 +12,19 @@
 # Load Results -----------------------------------------------------------------
 
   run_name <- "../output/20220827-094950-run-lisa-9945538-9944296-9943298-unzipped.rds"
+  run_name <- "../output/20221123-152753-pcovr-correct-alpha-tuning-new-pc-unzipped.rds"
+  run_name <- "../output/20221126-121849-pcovr-correct-alpha-tuning-pc-unzipped.rds"
+  run_name <- "../output/20221129-102901-patchwork.rds"
 
   out <- readRDS(run_name)
 
   sInfo <- out$sInfo
   res <- out$main
 
-  # Define vector of experimental factor
+  # Define vector of the experimental factor
   exp_fact <- colnames(out$sInfo$cnds)
 
-  # Define component related to missing data treatments
+  # Define components related to missing data treatments
   methods <- exp_fact[1:2]
 
   # Define component related to data generation
@@ -38,7 +41,7 @@
   # Define what to group by
   group_by <- c(methods, data_gen, tag, outcomes)
 
-  # Compute mean value for the "fo" method
+  # Compute the mean value for the "fo" method
   ref <- data.frame(
     res %>%
       group_by_at(group_by) %>%
@@ -70,11 +73,11 @@
 
   # > Attach reference value based on matching conditions and parameter --------
 
-  # Get rid of redundant columns form ref
+  # Get rid of redundant columns from ref
   ref <- ref %>%
     select(-methods, -tag)
 
-  # Attach reference value based on matching par to original dataset
+  # Attach reference value based on matching par to the original dataset
   match_by <- c(data_gen, outcomes)
 
   # Merge data
