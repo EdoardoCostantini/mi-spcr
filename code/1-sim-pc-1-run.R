@@ -2,7 +2,7 @@
 # Objective: Run the simulation study
 # Author:    Edoardo Costantini
 # Created:   2022-07-08
-# Modified:  2022-11-23
+# Modified:  2022-12-02
 
 # Environment ------------------------------------------------------------------
 
@@ -16,7 +16,7 @@
     }
 
     # 1-word run description
-    run_descr <- "reduce-save"
+    run_descr <- "pcovr-correct-alpha-tuning"
 
     # Initialize the environment:
     source("0-init-software.R") # load packages
@@ -37,26 +37,24 @@
 # Run specifications -----------------------------------------------------------
 
     # number of repetitions
-    reps <- (1:5) #1 : 5 # define repetitions
-
-    # parms$mice_iters <- 5
+    reps <- (1:240) # 1 : 5 # define repetitions
 
     # Subset conditions?
-    if (FALSE) {
+    if (TRUE) {
         cnds <- cnds %>%
             filter(
-                pm %in% c(.25),
-                nla %in% c(10),
-                npcs %in% c(0, 1, 10),
-                mech %in% "MAR",
-                method %in% c("pcr", "am", "fo")
+                pm %in% unique(cnds$pm),
+                nla %in% unique(cnds$nla),
+                npcs %in% unique(cnds$npcs),
+                mech %in% unique(cnds$mech),
+                method %in% c("pcovr", "fo")
             )
     }
 
 # Parallelization --------------------------------------------------------------
 
     # number of clusters for parallelization
-    clusters <- 5
+    clusters <- 20
 
     # Open clusters
     clus <- makeCluster(clusters)
@@ -96,7 +94,7 @@
 
 # Post processing --------------------------------------------------------------
 
-    # Store sessoin info
+    # Store session info
     out_support <- list()
     out_support$parms <- parms
     out_support$cnds <- cnds
@@ -107,5 +105,5 @@
         paste0(fs$out_dir, "sInfo.rds")
     )
 
-    # Zip result fodler
-    writeTarGz(fs$file_name_res)
+    # Zip result folder
+    writeTarGz(folder_name = fs$file_name_res)

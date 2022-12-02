@@ -232,13 +232,16 @@ You can also replicate the simulation on a personal computer by following these 
 
 COMING SOON
 
-## Results files
+## Result files
 
-If you don't want to re-run the whole study, you can download the output files from the following OSF link [coming soon]().
-The results are stored here in their initial raw form.
-You can process them as described in the `Running the simulation study on Lisa` section.
+### For anyone
 
-Unfortunately, projects get big, parts need to be re-run, and it all becomes a mess. Here is a guide to correctly managing them. The current important files are:
+The final results used for writing up the report are stored in `20221202-105949-results.rds`.
+You can read this file and use the plotting functionalities in `2-res-2-plots.R` to interact as you wish with the results. There you can find a shiny app to interact freely with the results in this file. You also have a couple of regular plots.
+
+### For housekeeping of the project
+
+Unfortunately, projects get big, people are not shy with the feedback, parts need to be re-run, and it all becomes a mess. The final result file is the result of pasting together results from different runs. Here is a guide to correctly managing them. The current important files are:
 - `9945538-9944296-9943298` (Folder) with the following main results files associated
   - `20220827-094950-run-lisa-9945538-9944296-9943298-unzipped.rds` containing unzipped raw data
   - `20220827-094950-run-lisa-9945538-9944296-9943298-main-res.rds`
@@ -246,77 +249,4 @@ Unfortunately, projects get big, parts need to be re-run, and it all becomes a m
 - `20221126-121849-pcovr-correct-alpha-tuning.tar.gz` which contains the re-run of the PCovR method with the correct alpha tuning. This archive has the following main results files associated:
   - `20221126-121849-pcovr-correct-alpha-tuning-pc-unzipped.rds` containing unzipped raw data
   - `20221126-121849-pcovr-correct-alpha-tuning-pc-main-res.rds` containing processed data (bias, cic, ciw computed)
-
-## Repository structure
-
-Here is the project structure:
-
-```
-.
-├── LICENSE
-├── README.md
-├── code
-│   ├── 0-init-objects.R
-│   ├── 0-init-software.R
-│   ├── 0-prep-convergence-check.R
-│   ├── 0-prep-estimate-time-per-cond.R
-│   ├── 0-prep-estimate-time-per-rep.R
-│   ├── 0-prep-install.R
-│   ├── 0-prep-lisa-directory.sh
-│   ├── 1-sim-lisa-1-run.sh
-│   ├── 1-sim-lisa-2-unzip.R
-│   ├── 1-sim-pc-1-run.R
-│   ├── 1-sim-pc-2-unzip.R
-│   ├── 2-res-0-evaluate-imputation.R
-│   ├── 2-res-1-shape-results.R
-│   ├── 2-res-2-plots.R
-│   ├── checks
-│   │   └── check-dataGen.R
-│   ├── functions
-│   │   ├── dataGen.R
-│   │   ├── estimatesComp.R
-│   │   ├── estimatesPool.R
-│   │   ├── genLaavanMod.R
-│   │   └── simMissingness.R
-│   ├── helper
-│   │   ├── readTarGz.R
-│   │   └── writeTarGz.R
-│   ├── lisa-do-runRep.R
-│   ├── lisa-js-normal.sh
-│   ├── lisa-js-short.sh
-│   ├── lisa-store-info.R
-│   └── subroutines
-│       ├── runCell.R
-│       ├── runCond.R
-│       └── runRep.R
-├── input
-│   ├── mice_3.14.7.9006.tar.gz
-├── lisa
-├── manuscript
-│   ├── Makefile
-│   ├── bib
-│   ├── code
-│   ├── compile_pdf.sh
-│   ├── figure
-│   ├── makearxiv.sh
-│   ├── pdf
-│   ├── poolBib.sh
-│   ├── rds
-│   ├── style
-│   │   ├── asj.bst
-│   │   └── sagej.cls
-│   ├── submissions
-│   └── trackChanges.sh
-├── output
-│   ├── checks
-│   ├── freezed
-│   ├── lisa
-│   └── trash
-└── tests
-    └── testthat
-
-```
-
-Here is a brief description of the folders:
-
-COMING SOON
+- `20221202-105949-results.rds` contains the combined results you are using this is the only file that can be found on GitHub. The rest is too big to be stored here.

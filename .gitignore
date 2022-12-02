@@ -29,6 +29,7 @@
 # Ignore output
 /output/*
 !/output/.gitkeep
+!20221202-105949-results.rds
 
 # Ignore input/rlib folder
 /input/rlib/*/

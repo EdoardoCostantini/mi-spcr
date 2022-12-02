@@ -2,7 +2,7 @@
 # Objective: put results together from tar archive obtained with pc run
 # Author:    Edoardo Costantini
 # Created:   2022-07-12
-# Modified:  2022-08-29
+# Modified:  2022-12-02
 
 # Prep environment --------------------------------------------------------
 
@@ -11,7 +11,7 @@
 
 # Load Results ------------------------------------------------------------
 
-  tar_name <- "../output/20220821-113157-time-estimate-no-mids.tar.gz"
+  tar_name <- "../output/20221126-121849-pcovr-correct-alpha-tuning.tar.gz"
 
   output <- readTarGz(tar_name)
 

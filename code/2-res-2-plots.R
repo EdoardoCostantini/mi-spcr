@@ -2,7 +2,7 @@
 # Objective: Making plots
 # Author:    Edoardo Costantini
 # Created:   2022-07-19
-# Modified:  2022-08-30
+# Modified:  2022-12-02
 
 # Prep environment -------------------------------------------------------------
 
@@ -16,7 +16,7 @@
 
 # Load Results -----------------------------------------------------------------
 
-  gg_shape <- readRDS("../output/20220827-094950-run-lisa-9945538-9944296-9943298-main-res.rds")
+  gg_shape <- readRDS("../output/20221202-105949-results.rds")
 
 # R shiny plot -----------------------------------------------------------------
 
