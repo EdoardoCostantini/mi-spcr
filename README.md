@@ -208,6 +208,7 @@ The idea is that you want (1) to prepare the simulation scripts on your computer
 5. Read the results on your computer:
    - PC: The script `1-sim-lisa-2-unzip.R` goes through the Lisa result folder, unzips tar.gz packages, and puts results together.
    - PC: Finally, you can use the script `2-res-1-shape-results.R` to compute bias, CIC, and all the outcome measures and prepare the RDS objects that can be plotted with the shiny app in `2-res-2-plots.R`.
+   - Open and run the script `2-res-1-patchwork.R` to combine results from different results files.
 
 ### Running the simulation on a PC / Mac
 
@@ -227,6 +228,7 @@ You can also replicate the simulation on a personal computer by following these 
 3. Read the results:
    - Open and run the script `1-sim-pc-2-unzip.R` which unzips the results and creates a unique file with all of the important results.
    - Open and run the script `2-res-1-shape-results.R` to compute bias, CIC, and all the outcome measures and prepare the RDS objects that can be plotted with the shiny app in `2-res-2-plots.R`.
+   - Open and run the script `2-res-1-patchwork.R` to combine results from different results files.
 
 ### Convergence checks
 
