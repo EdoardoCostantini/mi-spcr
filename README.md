@@ -4,22 +4,22 @@
 
 ## Summary of project
 
-The goal of the study was to understand how different approaches to supervised principal component analysis (PCA) can help to specify the imputation models in a Multivariate Imputation by Chained Equation (MICE) procedure to handle missing values.
+The goal of the study was to understand how different approaches to **supervised principal component analysis** (PCA) can help to specify the **imputation models** in a Multivariate Imputation by Chained Equation (MICE) procedure to handle missing values.
 In particular, I wanted to compare the performance of four methods univariate imputation methods based on supervised principal component regression (PCR).
 We refer to this use of (supervised) PCR as (supervised) MI-PCR
-The purpose of this study was to evaluate the statistical properties of MI-PCR in several settings that differed in the complexity of the data latent structure, the proportion of missing cases, the missing data mechanism, and number of PCs used by the imputation models.
+The **purpose of this study** was to evaluate the statistical properties of MI-PCR in several settings that differed in the complexity of the data latent structure, the proportion of missing cases, the missing data mechanism, and number of PCs used by the imputation models.
 
 ### Simulation study procedure
 
 We used a Monte Carlo simulation study.
 The simulation study procedure involved four steps:
 
-- Data generation: We generated 500 data sets from a confirmatory factor analysis model.
-- Missing data imposition: We imposed missing values on four target items in each generated data set.
-- Imputation: We generated d multiple imputed data tables for each generated data set using each of the different imputation methods.
+- **Data generation**: We generated 500 data sets from a confirmatory factor analysis model.
+- **Missing data imposition**: We imposed missing values on three target items in each generated data set.
+- **Imputation**: We generated $d$ multiple imputed data tables for each generated data set using each of the different imputation methods.
 - Analysis: We estimated the mean, variance, covariance, and correlation of the four items with missing values on the $d$ differently imputed data tables, and we pooled the estimates according to Rubin's rules (1987, p. 76.)
 
-We then assessed the performance of each imputation method by computing:
+We then assessed the **performance** of each imputation method by computing:
 
 - RB: raw bias;
 - PRB: percent relative bias;
@@ -60,9 +60,9 @@ The simulation study procedure is repeated for each of the conditions resulting 
 
   From previous work, we know the unsupervised PCA methods require to use of enough PCs as there are latent variables in the data generating model. We want to vary the true number of latent variables to verify this.
   The chosen values reflect:
-  - a simple case where we only have the two latent variables that are important for imputation (1 latent variable measured by items receiving amputation and imputation; 1 latent variable measured by the MAR predictors) to show
-  - a small dimensionality setup (10, for a total of 30 items)
-  - a large dimensionality setup (50, for a total of 150 items)
+  - a simple case where we only have the two latent variables: 1 latent variable measured by items receiving amputation and imputation; 1 latent variable measured by the MAR predictors (nla = 2, for a total of 6 items)
+  - a small dimensionality setup (nla = 10, for a total of 30 items)
+  - a large dimensionality setup (nla = 50, for a total of 150 items)
 
 - **proportion of missing data** per variable (pm = .1, .25, .5, levels chosen based on literature recommendations)
 - **missing data mechanism** (mech = MCAR, MAR)
