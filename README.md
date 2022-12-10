@@ -1,4 +1,4 @@
-# Multiple imputation with the use of supervised principal component regression as univariate imputation method
+# Multiple imputation with the use of supervised principal component regression as a univariate imputation method (MI-SPCR)
 
 [![DOI](https://zenodo.org/badge/510762412.svg)](https://zenodo.org/badge/latestdoi/510762412)
 
@@ -94,6 +94,10 @@ The simulation study procedure is repeated for each of the conditions resulting 
   - for nla = 10, I chose npcs = 1 to 12, 20, 29
   - for nla = 50, I chose npcs = 1 to 10, 20, 30, 40, 48:52, 60, 149
   
+
+### Results
+
+Check out the results by playing with the [Shiny app](https://edoardocostantini.shinyapps.io/mi-pcr-plot/?_ga=2.193807589.95894774.1658930327-1213691852.1658930327).
 ## How to replicate results
 
 To replicate the study, you first need to make sure you have installed all the packages used.
