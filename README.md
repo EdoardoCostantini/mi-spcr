@@ -1,109 +1,104 @@
-# MI-SPCR
+# Multiple imputation with the use of supervised principal component regression as univariate imputation method
 
 [![DOI](https://zenodo.org/badge/510762412.svg)](https://zenodo.org/badge/latestdoi/510762412)
 
-## Simulation study outline
+## Summary of project
 
-Here is a recap of what I'm doing with this simulation study.
+The goal of the study was to understand how different approaches to supervised principal component analysis (PCA) can help to specify the imputation models in a Multivariate Imputation by Chained Equation (MICE) procedure to handle missing values.
+In particular, I wanted to compare the performance of four methods univariate imputation methods based on supervised principal component regression (PCR).
+We refer to this use of (supervised) PCR as (supervised) MI-PCR
+The purpose of this study was to evaluate the statistical properties of MI-PCR in several settings that differed in the complexity of the data latent structure, the proportion of missing cases, the missing data mechanism, and number of PCs used by the imputation models.
 
-### Compared methods
+### Simulation study procedure
 
-We want to compare the performance of four methods univariate imputation methods that automatically address the problem of choosing the imputation model predictors.
-We use these methods as univariate imputation models in a mice algorithm.
-The methods are:
+We used a Monte Carlo simulation study.
+The simulation study procedure involved four steps:
 
-- mi-pcr
-- mi-spcr
-- mi-plsr
-- mi-pcvor
+- Data generation: We generated 500 data sets from a confirmatory factor analysis model.
+- Missing data imposition: We imposed missing values on four target items in each generated data set.
+- Imputation: We generated d multiple imputed data tables for each generated data set using each of the different imputation methods.
+- Analysis: We estimated the mean, variance, covariance, and correlation of the four items with missing values on the $d$ differently imputed data tables, and we pooled the estimates according to Rubin's rules (1987, p. 76.)
 
-We use as reference methods:
+We then assessed the performance of each imputation method by computing:
 
-- mi-am
-- mi-qp
-- mi-all
-- cc
+- RB: raw bias;
+- PRB: percent relative bias;
+- CIC: confidence interval coverage;
+- CIW: average confidence interval;
+- mcsd: Standard deviation of the estimate across the Monte Carlo simulations;
 
-### Research questions
+for the following statistics:
 
-1. Does supervised MI-PCA need at least the true number of latent variables as unsupervised PCA does?
+- cor: correlation between two items with missing values;
+- cov: covariance between two items with missing values;
+- cor: mean of an item with missing values;
+- cor: variance of an item with missing values.
 
-2. Does supervised MI-PCA perform better than MI-QP?
+### Simulation study fixed factors
 
-### Data generation
+These parameters were kept constant to generate the data:
 
-We generate data according to a confirmatory factor analysis model.
-We want there to be a latent structure, but we don't want to use PCA as a data generation model to avoid using a single model for both data generation and imputation (see Oberman Vink 0000).
+- dataset sample size (n = 1000);
+- number of items per latent variable (J = 3);
+- mean and variance of observed items (mu = 5, sd = 2.5);
+- factor loadings (lambda = 0.85);
+- correlation between the first two latent variables (rho = 0.8);
+- correlation between the first two latent variables and the others (0.1);
+- number of items receiving missing values (3);
+- "shape" of missing values imposed on the three variables with missing values (right, left, tails, respectively).
 
-### Missing data imposition
+These parameters were kept constant to impute the data:
 
-We impose multivariate missing data on 3 items, measuring the first latent variable, according to a general missing data pattern (i.e., not monotone).
-We use predictors measuring the second latent variable:
+- number of multiple imputations (d = 5)
+- MICE algorithm iterations (iters = 25)
 
-- We want to have a multivariate problem because that's what happens in reality.
-- We don't want too many variables because it would complicate the design and increase imputation time without adding interesting information.
-- We want to have MAR predictors (if required) measuring a different latent variable.
-We use the observed items because if we use the latent variables there would be some unpredictable "spurious" MAR:
-we would use a proxy of the actual MAR predictor in the imputation models, generating an imputation situation closer to MNAR than MAR.
+### Simulation study experimental factors
 
-These are the **missing data mechanisms** we want to use:
+The simulation study procedure is repeated for each of the conditions resulting by the crossing of the following experimental factors:
 
-```
-     X1 X2 X3 X4 X5 X6
-MCAR  0  0  0  0  0  0
-MAR   0  0  0  1  1  1
-```
+- **number of latent variables** (nla = 2, 10, 50)
 
-where 0 indicates a variable with no weight in the linear combination making up the linear predictor for the logit(p) of missingness, and 1 indicates a weight of 1.
+  From previous work, we know the unsupervised PCA methods require to use of enough PCs as there are latent variables in the data generating model. We want to vary the true number of latent variables to verify this.
+  The chosen values reflect:
+  - a simple case where we only have the two latent variables that are important for imputation (1 latent variable measured by items receiving amputation and imputation; 1 latent variable measured by the MAR predictors) to show
+  - a small dimensionality setup (10, for a total of 30 items)
+  - a large dimensionality setup (50, for a total of 150 items)
 
-The **type of missing data** is fixed to right, left, tails respectively for variables `X1`, `X2`, and `X3` to create realistic missing data patterns.
+- **proportion of missing data** per variable (pm = .1, .25, .5, levels chosen based on literature recommendations)
+- **missing data mechanism** (mech = MCAR, MAR)
 
-### Experimental conditions
+  These can be described by the following matrix describing which predictors are involved (no = 0, yes = 1) in the generation of the missing values on items X1 to X3:
 
-We vary the following factors:
+  ```
+        X1 X2 X3 X4 X5 X6
+  MCAR  0  0  0  0  0  0
+  MAR   0  0  0  1  1  1
+  ```
 
-- The **proportion of missing cases** (`pm = .1, .25, .50`):
-  - imposed as stepwise univariate amputation
-  - levels chosen based on literature recommendations (Oberman Vink 0000)
-- **Missing data mechanism** (`mech = MCAR, MAR`):
-    It's important to have all of these situations because:
-  - MCAR - a good method should at least work here
-  - MAR - the basic assumption everyone makes
-- The **number of latent variables** (`nla = 2, 10, 50`):
-    From previous work, we know the unsupervised PCA methods require to use of enough PCs as there are latent variables in the data generating model.
-    We want to vary the true number of latent variables to verify this.
-    The values chosen will reflect:
-  - 2 - simple case where we only have the two latent variables that are important for imputation (1 latent variable measured by items receiving amputation and imputation; 1 latent variable measured by the MAR predictors) to show
-  - 10 - small dimensionality
-  - 50 - large dimensionality
-- The **number of principal components** used by the approach (`npcs`);
-  To verify the point described for the number of noisy auxiliary variables we need to use the imputation methods with different numbers of PCs.
+- **missing data treatment**
+
+  - **pcr**: mice with principal component regression as univariate imputation method;
+  - **spcr**: mice with supervised principal component regression (Bair et. al., 2006) as univariate imputation method;
+  - **plsr**: mice with partial least squares regression (Wold, 1975) as univariate imputation method;
+  - **pcovr**: mice with principal covariates regression (De Jong and Kiers, 1992) as univariate imputation method;
+  - **qp**: mice with the normal linear model with bootstrap as univariate imputation method and quickpred() used to select the predictors as described by Van Buuren, Boshuizen, and Knook (1999, pp. 687–688);
+  - **am**: mice with the normal linear model with bootstrap as univariate imputation method and the analysis model variables used as predictors;
+  - **all**: mice with the normal linear model with bootstrap as univariate imputation method and all available items used as predictors;
+  - **cc**: complete case analysis;
+  - **fo**: fully observed data (results if there had been no missing values).
+
+- **number of principal components** (npcs) used by the approaches based on PCA
+
   These numbers depend of the number of latent variables used:
-  - `nla = 2`, `p = 6` -> `npcs = [1:5]`
-  - `nla = 10`, `p = 30` -> `npcs = [1:12, 20, 29]`
-  - `nla = 50`, `p = 150` -> `npcs = [1:10, 20, 30, 40, 48:52, 60, 149]`
+  - for nla = 2, I chose npcs = 1 to 5
+  - for nla = 10, I chose npcs = 1 to 12, 20, 29
+  - for nla = 50, I chose npcs = 1 to 10, 20, 30, 40, 48:52, 60, 149
   
-### Performance measures
-
-We are interested in:
-
-- item 1 mean: a univariate parameter of interest
-- item 1 sd: a univariate parameter of interest
-- item 1 and 2 correlation coefficient: bivariate parameter of interest
-
-For these parameters, we want to compute the following performance measures:
-
-- Bias
-- Confidence interval coverage
-- Confidence interval width
-
 ## How to replicate results
 
 To replicate the study, you first need to make sure you have installed all the packages used.
 You can use the `./input/prep_machine.R` script to install them.
 In the following guide, it is assumed that the machine on which the simulation is run already has all packages installed.
-
-### Convergence checks
 
 #### Before running the simulation study
 
@@ -244,6 +239,7 @@ You can read this file and use the plotting functionalities in `2-res-2-plots.R`
 ### For housekeeping of the project
 
 Unfortunately, projects get big, people are not shy with the feedback, parts need to be re-run, and it all becomes a mess. The final result file is the result of pasting together results from different runs. Here is a guide to correctly managing them. The current important files are:
+
 - `9945538-9944296-9943298` (Folder) with the following main results files associated
   - `20220827-094950-run-lisa-9945538-9944296-9943298-unzipped.rds` containing unzipped raw data
   - `20220827-094950-run-lisa-9945538-9944296-9943298-main-res.rds`
@@ -252,3 +248,17 @@ Unfortunately, projects get big, people are not shy with the feedback, parts nee
   - `20221126-121849-pcovr-correct-alpha-tuning-pc-unzipped.rds` containing unzipped raw data
   - `20221126-121849-pcovr-correct-alpha-tuning-pc-main-res.rds` containing processed data (bias, cic, ciw computed)
 - `20221202-105949-results.rds` contains the combined results you are using this is the only file that can be found on GitHub. The rest is too big to be stored here.
+
+
+## References
+
+Bair, E., Hastie, T., Paul, D., & Tibshirani, R. (2006). Prediction by supervised principal components. Journal of the American Statistical Association, 101(473), 119–137.
+
+De Jong, S., & Kiers, H. A. (1992). Principal covariates regression: part i. theory. Chemometrics and Intelligent Laboratory Systems, 14(1-3), 155–164.
+
+Wold, H. (1975). Path models with latent variables: The nipals approach. In Quantitative sociology (pp. 307–357). Elsevier.
+
+Rubin, D. B. (1987). Multiple imputation for nonresponse in surveys (Vol. 519). New York, NY: John Wiley & Sons.
+
+Van Buuren, S., Boshuizen, H. C., & Knook, D. L. (1999). Multiple imputation of missing blood pressure covariates in survival analysis. Statistics in Medicine, 18(6), 681–694.
+
