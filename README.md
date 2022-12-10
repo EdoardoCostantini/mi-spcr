@@ -6,7 +6,7 @@
 
 The goal of the study was to understand how different approaches to **supervised principal component analysis** (PCA) can help to specify the **imputation models** in a Multivariate Imputation by Chained Equation (MICE) procedure to handle missing values.
 In particular, I wanted to compare the performance of four methods univariate imputation methods based on supervised principal component regression (PCR).
-We refer to this use of (supervised) PCR as (supervised) MI-PCR
+We refer to this use of (supervised) PCR as (supervised) MI-PCR.
 The **purpose of this study** was to evaluate the statistical properties of MI-PCR in several settings that differed in the complexity of the data latent structure, the proportion of missing cases, the missing data mechanism, and number of PCs used by the imputation models.
 
 ### Simulation study procedure
@@ -17,7 +17,7 @@ The simulation study procedure involved four steps:
 - **Data generation**: We generated 500 data sets from a confirmatory factor analysis model.
 - **Missing data imposition**: We imposed missing values on three target items in each generated data set.
 - **Imputation**: We generated $d$ multiple imputed data tables for each generated data set using each of the different imputation methods.
-- Analysis: We estimated the mean, variance, covariance, and correlation of the four items with missing values on the $d$ differently imputed data tables, and we pooled the estimates according to Rubin's rules (1987, p. 76.)
+- **Analysis**: We estimated the mean, variance, covariance, and correlation of the four items with missing values on the $d$ differently imputed data tables, and we pooled the estimates according to Rubin's rules (1987, p. 76.)
 
 We then assessed the **performance** of each imputation method by computing:
 
@@ -31,8 +31,8 @@ for the following statistics:
 
 - cor: correlation between two items with missing values;
 - cov: covariance between two items with missing values;
-- cor: mean of an item with missing values;
-- cor: variance of an item with missing values.
+- mean: mean of an item with missing values;
+- var: variance of an item with missing values.
 
 ### Simulation study fixed factors
 
