@@ -5,9 +5,9 @@
 ## Summary of project
 
 The goal of the study was to understand how different approaches to **supervised principal component analysis** (PCA) can help to specify the **imputation models** in a Multivariate Imputation by Chained Equation (MICE) procedure to handle missing values.
-In particular, I wanted to compare the performance of four methods univariate imputation methods based on supervised principal component regression (PCR).
-We refer to this use of (supervised) PCR as (supervised) MI-PCR.
-The **purpose of this study** was to evaluate the statistical properties of MI-PCR in several settings that differed in the complexity of the data latent structure, the proportion of missing cases, the missing data mechanism, and number of PCs used by the imputation models.
+In particular, I wanted to compare the performance of four univariate imputation methods based on supervised principal component regression (PCR).
+We refer to this use of supervised PCR as supervised MI-PCR.
+The **purpose of this study** was to evaluate the statistical properties of MI-PCR in several settings that differed in the complexity of the data latent structure, the proportion of missing cases, the missing data mechanism, and the number of principal components PCs used by the imputation models.
 
 ### Simulation study procedure
 
@@ -17,15 +17,15 @@ The simulation study procedure involved four steps:
 - **Data generation**: We generated 500 data sets from a confirmatory factor analysis model.
 - **Missing data imposition**: We imposed missing values on three target items in each generated data set.
 - **Imputation**: We generated $d$ multiple imputed data tables for each generated data set using each of the different imputation methods.
-- **Analysis**: We estimated the mean, variance, covariance, and correlation of the four items with missing values on the $d$ differently imputed data tables, and we pooled the estimates according to Rubin's rules (1987, p. 76.)
+- **Analysis**: We estimated the mean, variance, covariance, and correlation of the three items with missing values on the $d$ differently imputed data tables, and we pooled the estimates according to Rubin's rules (1987, p. 76.)
 
-We then assessed the **performance** of each imputation method by computing:
+We then assessed the **performance** of each imputation method by computing the following outcome measures:
 
-- RB: raw bias;
-- PRB: percent relative bias;
-- CIC: confidence interval coverage;
-- CIW: average confidence interval;
-- mcsd: Standard deviation of the estimate across the Monte Carlo simulations;
+- RB: raw estimation bias;
+- PRB: percent relative estimation bias;
+- CIC: confidence interval coverage of the true parameter value;
+- CIW: average confidence interval width;
+- mcsd: standard deviation of the estimate across the Monte Carlo simulations;
 
 for the following statistics:
 
@@ -38,19 +38,19 @@ for the following statistics:
 
 These parameters were kept constant to generate the data:
 
-- dataset sample size (n = 1000);
-- number of items per latent variable (J = 3);
+- dataset sample size (1000);
+- number of items per latent variable (3);
 - mean and variance of observed items (mu = 5, sd = 2.5);
-- factor loadings (lambda = 0.85);
-- correlation between the first two latent variables (rho = 0.8);
+- factor loadings (0.85);
+- correlation between the first two latent variables (0.8);
 - correlation between the first two latent variables and the others (0.1);
 - number of items receiving missing values (3);
 - "shape" of missing values imposed on the three variables with missing values (right, left, tails, respectively).
 
 These parameters were kept constant to impute the data:
 
-- number of multiple imputations (d = 5)
-- MICE algorithm iterations (iters = 25)
+- number of multiple imputations ($d = 5$)
+- MICE algorithm iterations (25)
 
 ### Simulation study experimental factors
 
@@ -64,7 +64,7 @@ The simulation study procedure is repeated for each of the conditions resulting 
   - a small dimensionality setup (nla = 10, for a total of 30 items)
   - a large dimensionality setup (nla = 50, for a total of 150 items)
 
-- **proportion of missing data** per variable (pm = .1, .25, .5, levels chosen based on literature recommendations)
+- **proportion of missing data** per variable (pm = 0.1, 0.25, 0.5, levels chosen based on literature recommendations)
 - **missing data mechanism** (mech = MCAR, MAR)
 
   These can be described by the following matrix describing which predictors are involved (no = 0, yes = 1) in the generation of the missing values on items X1 to X3:
