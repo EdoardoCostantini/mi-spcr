@@ -1,7 +1,7 @@
-# Project:   plot.mi.spcr
+# Project:   mi-spcr
 # Objective: pre-process input data for actual use in shiny app
 # Author:    Edoardo Costantini
-# Created:   2022-12-01
+# Created:   2022-12-16
 # Modified:  2022-12-16
 # Notes:     This script prepares the input data for the shiny app plotmispcr.
 
