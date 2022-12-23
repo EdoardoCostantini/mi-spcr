@@ -252,6 +252,8 @@ Unfortunately, projects get big, people are not shy with the feedback, parts nee
   - `20221126-121849-pcovr-correct-alpha-tuning-pc-unzipped.rds` containing unzipped raw data
   - `20221126-121849-pcovr-correct-alpha-tuning-pc-main-res.rds` containing processed data (bias, cic, ciw computed)
 - `20221202-105949-results.rds` contains the combined results you are using this is the only file that can be found on GitHub. The rest is too big to be stored here.
+- `20220729-151828-check-time-per-rep.tar.gz` stores the time to impute for the version with the old alpha PCovR approach
+- `20221222-075917-check-time-per-rep.tar.gz` stores the time to impute for the version with the new alpha PCovR approach (taking longer for npcs = ncol(X), but more robust)
 
 
 ## References
