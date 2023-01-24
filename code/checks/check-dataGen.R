@@ -2,33 +2,33 @@
 # Objective: Check behaviours of dataGen funcitons
 # Author:    Edoardo Costantini
 # Created:   2022-07-15
-# Modified:  2022-07-18
+# Modified:  2023-01-24
 
 # Average correlation ----------------------------------------------------------
 
 cor_YY <- NULL # correlation between items measuring the same latent variable
 cor_YX <- NULL # correlation between items measuring the first and second latent variable
 
-cor_store <- matrix(0, ncol = 6, nrow = 6)
+cor_store <- matrix(0, ncol = 9, nrow = 9)
 reps <- 100
 
 for (i in 1:reps){
   print(i)
   # Generate data
   dataGen_out <- dataGen(
-    N = 500,
-    L = 300,
-    L_junk = 300-3,
+    N = 1e3,
+    L = 10,
+    L_junk = 10 - 2,
     J = 3,
     loading = .85,
     mu = 5,
     sd = 2.5,
-    rho_high = .9,
-    rho_junk = .9
+    rho_high = .8,
+    rho_junk = .1
   )
 
   # Extract data
-  cor_store <- cor_store + cor(dataGen_out$X[, 1:6])
+  cor_store <- cor_store + cor(dataGen_out$X[, 1:9])
 }
 
 round(cor_store / reps, 3)
