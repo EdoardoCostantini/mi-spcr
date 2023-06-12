@@ -102,6 +102,7 @@ Check out the results by playing with the [Shiny app](https://edoardocostantini.
 
 To replicate the study, you first need to make sure you have installed all the packages used.
 You can use the `./code/0-prep-install.R` script to install them.
+You should pay special attention to the version of `mice` you are using. This study uses the special version of this package that is stored in the `input/` folder. The forked repository [EdoardoCostantini/mice/tree/develop-pcr](https://github.com/EdoardoCostantini/mice/tree/develop-pcr) stores the code for this version.
 In the following guide, it is assumed that the machine on which the simulation is run already has all packages installed.
 
 #### Before running the simulation study
