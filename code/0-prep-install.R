@@ -92,10 +92,10 @@
       repo = "https://cloud.r-project.org/"
     )
 
-# mice 3.14.7.9*** (local experimental version)---------------------------------
+# mice 3.14.7.9008 (local experimental version)---------------------------------
 
     install.packages(
-      "../input/mice_3.14.7.9007.tar.gz",
+      "../input/mice_3.14.7.9008.tar.gz",
       repos = NULL,
       type = "source"
     )
