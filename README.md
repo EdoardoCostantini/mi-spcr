@@ -255,6 +255,7 @@ Unfortunately, projects get big, people are not shy with the feedback, parts nee
 - `20221202-105949-results.rds` contains the combined results you are using this is the only file that can be found on GitHub. The rest is too big to be stored here.
 - `20220729-151828-check-time-per-rep.tar.gz` stores the time to impute for the version with the old alpha PCovR approach
 - `20221222-075917-check-time-per-rep.tar.gz` stores the time to impute for the version with the new alpha PCovR approach (taking longer for npcs = ncol(X), but more robust)
+- `20230626-093212-run-500-reps-granular-npcs.tar.gz` stores the re-run of the study with more repetitions and more `npcs` options for the L = 150 conditions.
 
 
 ## References

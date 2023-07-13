@@ -2,7 +2,7 @@
 # Objective: put results together from tar archive obtained with pc run
 # Author:    Edoardo Costantini
 # Created:   2022-07-12
-# Modified:  2022-12-02
+# Modified:  2023-07-13
 
 # Prep environment --------------------------------------------------------
 
@@ -11,7 +11,7 @@
 
 # Load Results ------------------------------------------------------------
 
-  tar_name <- "../output/20221126-121849-pcovr-correct-alpha-tuning.tar.gz"
+  tar_name <- "../output/20230626-093212-run-500-reps-granular-npcs.tar.gz"
 
   output <- readTarGz(tar_name)
 

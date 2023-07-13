@@ -17,6 +17,7 @@
 # Load Results -----------------------------------------------------------------
 
   gg_shape <- readRDS("../output/20221202-105949-results.rds")
+  gg_shape <- readRDS("../output/20230626-093212-run-500-reps-granular-npcs-pc-main-res.rds")
 
 # R shiny plot -----------------------------------------------------------------
 

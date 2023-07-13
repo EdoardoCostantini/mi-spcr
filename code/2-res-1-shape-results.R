@@ -15,6 +15,7 @@
   run_name <- "../output/20221123-152753-pcovr-correct-alpha-tuning-new-pc-unzipped.rds"
   run_name <- "../output/20221126-121849-pcovr-correct-alpha-tuning-pc-unzipped.rds"
   run_name <- "../output/20221129-102901-patchwork.rds"
+  run_name <- "../output/20230626-093212-run-500-reps-granular-npcs-pc-unzipped.rds"
 
   out <- readRDS(run_name)
 
@@ -61,7 +62,7 @@
     filter(tag == check_cond, stat == check_stat, vars == check_vars) %>%
     select(ref)
 
-  # Copmute the statistic manually
+  # Compute the statistic manually
   comp2 <- colMeans(
     res %>%
       filter(tag == check_cond, stat == check_stat, vars == check_vars) %>%
@@ -202,7 +203,7 @@
   # Merge bias and CIC
   bias_CIC <- merge(x = bias_df, y = CIC, by = c(tag, methods, data_gen, outcomes))
 
-  # Merge with ICW
+  # Merge with CIW
   gg_shape <- merge(x = bias_CIC, y = CIW, by = c(tag, methods, data_gen, outcomes))
 
 # Store --------------------------------------------------------------------
