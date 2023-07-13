@@ -2,13 +2,13 @@
 # Objective: initialization script
 # Author:    Edoardo Costantini
 # Created:   2022-07-05
-# Modified:  2022-08-18
+# Modified:  2023-06-26
 
 # File system ------------------------------------------------------------------
 
   # 1-word run description (only if not given by other run)
   if(!exists("run_descr")){
-    run_descr <- "run"
+    run_descr <- "run500repsMorenpcs"
   }
 
   # Define an object to store file system directives
@@ -30,7 +30,7 @@
   parms <- list()
 
   # Seed
-  parms$seed     <- 20220805
+  parms$seed     <- 20230623
   parms$nStreams <- 1000
 
   # Data generation
@@ -69,7 +69,8 @@
     unique(
       c(1:10, 11:12, seq(20, 40, 10),
         48:52,
-        60, (nla*parms$J - 1)
+        seq(60, 140, 10),
+        (nla*parms$J - 1)
       )
     )
   ) # number of principal components

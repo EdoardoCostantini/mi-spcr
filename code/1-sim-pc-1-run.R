@@ -2,7 +2,7 @@
 # Objective: Run the simulation study
 # Author:    Edoardo Costantini
 # Created:   2022-07-08
-# Modified:  2022-12-02
+# Modified:  2023-06-26
 
 # Environment ------------------------------------------------------------------
 
@@ -37,7 +37,7 @@
 # Run specifications -----------------------------------------------------------
 
     # number of repetitions
-    reps <- (1:240) # 1 : 5 # define repetitions
+    reps <- (1:500) # 1 : 5 # define repetitions
 
     # Subset conditions?
     if (TRUE) {
