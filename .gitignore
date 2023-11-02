@@ -2,7 +2,7 @@
 # Objective: Define What git should ingore
 # Author:    Edoardo Costantini
 # Created:   2022-04-25
-# Modified:  2022-08-29
+# Modified:  2023-11-02
 
 # > R trash and large files ----------------------------------------------------
 
@@ -34,6 +34,9 @@
 # Ignore input/rlib folder
 /input/rlib/*/
 /input/stopos-lines
+
+# Ignore application notes
+/application-notes/*
 
 # > IDEs -----------------------------------------------------------------------
 
